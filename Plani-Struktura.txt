@@ -1,0 +1,62 @@
+		---Rafin---
+Projektet kategori:
+-Civile 'Ndertesa'
+-Infrastrukture Rrugore
+-Infrastrukture Elektrike
+-Projekte Industriale(nafte)
+-Teknologji
+-Ujore
+
+Departamentet:
+-Departament Teknik
+-Departament Juridik
+-Departament Finance
+Te tre departamentet ne nje lokacion
+
++Riciklim i materialeve te ndertimit
+
+	Vende te lira pune:
+-Shofer kamioni(transport)
+-Punetor kantieri(Construction)
+-Topograf(Construction management)
+-Mekanik makinerish(Service and maintenance)
+-Inxhinier elektrik(Service and maintenance)
+-Inxhinier mekanik(Service and maintenance)
+-Elektrik industrial(Service and maintenance)
+-Team Leader(Construction management)
+-Teknik mekatronike(Vehicle technology)
+
+Certifikatat:
+-ISO 9001:2015
+-ISO 50001:2018
+-ISO 14001:2015
+-ISO 450001:2018
+-ISO 39000:2012
+-ISO 27001:2013
+-ISO 39001:2012
+-PAS 99:2012
+-ISO 3834-2:2012
+-EN 1090-1:2009+A1:2011
+
+Contact:
+-Departament finance email+nr telefoni
+-Departament Teknik email+nr telefoni
+-Departament juridic email+nr telefoni
+
+Adresa:Adresa :Tiranë. Rruga”Haxhi Kika” njesia administrative nr.5, nr.pasurie6/538 H 1, ap 4
+
+
+Stats:
+570 PROJEKTE TE REALIZUARA
+300 STAF
+11 CERTIFIKATA
+
+
+Kerkesat klientit per ndryshim:
+-TE rd-navbar-nav kur ben hover te Projects te dali lista e projekteve
+-Ne qoft se te rd-navbar-nav zgjedh Projects do hapet nje faqe me te gjitha projektet ku ke nje container te i cili jan grupet e sherbimeve,ku ne qoft se zgjedh njeren do dalin projektet perkatese per ate lloj sherbimi
+-Per cdo project kur klikon te hapen informacionet e projektit,ku ne fillim te jet nje hero-banner me fotot e projektit dhe me posht informacionet perkatese.Para se te shkoj te footer-i,te jene dy butona majtas dhe djathtas per opsion next dhe previous.Keto opsione te jene qe te cojn te projekti tjeter i cili esht ne te njejtin grup projekti.Prsh ne qoft se ky project ndodhet te grupi "Infrastrukture rrugore",ne qoft se shtyp next,te hapet nje project i po te njejtit grup.
+-Te ndryshohet footeri:te shtohen departamentet(me kontaktet perkatese dhe adresen),nje field me email address,logoja e kompanis,dhe ikonat  rrjeteve sociale linkedin,instagram,facebook.
+-Te zevendesohet sektori e certifikatat,ku nuk do te ket me owl-dots,por certifikatat do  jen ikona rrethore sipas rendit kohor e krijuara,ku shfaqen vetem emri i certifikates.Modeli do te paraqitet me screenshot.
+-Te sektori row.no-gutters,do te ndryshohen emrat sipas listes se mesiperme.Pasi  klikohet ne nje nga thumb-creative_image,do te hapet nje faqe ku ne fillim esht po ajo foto e thumb qe ishte e zgjeruar ne full width,description section posht dhe nje div-row.no-gutters sic ishte ne homepage,por e projektet e atij grupi.Kur klikon te nje nga ato do jet faqja perkatese me nje slider me fotot e atij projekti specific.Per cdo project kur klikon te hapen informacionet e projektit,ku ne fillim te jet nje hero-banner me fotot e projektit dhe me posht informacionet perkatese.Para se te shkoj te footer-i,te jene dy butona majtas dhe djathtas per opsion next dhe previous.Keto opsione te jene qe te cojn te projekti tjeter i cili esht ne te njejtin grup projekti.Prsh ne qoft se ky project ndodhet te grupi "Infrastrukture rrugore",ne qoft se shtyp next,te hapet nje project i po te njejtit grup.
+
