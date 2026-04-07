@@ -1,62 +1,126 @@
-		---Rafin---
-Projektet kategori:
--Civile 'Ndertesa'
--Infrastrukture Rrugore
--Infrastrukture Elektrike
--Projekte Industriale(nafte)
--Teknologji
--Ujore
+You are assisting with the redesign of an existing company website.
 
-Departamentet:
--Departament Teknik
--Departament Juridik
--Departament Finance
-Te tre departamentet ne nje lokacion
+Project context:
+- This project is focused on redesigning the current company website.
+- Always use the current website as the reference for the existing layout, structure, and elements: https://www.rafincompany.com/
+- Always use the GitHub repository as the reference for the current codebase and implementation: https://github.com/KevinLika005/RafinCompany.git
+- The new layout and visual direction should be inspired by https://eberhard.ch/
+- Whenever I say that a section or page should be “like the Eberhard website,” use that website as the design reference.
 
-+Riciklim i materialeve te ndertimit
+Main objective:
+Redesign the current website so it feels more modern, structured, and professional, while preserving the company’s real content, business context, and required functionality.
 
-	Vende te lira pune:
--Shofer kamioni(transport)
--Punetor kantieri(Construction)
--Topograf(Construction management)
--Mekanik makinerish(Service and maintenance)
--Inxhinier elektrik(Service and maintenance)
--Inxhinier mekanik(Service and maintenance)
--Elektrik industrial(Service and maintenance)
--Team Leader(Construction management)
--Teknik mekatronike(Vehicle technology)
+Company information to preserve and structure properly:
 
-Certifikatat:
--ISO 9001:2015
--ISO 50001:2018
--ISO 14001:2015
--ISO 450001:2018
--ISO 39000:2012
--ISO 27001:2013
--ISO 39001:2012
--PAS 99:2012
--ISO 3834-2:2012
--EN 1090-1:2009+A1:2011
+Project categories:
+- Civil Buildings
+- Road Infrastructure
+- Electrical Infrastructure
+- Industrial Projects (Oil)
+- Technology
+- Water Infrastructure
 
-Contact:
--Departament finance email+nr telefoni
--Departament Teknik email+nr telefoni
--Departament juridic email+nr telefoni
+Departments:
+- Technical Department
+- Legal Department
+- Finance Department
+- All three departments are in one location
 
-Adresa:Adresa :Tiranë. Rruga”Haxhi Kika” njesia administrative nr.5, nr.pasurie6/538 H 1, ap 4
+Additional business activity:
+- Recycling of construction materials
 
+Job openings:
+- Truck Driver (Transport)
+- Construction Worker (Construction)
+- Surveyor (Construction Management)
+- Machinery Mechanic (Service and Maintenance)
+- Electrical Engineer (Service and Maintenance)
+- Mechanical Engineer (Service and Maintenance)
+- Industrial Electrician (Service and Maintenance)
+- Team Leader (Construction Management)
+- Mechatronics Technician (Vehicle Technology)
 
-Stats:
-570 PROJEKTE TE REALIZUARA
-300 STAF
-11 CERTIFIKATA
+Certifications:
+- ISO 9001:2015
+- ISO 50001:2018
+- ISO 14001:2015
+- ISO 450001:2018
+- ISO 39000:2012
+- ISO 27001:2013
+- ISO 39001:2012
+- PAS 99:2012
+- ISO 3834-2:2012
+- EN 1090-1:2009+A1:2011
 
+Contact information to include:
+- Finance Department email and phone number
+- Technical Department email and phone number
+- Legal Department email and phone number
 
-Kerkesat klientit per ndryshim:
--TE rd-navbar-nav kur ben hover te Projects te dali lista e projekteve
--Ne qoft se te rd-navbar-nav zgjedh Projects do hapet nje faqe me te gjitha projektet ku ke nje container te i cili jan grupet e sherbimeve,ku ne qoft se zgjedh njeren do dalin projektet perkatese per ate lloj sherbimi
--Per cdo project kur klikon te hapen informacionet e projektit,ku ne fillim te jet nje hero-banner me fotot e projektit dhe me posht informacionet perkatese.Para se te shkoj te footer-i,te jene dy butona majtas dhe djathtas per opsion next dhe previous.Keto opsione te jene qe te cojn te projekti tjeter i cili esht ne te njejtin grup projekti.Prsh ne qoft se ky project ndodhet te grupi "Infrastrukture rrugore",ne qoft se shtyp next,te hapet nje project i po te njejtit grup.
--Te ndryshohet footeri:te shtohen departamentet(me kontaktet perkatese dhe adresen),nje field me email address,logoja e kompanis,dhe ikonat  rrjeteve sociale linkedin,instagram,facebook.
--Te zevendesohet sektori e certifikatat,ku nuk do te ket me owl-dots,por certifikatat do  jen ikona rrethore sipas rendit kohor e krijuara,ku shfaqen vetem emri i certifikates.Modeli do te paraqitet me screenshot.
--Te sektori row.no-gutters,do te ndryshohen emrat sipas listes se mesiperme.Pasi  klikohet ne nje nga thumb-creative_image,do te hapet nje faqe ku ne fillim esht po ajo foto e thumb qe ishte e zgjeruar ne full width,description section posht dhe nje div-row.no-gutters sic ishte ne homepage,por e projektet e atij grupi.Kur klikon te nje nga ato do jet faqja perkatese me nje slider me fotot e atij projekti specific.Per cdo project kur klikon te hapen informacionet e projektit,ku ne fillim te jet nje hero-banner me fotot e projektit dhe me posht informacionet perkatese.Para se te shkoj te footer-i,te jene dy butona majtas dhe djathtas per opsion next dhe previous.Keto opsione te jene qe te cojn te projekti tjeter i cili esht ne te njejtin grup projekti.Prsh ne qoft se ky project ndodhet te grupi "Infrastrukture rrugore",ne qoft se shtyp next,te hapet nje project i po te njejtit grup.
+Address:
+- Tirana, Rruga “Haxhi Kika”, Administrative Unit No. 5, Property No. 6/538 H 1, Apt. 4
 
+Statistics:
+- 570 completed projects
+- 300 staff
+- 11 certifications
+
+Client requirements for the redesign:
+
+1. Navigation / Projects dropdown
+- In the main navigation, when the user hovers over “Projects,” a dropdown list of project categories should appear.
+
+2. Projects overview page
+- If the user clicks “Projects” in the navigation, it should open a dedicated page containing all projects.
+- This page should have a container with the project service groups/categories.
+- When a user selects one category, the relevant projects for that category should be displayed.
+
+3. Individual project page
+- Each project should open its own dedicated page.
+- At the top of the page, there should be a hero banner with images of the project.
+- Below the hero banner, show the corresponding project information.
+- Before the footer, include two navigation buttons: “Previous” and “Next.”
+- These buttons must navigate only between projects that belong to the same project group/category.
+- Example: if the current project belongs to “Road Infrastructure,” clicking “Next” should open another project from the same “Road Infrastructure” category.
+
+4. Footer redesign
+- Redesign the footer to include:
+  - the company departments
+  - the relevant contact information for each department
+  - the company address
+  - an email address field
+  - the company logo
+  - social media icons for LinkedIn, Instagram, and Facebook
+
+5. Certificates section
+- Replace the current certificates section.
+- Remove the owl-dots behavior.
+- Certificates should be displayed as circular icons arranged in chronological order based on creation date.
+- Only the certificate name should be shown.
+- The intended visual model will be provided through a screenshot.
+
+6. Services / categories section
+- In the section currently using row.no-gutters, replace the existing names with the updated category names listed above.
+- When a user clicks one of the thumb-creative images, open a dedicated category page.
+- At the top of that page, display the same thumbnail image expanded to full width.
+- Below it, include a description section.
+- Then include a div with row.no-gutters similar to the homepage, but showing the projects that belong to that selected category.
+- When a user clicks one of those projects, open the corresponding project page.
+- Each project page should contain:
+  - a hero banner / slider with images of that specific project
+  - the project information below
+  - “Previous” and “Next” navigation buttons before the footer
+- These navigation buttons must move only between projects in the same category.
+
+Working instructions:
+- Always inspect both the live website and the GitHub repository before making structural or design suggestions.
+- Keep the real business content accurate and aligned with the company information above.
+- Improve the design quality, layout clarity, user experience, and page hierarchy, but do not change the meaning or business context.
+- When suggesting layouts, components, or page structures, keep them implementable in the existing project.
+- If I mention a specific reference from the current site, preserve its function while improving its visual presentation and usability.
+- If I mention that a section should be inspired by Eberhard, follow Eberhard’s style direction without copying blindly; adapt it to this company’s content and identity.
+
+Expected behavior:
+- Help me redesign the website page by page and section by section.
+- Use the current website for inspection, the GitHub repository for implementation context, and the Eberhard website for design inspiration.
+- Provide recommendations that are clear, practical, and suitable for real implementation.

@@ -2,7 +2,11 @@
 <html class="wide wow-animation" lang="en">
   <head>
     <!-- WWW.RAFINCOMPANY.COM -->
-    <title>Home</title>
+    <title>Rafin Company | Construction & Infrastructure</title>
+    <meta name="description" content="Rafin Company is a leading construction firm in Albania, specializing in civil engineering, public infrastructure, and high-quality building projects.">
+    <meta property="og:title" content="Rafin Company | Construction & Infrastructure">
+    <meta property="og:description" content="Excellence in construction and infrastructure development in Albania.">
+    <meta property="og:type" content="website">
     <meta name="format-detection" content="telephone=no">
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,6 +17,7 @@
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/fonts.css">
+    <link rel="stylesheet" href="css/phase9-fixes.css">
 		<!--[if lt IE 10]>
     <div style="background: #212121; padding: 10px 0; box-shadow: 3px 3px 5px 0 rgba(0,0,0,.3); clear: both; text-align:center; position: relative; z-index:1;"><a href="http://windows.microsoft.com/en-US/internet-explorer/"><img src="images/ie8-panel/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."></a></div>
     <script src="js/html5shiv.min.js"></script>
@@ -42,7 +47,7 @@
                         <div class="unit flex-row align-items-center unit-spacing-xs">
                           <div class="unit__left"><span class="icon icon-sm icon-primary linear-icon-map-marker"></span></div>
                           <div class="unit__body">
-                            <p><a href="<iframe src="" width="600" height="450" frameborder="0" style="border:0" allowfullscreen>Address:Rruga"Gjik Kuqali".Pallati:C&S,Kati 2,Zyra 4 Prane ish Shushices</a></p>
+                            <p><span class="icon icon-sm icon-primary linear-icon-map-marker" style="margin-right:4px;"></span>Rruga "Gjik Kuqali", Pallati C&S, Kati 2, Zyra 4</p>
                           </div>
                         </div>
                       </li>
@@ -61,12 +66,10 @@
                   </div>
                   <div class="rd-navbar-top-panel__right"> 
                     <ul class="list-inline-xxs">
-              <li><a class="icon icon-xxs icon-gray-darker fa fa-facebook" href="https://www.facebook.com"></a></li>
-              <li><a class="icon icon-xxs icon-gray-darker fa fa-twitter" href="https://www.twitter.com"></a></li>
-              <li><a class="icon icon-xxs icon-gray-darker fa fa-google-plus" href="https://www.google.com"></a></li>
-              <li><a class="icon icon-xxs icon-gray-darker fa fa-vimeo" href="https://vimeo.com/"></a></li>
-              <li><a class="icon icon-xxs icon-gray-darker fa fa-youtube" href="https://youtube.com/"></a></li>
-              <li><a class="icon icon-xxs icon-gray-darker fa fa-pinterest" href="https://pinterest.com/"></a></li>
+                      <li><a href="#" class="lang-toggle button button-xs button-primary" aria-label="Toggle language" style="padding: 3px 8px; margin-right: 15px; font-size: 12px; line-height: 1;">EN</a></li>
+                      <li><a class="icon icon-xxs icon-gray-darker fa fa-facebook" href="https://www.facebook.com" aria-label="Facebook"></a></li>
+                      <li><a class="icon icon-xxs icon-gray-darker fa fa-twitter" href="https://www.twitter.com" aria-label="Twitter"></a></li>
+                      <li><a class="icon icon-xxs icon-gray-darker fa fa-google-plus" href="https://www.google.com" aria-label="Google Plus"></a></li>
                     </ul>
                   </div>
                 </div>
@@ -83,12 +86,14 @@
               <div class="rd-navbar-nav-wrap rd-navbar-search_not-collapsable">
                 <div class="rd-navbar-search_collapsable">
                   <ul class="rd-navbar-nav">
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="#projects">Projects</a></li>
-                    <li><a href="#testimonials">Staff</a></li>
-                    <li><a href="#contacts">Contacts</a></li>
+                    <li class="active"><a href="#home" data-i18n="Home">Home</a></li>
+                    <li><a href="#about" data-i18n="About">About</a></li>
+                    <li><a href="#services" data-i18n="Services">Services</a></li>
+                    <li><a href="projects.html" id="nav-projects-link" data-i18n="projects">Projects</a>
+                      <ul class="rd-navbar-dropdown" id="nav-projects-dropdown"></ul>
+                    </li>
+                    <li><a href="#testimonials" data-i18n="Staff">Staff</a></li>
+                    <li><a href="#contacts" data-i18n="Contacts">Contacts</a></li>
                   </ul>
                 </div>
               </div>
@@ -150,13 +155,13 @@
         <div class="container">
           <div class="row justify-content-md-center row-30 row-md-50">
             <div class="col-md-11 col-lg-10 col-xl-6">
-              <h4 class="heading-decorated">About Us</h4>
+              <h4 class="heading-decorated" data-i18n="About Us">About Us</h4>
               <p class="heading-6 text-width-1">"RAFIN COMPANY"</p>
-              <p>Is created with its motive to develope a new standard in the Albanian market. Our desire and passion for professionalism made it possible achieving our goals.We have established long standing relationships with international partners in different areas of constuction and we create complex infrastructure project with an sophisticated technical and quality.Our contact have been established  in wide range all over the country and region to be as close to innovative methods and high standards in this industry.
-Established in Tirana, "Rafin Company" has created a development strategy where all the attention was to accomplish market requirements and offering right solutions to clients.We are specialised in project such as:civil construction, public construction,machinery trade,technology,water supply infrastructure,different materials from qualitative brands ect.
-</p><a class="button button-primary" href="#modal" data-toggle="modal">Contact Us</a>
+              <p>Was founded with the mission to develop a new standard in the Albanian market. Our desire and passion for professionalism made it possible to achieve our goals. We have established long-standing relationships with international partners in different areas of construction and create complex infrastructure projects with sophisticated technical and quality standards. Our contacts have been established nationwide and across the region to stay close to innovative methods and high standards in this industry.
+Established in Tirana, "Rafin Company" has created a development strategy focused on meeting market requirements and offering high-quality solutions to clients. We specialize in projects such as: civil construction, public construction, machinery trade, technology, water supply infrastructure, and high-quality materials from leading brands, etc.
+</p><a class="button button-primary" href="#modal" data-toggle="modal" data-i18n="Contact Us">Contact Us</a>
             </div>
-            <div class="col-md-11 col-lg-10 col-xl-6"><img src="images/home-1-652x491.jpg" alt="" width="652" height="491"/>
+            <div class="col-md-11 col-lg-10 col-xl-6"><img src="images/home-1-652x491.jpg" alt="Rafin Company Construction Site" width="652" height="491"/>
             </div>
           </div>
         </div>
@@ -165,45 +170,7 @@ Established in Tirana, "Rafin Company" has created a development strategy where 
       <section class="section bg-gray-dark parallax-container" data-parallax-img="images/slider-slide-1-1920x1080.jpg">
         <div class="parallax-content">
           <div class="section-lg text-center">
-            <div class="container">
-              <div class="row justify-content-md-center row-50">
-                <div class="col-md-6 col-lg-3">
-                  <!-- Box counter-->
-                  <article class="box-counter">
-                    <div class="box-counter__wrap">
-                      <div class="counter">116</div>
-                    </div>
-                    <p class="box-counter__title">Projects Completed</p>
-                  </article>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                  <!-- Box counter-->
-                  <article class="box-counter">
-                    <div class="box-counter__wrap">
-                      <div class="counter">65</div>
-                    </div>
-                    <p class="box-counter__title">Staff members</p>
-                  </article>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                  <!-- Box counter-->
-                  <article class="box-counter">
-                    <div class="box-counter__wrap">
-                      <div class="counter">43.8</div>
-                    </div>
-                    <p class="box-counter__title">Thousand Man-hours</p>
-                  </article>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                  <!-- Box counter-->
-                  <article class="box-counter">
-                    <div class="box-counter__wrap">
-                      <div class="counter">8</div>
-                    </div>
-                    <p class="box-counter__title">Certificates Iso</p>
-                  </article>
-                </div>
-              </div>
+            <div class="container" id="home-stats-container">
             </div>
           </div>
         </div>
@@ -214,7 +181,7 @@ Established in Tirana, "Rafin Company" has created a development strategy where 
         <div class="container">
           <div class="row">
             <div class="col-sm-12">
-              <h4 class="heading-decorated">Our Services</h4>
+              <h4 class="heading-decorated" data-i18n="Our Services">Our Services</h4>
             </div>
           </div>
           <div class="row row-50 justify-content-md-center justify-content-lg-start">
@@ -320,248 +287,28 @@ Established in Tirana, "Rafin Company" has created a development strategy where 
       <section class="bg-default" id="projects">
         <div class="container-fluid container-flex">
           <div class="row no-gutters">
-            <div class="col-sm-6 col-lg-4 col-xl-3">
-              <!-- Thumb creative-->
-              <div class="thumb-creative">
-                <div class="thumb-creative__inner">
-                  <div class="thumb-creative__front">
-                    <figure class="thumb-creative__image-wrap"><img class="thumb-creative__image" src="images/project-1-480x361.jpg" alt="" width="480" height="361"/>
-                    </figure>
-                    <div class="thumb-creative__content">
-                      <h6>BUILDING</h6>
-                    </div>
-                  </div>
-                  <div class="thumb-creative__back">
-                    <figure class="thumb-creative__image-wrap"><img class="thumb-creative__image" src="images/project-1-480x361.jpg" alt="" width="480" height="361"/>
-                    </figure>
-                    <div class="thumb-creative__content">
-                      <h6 class="thumb-creative__title"><a href="#">BUILDING AND RECONSTRUCTION</a></h6>
-                      <p>This department organizes and manages the construction activities including reconstruction, maintenance.</p><a class="button button-link" href="#">View projects</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-6 col-lg-4 col-xl-3">
-              <!-- Thumb creative-->
-              <div class="thumb-creative">
-                <div class="thumb-creative__inner">
-                  <div class="thumb-creative__front">
-                    <figure class="thumb-creative__image-wrap"><img class="thumb-creative__image" src="images/project-2-480x361.jpg" alt="" width="480" height="361"/>
-                    </figure>
-                    <div class="thumb-creative__content">
-                      <h6>ROAD CONSTRUCTION </h6>
-                    </div>
-                  </div>
-                  <div class="thumb-creative__back">
-                    <figure class="thumb-creative__image-wrap"><img class="thumb-creative__image" src="images/project-2-480x361.jpg" alt="" width="480" height="361"/>
-                    </figure>
-                    <div class="thumb-creative__content">
-                      <h6 class="thumb-creative__title"><a href="#">ROAD CONSTRUCTION</a></h6>
-                      <p>Through our workforce we come to our clients with high quality works and high European capacities.</p><a class="button button-link" href="#">View projects</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-6 col-lg-4 col-xl-3">
-              <!-- Thumb creative-->
-              <div class="thumb-creative">
-                <div class="thumb-creative__inner">
-                  <div class="thumb-creative__front">
-                    <figure class="thumb-creative__image-wrap"><img class="thumb-creative__image" src="images/project-3-480x361.jpg" alt="" width="480" height="361"/>
-                    </figure>
-                    <div class="thumb-creative__content">
-                      <h6>WATER SUPPLY INFRASTUCTURE</h6>
-                    </div>
-                  </div>
-                  <div class="thumb-creative__back">
-                    <figure class="thumb-creative__image-wrap"><img class="thumb-creative__image" src="images/project-3-480x361.jpg" alt="" width="480" height="361"/>
-                    </figure>
-                    <div class="thumb-creative__content">
-                      <h6 class="thumb-creative__title"><a href="#">WATER SUPPLY INFRASTUCTURE</a></h6>
-                      <p>We apply the highest standards regarding water supply and sewerage construction, we complete all the capacities with a specialized work force.</p><a class="button button-link" href="#">View projects</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-6 col-lg-4 col-xl-3">
-              <!-- Thumb creative-->
-              <div class="thumb-creative">
-                <div class="thumb-creative__inner">
-                  <div class="thumb-creative__front">
-                    <figure class="thumb-creative__image-wrap"><img class="thumb-creative__image" src="images/project-4-480x361.jpg" alt="" width="480" height="361"/>
-                    </figure>
-                    <div class="thumb-creative__content">
-                      <h6>METALLIC STRUCTURES</h6>
-                    </div>
-                  </div>
-                  <div class="thumb-creative__back">
-                    <figure class="thumb-creative__image-wrap"><img class="thumb-creative__image" src="images/project-4-480x361.jpg" alt="" width="480" height="361"/>
-                    </figure>
-                    <div class="thumb-creative__content">
-                      <h6 class="thumb-creative__title"><a href="#">METALLIC STRUCTURES</a></h6>
-                      <p>We assist with our team specializing in the conception and realization of every idea by providing innovative and quality services to every customer.</p><a class="button button-link" href="#">View projects</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-6 col-lg-4 col-xl-3">
-              <!-- Thumb creative-->
-              <div class="thumb-creative">
-                <div class="thumb-creative__inner">
-                  <div class="thumb-creative__front">
-                    <figure class="thumb-creative__image-wrap"><img class="thumb-creative__image" src="images/project-5-480x361.jpg" alt="" width="480" height="361"/>
-                    </figure>
-                    <div class="thumb-creative__content">
-                      <h6>TECHNOLOGY</h6>
-                    </div>
-                  </div>
-                  <div class="thumb-creative__back">
-                    <figure class="thumb-creative__image-wrap"><img class="thumb-creative__image" src="images/project-5-480x361.jpg" alt="" width="480" height="361"/>
-                    </figure>
-                    <div class="thumb-creative__content">
-                      <h6 class="thumb-creative__title"><a href="#">TECHNOLOGY</a></h6>
-                      <p>We are coherent with the implementation of the latest technology for the realization of all disciplines in construction, various materials, machinery, electromechanical etc.</p><a class="button button-link" href="#">View projects</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-6 col-lg-4 col-xl-3">
-              <!-- Thumb creative-->
-              <div class="thumb-creative">
-                <div class="thumb-creative__inner">
-                  <div class="thumb-creative__front">
-                    <figure class="thumb-creative__image-wrap"><img class="thumb-creative__image" src="images/project-6-480x361.jpg" alt="" width="480" height="361"/>
-                    </figure>
-                    <div class="thumb-creative__content">
-                      <h6>MACHINERY TRADE</h6>
-                    </div>
-                  </div>
-                  <div class="thumb-creative__back">
-                    <figure class="thumb-creative__image-wrap"><img class="thumb-creative__image" src="images/project-6-480x361.jpg" alt="" width="480" height="361"/>
-                    </figure>
-                    <div class="thumb-creative__content">
-                      <h6 class="thumb-creative__title"><a href="#">MACHINERY TRADE</a></h6>
-                      <p>Reducing your owning and operating costs is essential in construction.We trade the best trucks for your need.</p><a class="button button-link" href="index2.html">Machinery Trade</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-6 col-lg-4 col-xl-3">
-              <!-- Thumb creative-->
-              <div class="thumb-creative">
-                <div class="thumb-creative__inner">
-                  <div class="thumb-creative__front">
-                    <figure class="thumb-creative__image-wrap"><img class="thumb-creative__image" src="images/project-7-480x361.jpg" alt="" width="480" height="361"/>
-                    </figure>
-                    <div class="thumb-creative__content">
-                      <h6>ElECTROMECHANIC EQUIPMENT</h6>
-                    </div>
-                  </div>
-                  <div class="thumb-creative__back">
-                    <figure class="thumb-creative__image-wrap"><img class="thumb-creative__image" src="images/project-7-480x361.jpg" alt="" width="480" height="361"/>
-                    </figure>
-                    <div class="thumb-creative__content">
-                      <h6 class="thumb-creative__title"><a href="#">ElECTROMECHANIC EQUIPMENT</a></h6>
-                      <p>We trade is of different capacities and categories. We are able to find quality, functional and competitive price.</p><a class="button button-link" href="index8.html">View Electromechanic Equipement</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-6 col-lg-4 col-xl-3">
-              <!-- Thumb creative-->
-              <div class="thumb-creative">
-                <div class="thumb-creative__inner">
-                  <div class="thumb-creative__front">
-                    <figure class="thumb-creative__image-wrap"><img class="thumb-creative__image" src="images/project-8-480x361.jpg" alt="" width="480" height="361"/>
-                    </figure>
-                    <div class="thumb-creative__content">
-                      <h6>MATERIAL</h6>
-                    </div>
-                  </div>
-                  <div class="thumb-creative__back">
-                    <figure class="thumb-creative__image-wrap"><img class="thumb-creative__image" src="images/project-8-480x361.jpg" alt="" width="480" height="361"/>
-                    </figure>
-                    <div class="thumb-creative__content">
-                      <h6 class="thumb-creative__title"><a href="#">MATERIAL</a></h6>
-                      <p>We trade a wide range of electrical, hydraulic materials and modern quality construction and technology.</p><a class="button button-link" href="#">View projects</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <!-- Dynamic categories will be injected here by js/home-categories.js -->
           </div>
         </div>
       </section>
 
-      <!-- Executive managers -->
-      <section class="section-lg bg-default text-center">
+      <!-- Certificates -->
+      <section class="section-lg bg-gray-lighter text-center">
         <div class="container">
-          <h4 class="heading-decorated">CERTIFICATION</h4>
-          <div class="row row-70 offset-top-1">
-            <div class="col-12">
-              <!-- Owl Carousel-->
-              <div class="owl-carousel" data-items="1" data-sm-items="2" data-md-items="2" data-lg-items="3" data-xl-items="3" data-dots="true" data-nav="false" data-stage-padding="0" data-loop="false" data-margin="30" data-mouse-drag="false">
-                <article class="thumb-flat"><img class="thumb-flat__image" src="images/calvin-fitzerald-418x415.jpg" alt="" width="418" height="415"/>
-                  <div class="thumb-flat__body">
-                    <p class="heading-6"><a href="#">9001:2015</a></p>
-                    <p class="thumb-flat__subtitle">QUALITY MANAGEMENT SYSTEM</p>
-                  </div>
-                </article>
-                <article class="thumb-flat"><img class="thumb-flat__image" src="images/taylor-wilson-418x415.jpg" alt="" width="418" height="415"/>
-                  <div class="thumb-flat__body">
-                    <p class="heading-6"><a href="#">14001:2015</a></p>
-                    <p class="thumb-flat__subtitle">ENVIRONMENTAL MANAGEMENT SYSTEM</p>
-                  </div>
-                </article>
-                <article class="thumb-flat"><img class="thumb-flat__image" src="images/josh-wagner-418x415.jpg" alt="" width="418" height="415"/>
-                  <div class="thumb-flat__body">
-                    <p class="heading-6"><a href="#">18001:2007</a></p>
-                    <p class="thumb-flat__subtitle">HEALTH AND SAFETY MANAGEMENT SYSTEM</p>
-                  </div>
-                </article>
-                <article class="thumb-flat"><img class="thumb-flat__image" src="images/luis-maxwell-418x415.jpg" alt="" width="418" height="415"/>
-                  <div class="thumb-flat__body">
-                    <p class="heading-6"><a href="#">27001:2013</a></p>
-                    <p class="thumb-flat__subtitle">INFORMATION SECURITY MANAGEMENT SYSTEM</p>
-                  </div>
-                </article>
-                <article class="thumb-flat"><img class="thumb-flat__image" src="images/ken-ferguson-418x415.jpg" alt="" width="418" height="415"/>
-                  <div class="thumb-flat__body">
-                    <p class="heading-6"><a href="#">39001:2012</a></p>
-                    <p class="thumb-flat__subtitle">ROAD TRAFFIC SAFETY MANAGEMENT SYSTEM</p>
-                  </div>
-                </article>
-                <article class="thumb-flat"><img class="thumb-flat__image" src="images/edward-elliot-418x315.jpg" alt="" width="418" height="315"/>
-                  <div class="thumb-flat__body">
-                    <p class="heading-6"><a href="#">50001:2011</a></p>
-                    <p class="thumb-flat__subtitle">ENERGY MANAGEMENT SYSTEM</p>
-                  </div>
-                </article>
-				<article class="thumb-flat"><img class="thumb-flat__image" src="images/pass99.jpg" alt="" width="418" height="315"/>
-                  <div class="thumb-flat__body">
-                    <p class="heading-6"><a href="#">99:2012</a></p>
-                    <p class="thumb-flat__subtitle">INTEGRATED MANAGEMENT SYSTEM</p>
-                  </div>
-                </article>
-				<article class="thumb-flat"><img class="thumb-flat__image" src="images/ww.jpg" alt="" width="418" height="315"/>
-                  <div class="thumb-flat__body">
-                    <p class="heading-6"><a href="#">3834-2:2006</a></p>
-                    <p class="thumb-flat__subtitle">QUALITY ON WELDING</p>
-                  </div>
-                </article>
-				
-				
-				
-				
-              </div>
-            </div>
+          <h4 class="heading-decorated" data-i18n="Certifications">Certifications</h4>
+          <div class="offset-top-1 px-4" id="certificates-container">
+            <!-- Dynamic certificates injected by js/certificates-section.js -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Jobs / Careers -->
+      <section class="section-lg bg-gray-dark text-center" id="jobs">
+        <div class="container">
+          <h4 class="heading-decorated" data-i18n="Jobs / Careers">Jobs / Careers</h4>
+          <p class="text-white opacity-50 mb-5" data-i18n="Join our dynamic team">Join our dynamic team and build the future with us</p>
+          <div class="row row-50 text-left" id="jobs-container">
+            <!-- Dynamic jobs injected by js/jobs-section.js -->
           </div>
         </div>
       </section>
@@ -576,13 +323,11 @@ Established in Tirana, "Rafin Company" has created a development strategy where 
 				 
                   <!-- Quote default-->
                   <div class="quote-default quote-default_left">
-                  </div>
                     <div class="quote-default__text">
-                      <p class="q">OUR STAFF</p>
+                      <p class="q" data-i18n="Our Staff">OUR STAFF</p>
                     </div>
-                    <p class="quote-default__cite text-primary">Our  staff works with professionalism  , cooperate with integrity, reliability and common purpose to fulfill all the customer requirements.We see our success at our team and the principles that have characterized us from the very beginning. Our maximal responsibility and ethic at work have been our key to success.
-We have qualified specialists such as:
-Civil engineer,Electrical engineer,Mechanical engineer,Encviromntal engineer,Topographic engineer.Rafin Company is committed to ensure the health and safety for our workforce and the people who live and work close to our projects.In all our project we operate with high standards in accordance with  europian certification. Our  dedication has been always in taking care of all factors of the work also making all effortnes for eliminating and minimizing negative effect in nature.
+                    <p class="quote-default__cite text-primary">Our staff works with professionalism, cooperating with integrity, reliability, and a common purpose to fulfill all customer requirements. We see our success in our team and the principles that have characterized us from the very beginning. Our commitment to responsibility and work ethics has been our key to success.
+We have qualified specialists such as: Civil Engineers, Electrical Engineers, Mechanical Engineers, Environmental Engineers, and Topographic Engineers. Rafin Company is committed to ensuring health and safety for our workforce and the communities where we work. In all our projects, we operate with high standards in accordance with European certifications. Our dedication has always been focused on quality and minimizing any negative environmental impact.
 </p>
                   </div>
                 </div>
@@ -600,52 +345,58 @@ Civil engineer,Electrical engineer,Mechanical engineer,Encviromntal engineer,Top
         <div class="container">
           <div class="row">
             <div class="col-sm-12 text-center">
-              <h4 class="heading-decorated">Recent News </h4>
+              <h4 class="heading-decorated" data-i18n="Recent News">Recent News</h4>
             </div>
           </div>
           <div class="row row-60">
             <div class="col-md-6 col-xl-4">
               <!-- Post classic-->
-              <article class="post-classic post-minimal"><img src="images/home-post-1-418x315.jpg" alt="" width="418" height="315"/>
+              <article class="post-classic post-minimal">
+                <img src="images/home-post-1-418x315.jpg" alt="Construction Development" width="418" height="315"/>
                 <div class="post-classic-title">
-                  <h6><a href="#">Future proofing hospitals</a></h6>
+                  <h6><a href="projects.html" data-i18n="News1Title">Quality Infrastructure Development</a></h6>
                 </div>
                 <div class="post-meta">
-                  <div class="group"><a href="#">
-                      <time datetime="2017">Jan.20, 2017</time></a><a class="meta-author" href="#">by Brian Williamson</a></div>
+                  <div class="group">
+                    <time datetime="2024">2024</time>
+                  </div>
                 </div>
                 <div class="post-classic-body">
-                  <p>By improving the physical layout of hospitals and medical facilities, we can enhance and increase safety mechanisms, improve care, and…</p>
+                  <p data-i18n="News1Body">We are expanding our reach in public works across Albania, bringing innovation and high standards.</p>
                 </div>
               </article>
             </div>
             <div class="col-md-6 col-xl-4">
               <!-- Post classic-->
-              <article class="post-classic post-minimal"><img src="images/home-post-2-418x315.jpg" alt="" width="418" height="315"/>
+              <article class="post-classic post-minimal">
+                <img src="images/home-post-2-418x315.jpg" alt="Sustainable Building" width="418" height="315"/>
                 <div class="post-classic-title">
-                  <h6><a href="#">Bike parts warehouse, DE</a></h6>
+                  <h6><a href="projects.html" data-i18n="News2Title">Sustainable Building Practices</a></h6>
                 </div>
                 <div class="post-meta">
-                  <div class="group"><a href="#">
-                      <time datetime="2017">Jan.20, 2017</time></a><a class="meta-author" href="#">by Brian Williamson</a></div>
+                  <div class="group">
+                    <time datetime="2024">2024</time>
+                  </div>
                 </div>
                 <div class="post-classic-body">
-                  <p>Delaware proved to be a very friendly place to work at… While invited there for completing a mid-sized warehouse for…</p>
+                  <p data-i18n="News2Body">Integrating eco-friendly materials and energy-efficient solutions in our latest projects.</p>
                 </div>
               </article>
             </div>
             <div class="col-md-6 col-xl-4">
               <!-- Post classic-->
-              <article class="post-classic post-minimal"><img src="images/home-post-3-418x315.jpg" alt="" width="418" height="315"/>
+              <article class="post-classic post-minimal">
+                <img src="images/home-post-3-418x315.jpg" alt="Engineering Excellence" width="418" height="315"/>
                 <div class="post-classic-title">
-                  <h6><a href="#">Joy Hotel & Casino</a></h6>
+                  <h6><a href="projects.html" data-i18n="News3Title">Engineering Excellence</a></h6>
                 </div>
                 <div class="post-meta">
-                  <div class="group"><a href="#">
-                      <time datetime="2017">Jan.20, 2017</time></a><a class="meta-author" href="#">by Brian Williamson</a></div>
+                  <div class="group">
+                    <time datetime="2024">2024</time>
+                  </div>
                 </div>
                 <div class="post-classic-body">
-                  <p>This hotel & casino complex is our most recent completed building… The whole structure that took us 6 months to…</p>
+                  <p data-i18n="News3Body">Our team continues to deliver complex engineering solutions with precision and safety. </p>
                 </div>
               </article>
             </div>
@@ -653,125 +404,17 @@ Civil engineer,Electrical engineer,Mechanical engineer,Encviromntal engineer,Top
         </div>
       </section>
 
-      <!-- contacts-->
-      <section class="section-md bg-default" id="contacts">
-        <div class="container">
-          <div class="row row-50">
-            <div class="col-md-5 col-lg-4">
-              <h4 class="heading-decorated">Contact Details</h4>
-              <ul class="list-sm contact-info">
-                <li>
-                  <dl class="list-terms-inline">
-                    <dt>Address</dt>
-                    <dd>Rruga"Gjik Kuqali".Pallati:C&S,Kati 2,Zyra 4 Prane ish Shushices</dd>
-                  </dl>
-                </li>
-                <li>
-                  <dl class="list-terms-inline">
-                    <dt>Phones</dt>
-                    <dd>
-                      <ul class="list-semicolon">
-                        <li><a href="tel:#">(+355) 682044447</a></li>
-                        <li><a href="tel:#">(+355) 683111222</a></li>
-                      </ul>
-                    </dd>
-                  </dl>
-				  <dl class="list-terms-inline">
-                    <dt>E-Mail</dt>
-					<dd>
-					<ul class="list-semicolon">
-                        <li><a href="e-mail:#">info@rafincompany.com</a></li>
-                      </ul>
-                    </dd>
-                  </dl>
-					
-					
-                </li>
-                <li>
-                  <dl class="list-terms-inline">
-                    <dt>We are open</dt>
-                    <dd>Mn-Sat: 8 am-5 pm</dd>
-                  </dl>
-                </li>
-                <li>
-                  <ul class="list-inline-sm">
-              <li><a class="icon icon-xxs icon-gray-darker fa fa-facebook" href="https://www.facebook.com"></a></li>
-              <li><a class="icon icon-xxs icon-gray-darker fa fa-twitter" href="https://www.twitter.com"></a></li>
-              <li><a class="icon icon-xxs icon-gray-darker fa fa-google-plus" href="https://www.google.com"></a></li>
-              <li><a class="icon icon-xxs icon-gray-darker fa fa-vimeo" href="https://vimeo.com/"></a></li>
-              <li><a class="icon icon-xxs icon-gray-darker fa fa-youtube" href="https://youtube.com/"></a></li>
-              <li><a class="icon icon-xxs icon-gray-darker fa fa-pinterest" href="https://pinterest.com/"></a></li>
-                  </ul>
-                </li>
-              </ul>
-            </div>
-            <div class="col-md-7 col-lg-8">
-              <h4 class="heading-decorated">Get in Touch</h4>
-              <!-- RD Mailform-->
-              <form class="rd-mailform rd-mailform_style-1" data-form-output="form-output-global" data-form-type="contact" method="post" action="bat/rd-mailform.php">
-                <div class="form-wrap form-wrap_icon linear-icon-man">
-                  <input class="form-input" id="contact-name" type="text" name="name" data-constraints="@Required">
-                  <label class="form-label" for="contact-name">Your name</label>
-                </div>
-                <div class="form-wrap form-wrap_icon linear-icon-envelope">
-                  <input class="form-input" id="contact-email" type="email" name="email" data-constraints="@Email @Required">
-                  <label class="form-label" for="contact-email">Your e-mail</label>
-                </div>
-                <div class="form-wrap form-wrap_icon linear-icon-feather">
-                  <textarea class="form-input" id="contact-message" name="message" data-constraints="@Required"></textarea>
-                  <label class="form-label" for="contact-message">Your message</label>
-                </div>
-                <button class="button button-primary" type="submit">send</button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <div class="rd-google-map rd-google-map__model" data-zoom="15" data-y="41.317413" data-x="19.811603" data-styles="[{&quot;featureType&quot;:&quot;water&quot;,&quot;elementType&quot;:&quot;geometry&quot;,&quot;stylers&quot;:[{&quot;color&quot;:&quot;#e9e9e9&quot;},{&quot;lightness&quot;:17}]},{&quot;featureType&quot;:&quot;landscape&quot;,&quot;elementType&quot;:&quot;geometry&quot;,&quot;stylers&quot;:[{&quot;color&quot;:&quot;#f5f5f5&quot;},{&quot;lightness&quot;:20}]},{&quot;featureType&quot;:&quot;road.highway&quot;,&quot;elementType&quot;:&quot;geometry.fill&quot;,&quot;stylers&quot;:[{&quot;color&quot;:&quot;#ffffff&quot;},{&quot;lightness&quot;:17}]},{&quot;featureType&quot;:&quot;road.highway&quot;,&quot;elementType&quot;:&quot;geometry.stroke&quot;,&quot;stylers&quot;:[{&quot;color&quot;:&quot;#ffffff&quot;},{&quot;lightness&quot;:29},{&quot;weight&quot;:0.2}]},{&quot;featureType&quot;:&quot;road.arterial&quot;,&quot;elementType&quot;:&quot;geometry&quot;,&quot;stylers&quot;:[{&quot;color&quot;:&quot;#ffffff&quot;},{&quot;lightness&quot;:18}]},{&quot;featureType&quot;:&quot;road.local&quot;,&quot;elementType&quot;:&quot;geometry&quot;,&quot;stylers&quot;:[{&quot;color&quot;:&quot;#ffffff&quot;},{&quot;lightness&quot;:16}]},{&quot;featureType&quot;:&quot;poi&quot;,&quot;elementType&quot;:&quot;geometry&quot;,&quot;stylers&quot;:[{&quot;color&quot;:&quot;#f5f5f5&quot;},{&quot;lightness&quot;:21}]},{&quot;featureType&quot;:&quot;poi.park&quot;,&quot;elementType&quot;:&quot;geometry&quot;,&quot;stylers&quot;:[{&quot;color&quot;:&quot;#dedede&quot;},{&quot;lightness&quot;:21}]},{&quot;elementType&quot;:&quot;labels.text.stroke&quot;,&quot;stylers&quot;:[{&quot;visibility&quot;:&quot;on&quot;},{&quot;color&quot;:&quot;#ffffff&quot;},{&quot;lightness&quot;:16}]},{&quot;elementType&quot;:&quot;labels.text.fill&quot;,&quot;stylers&quot;:[{&quot;saturation&quot;:36},{&quot;color&quot;:&quot;#333333&quot;},{&quot;lightness&quot;:40}]},{&quot;elementType&quot;:&quot;labels.icon&quot;,&quot;stylers&quot;:[{&quot;visibility&quot;:&quot;off&quot;}]},{&quot;featureType&quot;:&quot;transit&quot;,&quot;elementType&quot;:&quot;geometry&quot;,&quot;stylers&quot;:[{&quot;color&quot;:&quot;#f2f2f2&quot;},{&quot;lightness&quot;:19}]},{&quot;featureType&quot;:&quot;administrative&quot;,&quot;elementType&quot;:&quot;geometry.fill&quot;,&quot;stylers&quot;:[{&quot;color&quot;:&quot;#fefefe&quot;},{&quot;lightness&quot;:20}]},{&quot;featureType&quot;:&quot;administrative&quot;,&quot;elementType&quot;:&quot;geometry.stroke&quot;,&quot;stylers&quot;:[{&quot;color&quot;:&quot;#fefefe&quot;},{&quot;lightness&quot;:17},{&quot;weight&quot;:1.2}]}]">
-          <ul class="map_locations">
-            <li data-y="41.317413" data-x="19.811603">
-              <dl>
-                <dt>Address:</dt>
-                <dd>Rruga"Gjik Kuqali".Pallati:C&S,Kati 2,Zyra 4 Prane ish Shushices</dd>
-              </dl>
-              <dl>
-                <dt>Phones:</dt>
-                <dd><a href="tel:#">(+355) 682044447</a>; <a href="tel:#">(+355) 683111222</a>
-                </dd>
-              </dl>
-              <dl>
-                <dt>We are open:</dt>
-                <dd>Mn-Fr: 10 am-8 pm</dd>
-              </dl>
-            </li>
-          </ul>
-        </div>
-      </section>
-      <!-- Page Footer -->
-      <footer class="footer-corporate bg-gray-darker">
-        <div class="container">
-          <div class="footer-corporate__inner">
-            <p class="rights"><span>RAFINCOMPANY 2018</span><span>&nbsp;</span><span class="copyright-year2018"></span>. All Rights Reserved</p>
-            <ul class="list-inline-xxs">
-              <li><a class="icon icon-xxs icon-gray-darker fa fa-facebook" href="https://www.facebook.com"></a></li>
-              <li><a class="icon icon-xxs icon-gray-darker fa fa-twitter" href="https://www.twitter.com"></a></li>
-              <li><a class="icon icon-xxs icon-gray-darker fa fa-google-plus" href="https://www.google.com"></a></li>
-              <li><a class="icon icon-xxs icon-gray-darker fa fa-vimeo" href="https://vimeo.com/"></a></li>
-              <li><a class="icon icon-xxs icon-gray-darker fa fa-youtube" href="https://youtube.com/"></a></li>
-              <li><a class="icon icon-xxs icon-gray-darker fa fa-pinterest" href="https://pinterest.com/"></a></li>
-            </ul>
-          </div>
-        </div>
-      </footer>
+      <!-- Dynamic Footer Redesign Container -->
+      <div id="contacts">
+        <div id="footer-company-container"></div>
+      </div>
       <!-- coded by barber-->
       <!-- Modal-->
       <div class="modal fade" id="modal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h4>Contact US</h4>
+              <h4 data-i18n="Contact Us">Contact Us</h4>
               <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
@@ -805,6 +448,22 @@ Civil engineer,Electrical engineer,Mechanical engineer,Encviromntal engineer,Top
     <!-- Global Mailform Output-->
     <div class="snackbars" id="form-output-global"></div>
     <!-- Javascript-->
+    <!-- Data & Custom Scripts inserted before core behavior -->
+    <script src="data/categories.js"></script>
+    <script src="data/projects.js"></script>
+    <script src="data/site.js"></script>
+    <script src="data/departments.js"></script>
+    <script src="data/certificates.js"></script>
+    <script src="data/jobs.js"></script>
+    <script src="data/translations.js"></script>
+    <script src="js/content-store.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/nav-projects.js"></script>
+    <script src="js/home-categories.js"></script>
+    <script src="js/certificates-section.js"></script>
+    <script src="js/jobs-section.js"></script>
+    <script src="js/footer-company.js"></script>
+
     <script src="js/core.min.js"></script>
     <script src="js/script.js"></script>
   </body>

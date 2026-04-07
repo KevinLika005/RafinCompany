@@ -1,0 +1,201 @@
+/* ============================================================
+   Phase 9 — Final Integration Polish
+   QA fixes: responsiveness, spacing, layout consistency
+   ============================================================ */
+
+/* --- Nav dropdown: ensure categories dropdown doesn't clip --- */
+.rd-navbar-dropdown {
+  min-width: 220px;
+}
+.rd-navbar-dropdown li a {
+  white-space: nowrap;
+}
+
+/* --- Homepage category cards responsive --- */
+#projects .row.no-gutters {
+  flex-wrap: wrap;
+}
+#projects .col-sm-6 {
+  padding: 0;
+}
+@media (max-width: 575px) {
+  #projects .col-sm-6 {
+    width: 100%;
+    max-width: 100%;
+    flex: 0 0 100%;
+  }
+}
+
+/* --- thumb-creative responsive height --- */
+.thumb-creative,
+.thumb-creative__front,
+.thumb-creative__back {
+  min-height: 260px;
+}
+@media (max-width: 767px) {
+  .thumb-creative,
+  .thumb-creative__front,
+  .thumb-creative__back {
+    min-height: 200px;
+  }
+}
+
+/* --- projects.html filter buttons spacing --- */
+.filter-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 35px;
+}
+.filter-btn {
+  margin: 0 !important;
+}
+@media (max-width: 575px) {
+  .filter-btn {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+}
+
+/* --- Category hero responsive --- */
+.category-hero {
+  min-height: 350px;
+  background-attachment: scroll !important; /* avoid parallax issues on mobile */
+}
+@media (min-width: 768px) {
+  .category-hero {
+    min-height: 420px;
+  }
+}
+@media (max-width: 575px) {
+  .category-hero {
+    min-height: 240px;
+  }
+  #category-title {
+    font-size: 1.5rem !important;
+  }
+}
+
+/* --- Project hero responsive --- */
+.project-hero {
+  min-height: 420px;
+  background-attachment: scroll !important;
+}
+@media (max-width: 767px) {
+  .project-hero {
+    min-height: 280px;
+  }
+  #project-title {
+    font-size: 1.5rem !important;
+  }
+  .slider-btn {
+    padding: 10px 14px;
+    font-size: 18px;
+  }
+}
+
+/* --- Project info sidebar responsive --- */
+@media (max-width: 767px) {
+  .project-info-box {
+    margin-top: 30px;
+  }
+}
+
+/* --- Project prev/next nav responsive --- */
+#project-navigation {
+  flex-wrap: wrap;
+  gap: 10px;
+}
+@media (max-width: 575px) {
+  #project-navigation .col-sm-5,
+  #project-navigation .col-sm-2 {
+    text-align: center !important;
+  }
+  #project-navigation .col-sm-5:last-child {
+    text-align: center !important;
+  }
+}
+
+/* --- Footer responsive --- */
+#footer-company-container section {
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+@media (max-width: 767px) {
+  #footer-company-container .col-md-6:last-child {
+    margin-top: 30px;
+  }
+}
+.footer-corporate {
+  padding: 15px 0;
+}
+
+/* --- Jobs section: card grid responsive --- */
+#jobs-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+@media (max-width: 575px) {
+  #jobs-container .col-md-6 {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .job-card {
+    padding: 18px !important;
+  }
+}
+
+/* --- Certificates: responsive circle size --- */
+.certificate-circle {
+  width: 120px !important;
+  height: 120px !important;
+}
+@media (min-width: 768px) {
+  .certificate-circle {
+    width: 140px !important;
+    height: 140px !important;
+  }
+}
+@media (max-width: 400px) {
+  .certificate-circle {
+    width: 100px !important;
+    height: 100px !important;
+  }
+}
+
+/* --- Empty state --- */
+.empty-state {
+  padding: 60px 20px;
+  color: #999;
+  font-size: 1.1em;
+  text-align: center;
+  width: 100%;
+}
+
+/* --- Project cards consistent height --- */
+.project-card-item article {
+  height: 100%;
+}
+.project-card-item img {
+  width: 100%;
+  object-fit: cover;
+  aspect-ratio: 4/3;
+}
+
+/* --- Address text in top panel: fix overflow --- */
+.rd-navbar-top-panel__left p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: inherit;
+}
+.rd-navbar-top-panel__left p .icon {
+  vertical-align: middle;
+}
+
+/* --- Section heading spacing --- */
+#jobs h4.heading-decorated,
+.section-lg h4.heading-decorated {
+  margin-bottom: 15px;
+}
