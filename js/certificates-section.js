@@ -59,10 +59,3 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('languageChanged', () => {
   initCertificates();
 });
-
-const styleCert = document.createElement('style');
-styleCert.innerHTML = `
-  .certificate-circle { transition: transform 0.3s ease, box-shadow 0.3s ease !important; cursor: pointer; }
-  .certificate-circle:hover { transform: translateY(-5px) !important; box-shadow: 0 10px 25px rgba(0,0,0,0.15) !important; }
-`;
-document.head.appendChild(styleCert);

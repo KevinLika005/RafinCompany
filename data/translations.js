@@ -3,6 +3,7 @@ const translations = {
   About: { en: "About", sq: "Rreth Nesh" },
   Services: { en: "Services", sq: "Shërbimet" },
   Staff: { en: "Staff", sq: "Stafi" },
+  Careers: { en: "Careers", sq: "Karriera" },
   Contacts: { en: "Contacts", sq: "Kontakte" },
   projects: {
     en: "Projects",
