@@ -194,8 +194,125 @@
   vertical-align: middle;
 }
 
-/* --- Section heading spacing --- */
-#jobs h4.heading-decorated,
-.section-lg h4.heading-decorated {
-  margin-bottom: 15px;
+
+/* --- Modern Language Switcher --- */
+.rd-navbar-inner {
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rd-navbar-aside-right {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  padding-left: 20px;
+  order: 10; /* Ensure it stays to the far right */
+}
+
+/* Hide on mobile if preferred, or keep small */
+@media (max-width: 991px) {
+  .rd-navbar-aside-right {
+    position: absolute;
+    right: 50px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding-left: 0;
+  }
+}
+
+.modern-lang-switch {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.04);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 50px;
+  padding: 3px;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+/* Light background state (transparent navbar) */
+.rd-navbar_transparent .modern-lang-switch {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Sticky/Scrolled state (fixed navbar) */
+.rd-navbar-static.rd-navbar--is-stuck .modern-lang-switch,
+.rd-navbar-fixed .modern-lang-switch {
+  background: rgba(0, 0, 0, 0.06);
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+.modern-lang-switch a.lang-toggle-item {
+  display: inline-block;
+  padding: 5px 14px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-radius: 50px;
+  color: #444;
+  text-decoration: none !important;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  letter-spacing: 0.8px;
+  line-height: 1;
+}
+
+.rd-navbar_transparent .modern-lang-switch a.lang-toggle-item {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.modern-lang-switch a.lang-toggle-item.active {
+  background: #fbb03b; /* Primary yellow-gold */
+  color: #1a1a1a !important;
+  box-shadow: 0 4px 12px rgba(251, 176, 59, 0.25);
+  transform: scale(1.02);
+}
+
+.modern-lang-switch a.lang-toggle-item:hover:not(.active) {
+  background: rgba(0, 0, 0, 0.05);
+  color: #000;
+}
+
+.rd-navbar_transparent .modern-lang-switch a.lang-toggle-item:hover:not(.active) {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+
+/* Fix social icons typo alignment */
+.rd-navbar-top-panel__right .list-inline-xxs {
+  margin-top: 5px;
+}
+
+/* --- Google Translate UI Suppression --- */
+/* Hide the standard Google Translate toolbar at the top */
+.goog-te-banner-frame.skiptranslate,
+.goog-te-banner-frame {
+  display: none !important;
+}
+
+body {
+  top: 0 !important;
+}
+
+/* Hide the Google Translate branding element but keep it in the DOM */
+#google_translate_element {
+  display: none !important;
+}
+
+/* Hide the suggestion tooltip that appears on hover over translated text */
+.goog-te-balloon-frame,
+#goog-gt-tt,
+.goog-tooltip,
+.goog-tooltip:hover {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* Prevent layout shift caused by Google Translate */
+font {
+  background-color: transparent !important;
+  box-shadow: none !important;
 }
