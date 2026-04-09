@@ -39,6 +39,7 @@ select:focus-visible {
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -69,17 +70,17 @@ select:focus-visible {
   max-height: 42px;
 }
 
-.page-header .rd-navbar-nav > li > a {
+.page-header .rd-navbar-nav>li>a {
   font-size: 13px;
   letter-spacing: 0.08em;
 }
 
-.page-header .rd-navbar-nav > li.active > a,
-.page-header .rd-navbar-nav > li > a:hover {
+.page-header .rd-navbar-nav>li.active>a,
+.page-header .rd-navbar-nav>li>a:hover {
   color: var(--rafin-accent);
 }
 
-.page-header .rd-navbar-nav > li > .rd-navbar-dropdown {
+.page-header .rd-navbar-nav>li>.rd-navbar-dropdown {
   min-width: 240px;
   margin-top: 24px;
   padding: 18px 22px;
@@ -88,15 +89,15 @@ select:focus-visible {
   box-shadow: 0 14px 30px rgba(0, 0, 0, 0.24);
 }
 
-.page-header .rd-navbar-dropdown > li + li {
+.page-header .rd-navbar-dropdown>li+li {
   margin-top: 8px;
 }
 
-.page-header .rd-navbar-dropdown > li > a {
+.page-header .rd-navbar-dropdown>li>a {
   color: rgba(255, 255, 255, 0.9);
 }
 
-.page-header .rd-navbar-dropdown > li > a:hover {
+.page-header .rd-navbar-dropdown>li>a:hover {
   color: var(--rafin-accent);
 }
 
@@ -159,8 +160,8 @@ select:focus-visible {
   -webkit-backdrop-filter: blur(8px);
 }
 
-.rd-navbar-static.rd-navbar--is-stuck .rd-navbar-nav > li > .rd-navbar-dropdown,
-.rd-navbar-static.rd-navbar--is-clone .rd-navbar-nav > li > .rd-navbar-dropdown {
+.rd-navbar-static.rd-navbar--is-stuck .rd-navbar-nav>li>.rd-navbar-dropdown,
+.rd-navbar-static.rd-navbar--is-clone .rd-navbar-nav>li>.rd-navbar-dropdown {
   margin-top: 20px;
 }
 
@@ -322,4 +323,762 @@ select:focus-visible {
 .certificate-circle:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/*
+  Rafin redesign - Phase 3
+  Homepage materials, careers, contacts, certifications, and footer redesign.
+*/
+
+.redesign-materials-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.redesign-materials-section::before {
+  display: none;
+}
+
+.materials-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 360px) minmax(0, 1fr);
+  gap: 34px;
+  align-items: start;
+}
+
+.materials-copy {
+  position: sticky;
+  top: 108px;
+}
+
+.materials-eyebrow {
+  margin: 0 0 10px;
+  color: var(--rafin-accent);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.materials-title {
+  margin-bottom: 18px;
+}
+
+.materials-intro {
+  margin-bottom: 16px;
+  color: #425264;
+  line-height: 1.75;
+}
+
+.materials-note {
+  margin-bottom: 24px;
+  padding: 14px 16px;
+  border-left: 3px solid var(--rafin-accent);
+  background: #f3f5f8;
+  color: #344354;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.materials-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.materials-card {
+  border: 1px solid #e2e7ef;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 12px 30px rgba(25, 36, 50, 0.08);
+}
+
+.materials-card__media {
+  margin: 0;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+
+.materials-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.45s ease;
+}
+
+.materials-card__body {
+  padding: 18px 18px 20px;
+}
+
+.materials-card__body h6 {
+  margin: 0 0 8px;
+  color: #172533;
+  font-size: 17px;
+}
+
+.materials-card__body p {
+  margin: 0;
+  color: #4f6072;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.materials-card:hover .materials-card__media img,
+.materials-card:focus-within .materials-card__media img {
+  transform: scale(1.05);
+}
+
+#jobs {
+  background: linear-gradient(165deg, #111a24 0%, #182433 52%, #1f2f42 100%);
+}
+
+#jobs .heading-decorated,
+#jobs .heading-decorated::before {
+  color: #fff;
+}
+
+.jobs-filters-panel {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) auto;
+  gap: 16px;
+  align-items: end;
+  margin-bottom: 28px;
+  padding: 18px 20px;
+  border: 1px solid var(--rafin-border);
+  border-radius: 14px;
+  background: rgba(12, 20, 31, 0.52);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.jobs-filter-field label {
+  display: block;
+  margin-bottom: 7px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.jobs-filter-control {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 10px;
+  background: rgba(9, 16, 24, 0.75);
+  color: #fff;
+  font-size: 14px;
+}
+
+.jobs-filter-control option {
+  color: #111a24;
+}
+
+.jobs-role-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
+  margin: 0;
+  padding: 0 18px;
+  border-radius: 10px;
+  background: rgba(211, 154, 41, 0.17);
+  color: #f3e6c8;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.jobs-role-count strong {
+  color: #fff;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.jobs-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgba(18, 29, 43, 0.78);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.28);
+  transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+}
+
+.jobs-card__media {
+  margin: 0;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+
+.jobs-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.45s ease;
+}
+
+.jobs-card__content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 18px;
+}
+
+.jobs-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 12px;
+}
+
+.jobs-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: rgba(211, 154, 41, 0.2);
+  color: #ffeac0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.jobs-chip--ghost {
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: transparent;
+  color: #d9e1ea;
+}
+
+.jobs-card h6 {
+  margin: 0 0 10px;
+  color: #fff;
+  font-size: 20px;
+  line-height: 1.35;
+}
+
+.jobs-card p {
+  margin: 0 0 18px;
+  color: rgba(233, 240, 247, 0.82);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.jobs-apply-link {
+  margin-top: auto;
+  color: #f6d484;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.jobs-apply-link:hover,
+.jobs-apply-link:focus-visible {
+  color: #fff;
+}
+
+.jobs-card:hover,
+.jobs-card:focus-within {
+  transform: translateY(-6px);
+  border-color: rgba(211, 154, 41, 0.45);
+  box-shadow: 0 22px 42px rgba(0, 0, 0, 0.34);
+}
+
+.jobs-card:hover .jobs-card__media img,
+.jobs-card:focus-within .jobs-card__media img {
+  transform: scale(1.06);
+}
+
+.jobs-empty-state {
+  max-width: 620px;
+  margin: 8px auto 0;
+  padding: 28px;
+  border: 1px dashed rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.jobs-empty-state h6 {
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.jobs-empty-state p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.certificate-badge {
+  width: 146px;
+  height: 146px;
+  margin: 0 auto;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 10px 25px rgba(20, 34, 47, 0.12);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.certificate-badge__ring {
+  fill: #233446;
+  font-family: "Montserrat", sans-serif;
+  text-transform: lowercase;
+}
+
+.certificate-badge__name {
+  fill: #0f1720;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+}
+
+.certificate-badge:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 32px rgba(20, 34, 47, 0.18);
+}
+
+.redesign-contacts-section {
+  border-top: 1px solid #e2e8f0;
+}
+
+.contacts-section-header {
+  max-width: 760px;
+  margin: 0 auto 34px;
+}
+
+.contacts-eyebrow {
+  margin: 0 0 10px;
+  color: var(--rafin-accent);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.contacts-title {
+  margin-bottom: 14px;
+}
+
+.contacts-intro {
+  margin: 0;
+  color: #4e5e70;
+  line-height: 1.75;
+}
+
+.contacts-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 390px) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.contacts-form-card {
+  padding: 24px;
+  border: 1px solid #dbe3ee;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 14px 32px rgba(20, 33, 46, 0.09);
+}
+
+.contacts-form-card h5 {
+  margin-bottom: 18px;
+}
+
+.contacts-form-card .form-wrap+.form-wrap {
+  margin-top: 14px;
+}
+
+.contacts-form-card .form-label {
+  color: #3f4e5d;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.contacts-form-card .form-input {
+  border: 1px solid #cfdae7;
+  border-radius: 10px;
+  background: #f9fbfd;
+}
+
+.contacts-form-card textarea.form-input {
+  min-height: 140px;
+}
+
+.contacts-form-actions {
+  margin-top: 18px;
+}
+
+.contacts-form-actions .button {
+  width: 100%;
+}
+
+.contacts-maps-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.contacts-map-card {
+  border: 1px solid #dce4ef;
+  border-radius: 12px;
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 12px 28px rgba(21, 34, 48, 0.1);
+}
+
+.contacts-map-frame {
+  min-height: 250px;
+}
+
+.contacts-map-frame iframe {
+  width: 100%;
+  height: 100%;
+  min-height: 250px;
+  border: 0;
+}
+
+.contacts-map-copy {
+  padding: 14px 16px 16px;
+}
+
+.contacts-map-copy h6 {
+  margin: 0 0 6px;
+  color: #182534;
+}
+
+.contacts-map-copy p {
+  margin: 0;
+  color: #4f6072;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.home-stat-card {
+  padding: 6px 0;
+}
+
+.redesign-footer-main {
+  background: #101924;
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.footer-brand-wrap p {
+  margin: 16px 0 0;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.7;
+}
+
+.footer-address-card {
+  margin-top: 24px;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.footer-address-card h6 {
+  margin-bottom: 8px;
+  color: #fff;
+}
+
+.footer-address-card p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.footer-social-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.footer-social-list a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  color: #fff;
+  font-size: 20px;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.footer-social-list a:hover,
+.footer-social-list a:focus-visible {
+  border-color: var(--rafin-accent);
+  background: rgba(211, 154, 41, 0.2);
+  color: #fff;
+}
+
+.footer-section-head h5 {
+  margin-bottom: 16px;
+  color: #fff;
+}
+
+.footer-departments-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.footer-department-card {
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.footer-department-card h6 {
+  margin-bottom: 10px;
+  color: #fff;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.footer-department-card ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.footer-department-card li+li {
+  margin-top: 7px;
+}
+
+.footer-department-card a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.footer-department-card a:hover,
+.footer-department-card a:focus-visible {
+  color: #fff;
+}
+
+.footer-newsletter {
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.footer-newsletter h6 {
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.footer-inline-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: end;
+}
+
+.footer-inline-form .form-wrap {
+  margin: 0;
+}
+
+.footer-inline-form .form-label {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.footer-inline-form .form-input {
+  min-height: 48px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+}
+
+.footer-inline-form .button {
+  min-height: 48px;
+  padding: 0 24px;
+  border-radius: 10px;
+}
+
+.footer-inline-form .form-input:focus {
+  border-color: rgba(211, 154, 41, 0.8);
+}
+
+.redesign-footer-bottom {
+  background: #0b141d;
+}
+
+.redesign-footer-bottom .footer-corporate__inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 64px;
+}
+
+.redesign-footer-bottom .rights {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 1199px) {
+  .materials-copy {
+    position: static;
+  }
+
+  .materials-layout,
+  .contacts-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-departments-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 991px) {
+
+  .materials-grid,
+  .contacts-maps-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .jobs-filters-panel {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .jobs-role-count {
+    justify-content: flex-start;
+  }
+
+  .footer-inline-form {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-inline-form .button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 767px) {
+
+  .materials-card__body,
+  .contacts-form-card,
+  .contacts-map-copy,
+  .footer-department-card {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .footer-departments-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/*
+  Rafin redesign - Phase 11
+  Architectural UI: Sharp edges everywhere (except certificates).
+*/
+
+/* Buttons & Controls */
+.button,
+.btn,
+button,
+.filter-btn,
+.slider-btn,
+.modern-lang-switch,
+.lang-toggle-item,
+.jobs-filter-control,
+.form-input,
+.form-control,
+input,
+select,
+textarea,
+.jobs-role-count,
+.jobs-chip,
+.badge,
+.tag,
+.label,
+.footer-social-list a {
+  border-radius: 0 !important;
+}
+
+/* Cards & Layout Blocks */
+.card,
+.card-custom,
+.materials-card,
+.jobs-card,
+.project-info-box,
+.footer-address-card,
+.contacts-form-card,
+.contacts-map-card,
+.footer-department-card,
+.jobs-empty-state,
+.jobs-filters-panel,
+.rd-navbar-dropdown,
+.dropdown-menu,
+.modal-content,
+.slider-btn,
+.nav-pills>li>a,
+.nav-tabs>li>a,
+.section-box,
+.filter-bar {
+  border-radius: 0 !important;
+}
+
+/* Make box shadows subtle, clean and architectural instead of soft and fluffy */
+.materials-card,
+.jobs-card,
+.contacts-form-card,
+.contacts-map-card,
+.rd-navbar-dropdown,
+.card-custom,
+.project-info-box {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
+}
+
+.materials-card:hover,
+.jobs-card:hover,
+.jobs-card:focus-within {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Images & Overlays (excluding circular ones explicitly) */
+img:not(.certificate-badge):not(.certificate-circle):not(.img-circle):not(.cssload-speeding-wheel),
+.overlay,
+.category-hero-overlay,
+.project-hero-overlay,
+.materials-card__media,
+.jobs-card__media,
+.thumb-creative,
+.project-image {
+  border-radius: 0 !important;
+}
+
+/* Special Overrides - Keep Loaders Working */
+.cssload-speeding-wheel {
+  border-radius: 50% !important;
 }

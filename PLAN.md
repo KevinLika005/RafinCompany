@@ -94,7 +94,7 @@
 - Phase 2: Data model expansion and homepage shells.
   - Extend `jobs.js` with career levels, add `data/materials.js` and `data/contacts.js` placeholders/interfaces, expand translations, and insert homepage mount points for Materials and Contacts without styling drift.
 - Phase 3: Homepage redesign.
-  - Redesign the category/services area, certifications, careers cards/filters, footer, and dedicated Contacts section in [index.html](c:/Users/kevin/Documents/Rafin/index.html), using JS renderers only for data-driven sections and keeping white-on-dark text intact where intended.
+  - Redesign the careers cards/filters, footer, and dedicated Contacts section in [index.html](c:/Users/kevin/Documents/Rafin/index.html), using JS renderers only for data-driven sections and keeping white-on-dark text intact where intended.
 - Phase 4: Projects overview redesign.
   - Replace the current filter buttons with the sticky filter bar, rebuild project cards to match the new system, and ensure the sticky bar interacts correctly with the fixed header on desktop/mobile.
 - Phase 5: Category page alignment.
