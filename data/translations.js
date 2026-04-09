@@ -41,6 +41,66 @@ const translations = {
     en: "Certifications",
     sq: "Certifikimet"
   },
+  materials: {
+    en: "Materials",
+    sq: "Materiale"
+  },
+  "Building Materials": {
+    en: "Building Materials",
+    sq: "Materiale Ndertimi"
+  },
+  "Materials Section Intro": {
+    en: "Structured content placeholder for the upcoming materials section.",
+    sq: "Permbajtje e perkohshme per seksionin e ardhshem te materialeve."
+  },
+  "Materials Recycling Note": {
+    en: "Recycling and sustainability note placeholder.",
+    sq: "Shenim i perkohshem per riciklimin dhe qendrueshmerine."
+  },
+  "Contacts Section Intro": {
+    en: "Placeholder structure for contact form and two map locations.",
+    sq: "Strukture e perkohshme per formularin e kontaktit dhe dy vendndodhje harte."
+  },
+  "Location Pending": {
+    en: "Pending client-provided address.",
+    sq: "Adresa ne pritje nga klienti."
+  },
+  "Career Level": {
+    en: "Career Level",
+    sq: "Niveli i Karrieres"
+  },
+  "Job Category": {
+    en: "Job Category",
+    sq: "Kategoria e Pozicionit"
+  },
+  "All Levels": {
+    en: "All Levels",
+    sq: "Te Gjitha Nivelet"
+  },
+  "All Job Categories": {
+    en: "All Job Categories",
+    sq: "Te Gjitha Kategorite"
+  },
+  Entry: {
+    en: "Entry",
+    sq: "Fillestar"
+  },
+  Mid: {
+    en: "Mid",
+    sq: "Mesatar"
+  },
+  Senior: {
+    en: "Senior",
+    sq: "Senior"
+  },
+  "No matching roles": {
+    en: "No matching roles",
+    sq: "Nuk u gjeten role per filtrin"
+  },
+  "Try changing the selected career level or job category.": {
+    en: "Try changing the selected career level or job category.",
+    sq: "Provoni te ndryshoni nivelin e karrieres ose kategorine e pozicionit."
+  },
   jobs: {
     en: "Jobs / Careers",
     sq: "Punë / Karriera"

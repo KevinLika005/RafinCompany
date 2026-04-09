@@ -10,6 +10,15 @@ const jobs = [
       en: "Transport",
       sq: "Transport"
     },
+    careerLevel: {
+      en: "Entry",
+      sq: "Fillestar"
+    },
+    cardImage: null,
+    cardImageAlt: {
+      en: "Truck driver role",
+      sq: "Pozicion shofer kamioni"
+    },
     order: 1
   },
   {
@@ -22,6 +31,15 @@ const jobs = [
     category: {
       en: "Construction",
       sq: "Ndërtim"
+    },
+    careerLevel: {
+      en: "Entry",
+      sq: "Fillestar"
+    },
+    cardImage: null,
+    cardImageAlt: {
+      en: "Construction worker role",
+      sq: "Pozicion punetor ndertimi"
     },
     order: 2
   },
@@ -36,6 +54,15 @@ const jobs = [
       en: "Construction Management",
       sq: "Menaxhimi i Ndërtimit"
     },
+    careerLevel: {
+      en: "Mid",
+      sq: "Mesatar"
+    },
+    cardImage: null,
+    cardImageAlt: {
+      en: "Surveyor role",
+      sq: "Pozicion topografi"
+    },
     order: 3
   },
   {
@@ -48,6 +75,15 @@ const jobs = [
     category: {
       en: "Service and Maintenance",
       sq: "Shërbim dhe Mirëmbajtje"
+    },
+    careerLevel: {
+      en: "Mid",
+      sq: "Mesatar"
+    },
+    cardImage: null,
+    cardImageAlt: {
+      en: "Machinery mechanic role",
+      sq: "Pozicion mekanik makinerie"
     },
     order: 4
   },
@@ -62,6 +98,15 @@ const jobs = [
       en: "Service and Maintenance",
       sq: "Shërbim dhe Mirëmbajtje"
     },
+    careerLevel: {
+      en: "Senior",
+      sq: "Senior"
+    },
+    cardImage: null,
+    cardImageAlt: {
+      en: "Electrical engineer role",
+      sq: "Pozicion inxhinier elektrik"
+    },
     order: 5
   },
   {
@@ -74,6 +119,15 @@ const jobs = [
     category: {
       en: "Service and Maintenance",
       sq: "Shërbim dhe Mirëmbajtje"
+    },
+    careerLevel: {
+      en: "Senior",
+      sq: "Senior"
+    },
+    cardImage: null,
+    cardImageAlt: {
+      en: "Mechanical engineer role",
+      sq: "Pozicion inxhinier mekanik"
     },
     order: 6
   },
@@ -88,6 +142,15 @@ const jobs = [
       en: "Service and Maintenance",
       sq: "Shërbim dhe Mirëmbajtje"
     },
+    careerLevel: {
+      en: "Mid",
+      sq: "Mesatar"
+    },
+    cardImage: null,
+    cardImageAlt: {
+      en: "Industrial electrician role",
+      sq: "Pozicion elektricist industrial"
+    },
     order: 7
   },
   {
@@ -100,6 +163,15 @@ const jobs = [
     category: {
       en: "Construction Management",
       sq: "Menaxhimi i Ndërtimit"
+    },
+    careerLevel: {
+      en: "Senior",
+      sq: "Senior"
+    },
+    cardImage: null,
+    cardImageAlt: {
+      en: "Team leader role",
+      sq: "Pozicion udheheqes ekipi"
     },
     order: 8
   },
@@ -114,11 +186,46 @@ const jobs = [
       en: "Vehicle Technology",
       sq: "Teknologjia e Automjeteve"
     },
+    careerLevel: {
+      en: "Mid",
+      sq: "Mesatar"
+    },
+    cardImage: null,
+    cardImageAlt: {
+      en: "Mechatronics technician role",
+      sq: "Pozicion teknik mekatronike"
+    },
     order: 9
   }
 ];
 
-if (typeof window !== 'undefined') {
+jobs.meta = {
+  filters: {
+    careerLevels: ["Entry", "Mid", "Senior"]
+  },
+  labels: {
+    careerLevel: {
+      en: "Career Level",
+      sq: "Niveli i Karrieres"
+    },
+    jobCategory: {
+      en: "Job Category",
+      sq: "Kategoria e Pozicionit"
+    }
+  },
+  emptyState: {
+    title: {
+      en: "No matching roles",
+      sq: "Nuk u gjeten role per filtrin"
+    },
+    body: {
+      en: "Try changing the selected career level or job category.",
+      sq: "Provoni te ndryshoni nivelin e karrieres ose kategorine e pozicionit."
+    }
+  }
+};
+
+if (typeof window !== "undefined") {
   window.siteData = window.siteData || {};
   window.siteData.jobs = jobs;
 }
