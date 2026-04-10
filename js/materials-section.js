@@ -1,16 +1,8 @@
 (function () {
   const MOUNT_ID = "materials-section-container";
 
-  function getLanguage() {
-    if (window.I18n && typeof window.I18n.getCurrentLanguage === "function") {
-      return window.I18n.getCurrentLanguage();
-    }
-    return localStorage.getItem("lang") || "en";
-  }
-
-  function localize(value, lang) {
-    if (!value || typeof value !== "object") return value || "";
-    return value[lang] || value.en || "";
+  function getLocalizedValue(value) {
+    return window.I18n.getLocalizedValue(value);
   }
 
   function escapeHtml(value) {
@@ -25,9 +17,8 @@
   function renderMaterialsSection() {
     const materials = window.siteData?.materials;
     const mount = document.getElementById(MOUNT_ID);
-    if (!materials || !mount) return;
+    if (!materials || !mount || !window.I18n || typeof window.I18n.getLocalizedValue !== "function") return;
 
-    const lang = getLanguage();
     const section = materials.section || {};
     const items = Array.isArray(materials.items)
       ? [...materials.items].sort((a, b) => (a.order || 0) - (b.order || 0))
@@ -35,10 +26,10 @@
 
     const cardsHtml = items
       .map((item) => {
-        const title = escapeHtml(localize(item.title, lang));
-        const summary = escapeHtml(localize(item.summary, lang));
+        const title = escapeHtml(getLocalizedValue(item.title));
+        const summary = escapeHtml(getLocalizedValue(item.summary));
         const image = escapeHtml(item.image || "images/project-1-480x361.jpg");
-        const imageAlt = escapeHtml(localize(item.imageAlt, lang) || title);
+        const imageAlt = escapeHtml(getLocalizedValue(item.imageAlt) || title);
 
         return `
           <article class="materials-card">
@@ -60,11 +51,11 @@
       <div class="container">
         <div class="materials-layout">
           <div class="materials-copy">
-            <p class="materials-eyebrow">${escapeHtml(localize(section.eyebrow, lang))}</p>
-            <h4 class="heading-decorated materials-title">${escapeHtml(localize(section.title, lang))}</h4>
-            <p class="materials-intro">${escapeHtml(localize(section.intro, lang))}</p>
-            <p class="materials-note">${escapeHtml(localize(section.recyclingNote, lang))}</p>
-            <a class="button button-primary" href="${ctaHref}">${escapeHtml(localize(section.ctaLabel, lang))}</a>
+            <p class="materials-eyebrow">${escapeHtml(getLocalizedValue(section.eyebrow))}</p>
+            <h4 class="heading-decorated materials-title">${escapeHtml(getLocalizedValue(section.title))}</h4>
+            <p class="materials-intro">${escapeHtml(getLocalizedValue(section.intro))}</p>
+            <p class="materials-note">${escapeHtml(getLocalizedValue(section.recyclingNote))}</p>
+            <a class="button button-primary" href="${ctaHref}">${escapeHtml(getLocalizedValue(section.ctaLabel))}</a>
           </div>
           <div class="materials-grid">
             ${cardsHtml}

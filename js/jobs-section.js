@@ -8,16 +8,8 @@
     jobCategory: "all"
   };
 
-  function getLanguage() {
-    if (window.I18n && typeof window.I18n.getCurrentLanguage === "function") {
-      return window.I18n.getCurrentLanguage();
-    }
-    return localStorage.getItem("lang") || "en";
-  }
-
-  function localize(value, lang) {
-    if (!value || typeof value !== "object") return value || "";
-    return value[lang] || value.en || "";
+  function getLocalizedValue(value) {
+    return window.I18n.getLocalizedValue(value);
   }
 
   function escapeHtml(value) {
@@ -29,17 +21,17 @@
       .replace(/'/g, "&#39;");
   }
 
-  function getUniqueCategories(lang) {
+  function getUniqueCategories() {
     const map = new Map();
     jobsCache.forEach((job) => {
-      const key = job.category?.en || localize(job.category, lang);
+      const key = job.category?.en || getLocalizedValue(job.category);
       if (!key || map.has(key)) return;
-      map.set(key, localize(job.category, lang));
+      map.set(key, getLocalizedValue(job.category));
     });
     return Array.from(map.entries()).map(([key, label]) => ({ key, label }));
   }
 
-  function getCareerLevels(lang) {
+  function getCareerLevels() {
     const metaLevels = window.siteData?.jobs?.meta?.filters?.careerLevels;
     if (Array.isArray(metaLevels) && metaLevels.length) {
       return metaLevels.map((level) => ({
@@ -50,7 +42,7 @@
 
     const unique = new Set();
     jobsCache.forEach((job) => {
-      const key = job.careerLevel?.en || localize(job.careerLevel, lang);
+      const key = job.careerLevel?.en || getLocalizedValue(job.careerLevel);
       if (key) unique.add(key);
     });
     return Array.from(unique).map((key) => ({
@@ -71,13 +63,16 @@
     });
   }
 
-  function renderFilters(lang) {
+  function renderFilters() {
     const mount = document.getElementById(FILTERS_MOUNT_ID);
     if (!mount) return;
 
     const labels = window.siteData?.jobs?.meta?.labels || {};
-    const levels = getCareerLevels(lang);
-    const categories = getUniqueCategories(lang);
+    const levels = getCareerLevels();
+    const categories = getUniqueCategories();
+    const filtersRegionLabel = window.I18n
+      ? window.I18n.translate("Careers Filters") || "Careers filters"
+      : "Careers filters";
 
     const careerOptions = levels
       .map(
@@ -98,23 +93,23 @@
       .join("");
 
     mount.innerHTML = `
-      <div class="jobs-filters-panel" role="region" aria-label="Careers filters">
+      <div class="jobs-filters-panel" role="region" aria-label="${escapeHtml(filtersRegionLabel)}">
         <div class="jobs-filter-field">
-          <label for="jobs-level-filter">${escapeHtml(localize(labels.careerLevel, lang))}</label>
-          <select id="jobs-level-filter" class="jobs-filter-control">
+          <label for="jobs-level-filter">${escapeHtml(getLocalizedValue(labels.careerLevel))}</label>
+          <select id="jobs-level-filter" class="jobs-filter-control" aria-controls="${CARDS_MOUNT_ID}">
             <option value="all">${escapeHtml(window.I18n ? window.I18n.translate("All Levels") : "All Levels")}</option>
             ${careerOptions}
           </select>
         </div>
         <div class="jobs-filter-field">
-          <label for="jobs-category-filter">${escapeHtml(localize(labels.jobCategory, lang))}</label>
-          <select id="jobs-category-filter" class="jobs-filter-control">
+          <label for="jobs-category-filter">${escapeHtml(getLocalizedValue(labels.jobCategory))}</label>
+          <select id="jobs-category-filter" class="jobs-filter-control" aria-controls="${CARDS_MOUNT_ID}">
             <option value="all">${escapeHtml(window.I18n ? window.I18n.translate("All Job Categories") : "All Job Categories")}</option>
             ${categoryOptions}
           </select>
         </div>
-        <p class="jobs-role-count">
-          <span>${escapeHtml(localize(labels.roleCount, lang) || "Open Roles")}</span>
+        <p class="jobs-role-count" aria-live="polite">
+          <span>${escapeHtml(getLocalizedValue(labels.roleCount) || "Open Roles")}</span>
           <strong>${getFilteredJobs().length}</strong>
         </p>
       </div>
@@ -138,11 +133,11 @@
     }
   }
 
-  function renderCards(lang) {
+  function renderCards() {
     const mount = document.getElementById(CARDS_MOUNT_ID);
     if (!mount) return;
 
-    const applyLabel = localize(window.siteData?.jobs?.meta?.labels?.applyLabel, lang) || "Apply Now";
+    const applyLabel = getLocalizedValue(window.siteData?.jobs?.meta?.labels?.applyLabel) || "Apply Now";
     const filteredJobs = getFilteredJobs();
 
     if (!filteredJobs.length) {
@@ -150,8 +145,8 @@
       mount.innerHTML = `
         <div class="col-12">
           <article class="jobs-empty-state">
-            <h6>${escapeHtml(localize(emptyState.title, lang))}</h6>
-            <p>${escapeHtml(localize(emptyState.body, lang))}</p>
+            <h6>${escapeHtml(getLocalizedValue(emptyState.title))}</h6>
+            <p>${escapeHtml(getLocalizedValue(emptyState.body))}</p>
           </article>
         </div>
       `;
@@ -160,12 +155,12 @@
 
     mount.innerHTML = filteredJobs
       .map((job) => {
-        const title = escapeHtml(localize(job.title, lang));
-        const category = escapeHtml(localize(job.category, lang));
-        const level = escapeHtml(localize(job.careerLevel, lang));
-        const summary = escapeHtml(localize(job.summary, lang));
+        const title = escapeHtml(getLocalizedValue(job.title));
+        const category = escapeHtml(getLocalizedValue(job.category));
+        const level = escapeHtml(getLocalizedValue(job.careerLevel));
+        const summary = escapeHtml(getLocalizedValue(job.summary));
         const image = escapeHtml(job.cardImage || "images/project-1-480x361.jpg");
-        const imageAlt = escapeHtml(localize(job.cardImageAlt, lang) || title);
+        const imageAlt = escapeHtml(getLocalizedValue(job.cardImageAlt) || title);
 
         return `
           <div class="col-md-6 col-xl-4">
@@ -190,14 +185,13 @@
   }
 
   function renderJobsSection() {
-    const lang = getLanguage();
-    renderFilters(lang);
-    renderCards(lang);
+    renderFilters();
+    renderCards();
   }
 
   function initJobsSection() {
     const jobs = window.siteData?.jobs;
-    if (!jobs || !Array.isArray(jobs)) return;
+    if (!jobs || !Array.isArray(jobs) || !window.I18n || typeof window.I18n.getLocalizedValue !== "function") return;
 
     jobsCache = [...jobs].sort((a, b) => (a.order || 0) - (b.order || 0));
     renderJobsSection();

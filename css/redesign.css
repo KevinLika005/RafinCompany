@@ -22,6 +22,18 @@ body {
   color: var(--rafin-ink);
 }
 
+.ui-to-top,
+.ui-to-top.active {
+  z-index: 240;
+  -webkit-transform: translateY(0);
+  transform: translateY(0);
+}
+
+.mobile .ui-to-top,
+.tablet .ui-to-top {
+  display: inline-block !important;
+}
+
 a,
 button,
 input,
@@ -308,22 +320,6 @@ select:focus-visible {
 
 .project-info-box h5 {
   margin-bottom: 20px;
-}
-
-/* Moved from JS-injected styles (Phase 1 centralization) */
-.job-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-}
-
-.certificate-circle {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
-}
-
-.certificate-circle:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
 /*
@@ -972,6 +968,7 @@ select:focus-visible {
   }
 
   .jobs-role-count {
+    width: 100%;
     justify-content: flex-start;
   }
 
@@ -1149,6 +1146,7 @@ img:not(.certificate-badge):not(.certificate-circle):not(.img-circle):not(.csslo
   overflow-x: auto;
   padding-bottom: 2px;
   scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
 }
 
 .projects-page .projects-filter-btn {

@@ -3,8 +3,8 @@
 
 <head>
   <!-- WWW.RAFINCOMPANY.COM -->
-  <title>Project Details | Rafin Company</title>
-  <meta name="description" content="View detailed information about Rafin Company construction projects, including location, status, and engineering highlights.">
+  <title data-i18n="Project Page Title">Project Details | Rafin Company</title>
+  <meta name="description" data-i18n-content="Project Meta Description" content="View detailed information about Rafin Company construction projects, including location, status, and engineering highlights.">
   <meta name="format-detection" content="telephone=no">
   <meta name="viewport"
     content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -50,16 +50,16 @@
               <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-nav-wrap"><span></span></button>
               <!-- RD Navbar Brand-->
               <div class="rd-navbar-brand"><a class="brand-name" href="index.html"><img
-                    src="images/logo-inverse-304x39.png" alt="" width="120" height="120" /></a></div>
+                    src="images/logo-inverse-304x39.png" alt="Rafin Company" width="120" height="120" /></a></div>
             </div>
             <!-- RD Navbar Nav-->
             <div class="rd-navbar-nav-wrap rd-navbar-search_not-collapsable">
               <div class="rd-navbar-search_collapsable">
                 <ul class="rd-navbar-nav">
-                  <li><a href="index.html#home" data-i18n="Home">Home</a></li>
                   <li><a href="index.html#about" data-i18n="About">About</a></li>
                   <li><a href="index.html#services" data-i18n="Services">Services</a></li>
-                  <li class="active"><a href="projects.html" id="nav-projects-link">Projects</a>
+                  <li><a href="index.html#materials" data-i18n="materials">Materials</a></li>
+                  <li class="active"><a href="projects.html" id="nav-projects-link" data-i18n="projects">Projects</a>
                     <ul class="rd-navbar-dropdown" id="nav-projects-dropdown"></ul>
                   </li>
                   <li><a href="index.html#jobs" data-i18n="Careers">Careers</a></li>
@@ -83,12 +83,12 @@
     <section class="section project-hero bg-black" id="project-hero">
       <div class="project-hero-overlay"></div>
       <div class="slider-nav" id="project-slider-nav">
-        <button class="slider-btn" id="slider-prev">&#10094;</button>
-        <button class="slider-btn" id="slider-next">&#10095;</button>
+        <button class="slider-btn" id="slider-prev" aria-label="Previous Project Image" data-i18n-aria-label="Previous Project">&#10094;</button>
+        <button class="slider-btn" id="slider-next" aria-label="Next Project Image" data-i18n-aria-label="Next Project">&#10095;</button>
       </div>
       <div class="section-lg text-center project-hero__content">
         <div class="container">
-          <h2 class="heading-decorated project-hero__title" id="project-title">Loading...</h2>
+          <h2 class="heading-decorated project-hero__title" id="project-title" data-i18n="Loading">Loading...</h2>
         </div>
       </div>
     </section>
@@ -103,16 +103,16 @@
           </div>
           <div class="col-md-4">
             <div class="project-info-box">
-              <h5 id="project-info-heading">Project Information</h5>
+              <h5 id="project-info-heading" data-i18n="Project Information">Project Information</h5>
               <hr />
               <ul class="list-xs project-info-list">
                 <li id="info-category" class="project-info-item"><strong><span
-                      class="lbl-category">Category</span>:</strong> <span class="val-category"></span></li>
+                      class="lbl-category" data-i18n="Category">Category</span>:</strong> <span class="val-category"></span></li>
                 <li id="info-location" class="project-info-item"><strong><span
-                      class="lbl-location">Location</span>:</strong> <span class="val-location"></span></li>
-                <li id="info-year" class="project-info-item"><strong><span class="lbl-year">Year</span>:</strong> <span
+                      class="lbl-location" data-i18n="Location">Location</span>:</strong> <span class="val-location"></span></li>
+                <li id="info-year" class="project-info-item"><strong><span class="lbl-year" data-i18n="Year">Year</span>:</strong> <span
                     class="val-year"></span></li>
-                <li id="info-status" class="project-info-item"><strong><span class="lbl-status">Status</span>:</strong>
+                <li id="info-status" class="project-info-item"><strong><span class="lbl-status" data-i18n="Status">Status</span>:</strong>
                   <span class="val-status"></span></li>
               </ul>
             </div>
@@ -128,18 +128,18 @@
           <a href="#" id="prev-project" class="project-detail-nav-card project-detail-nav-card--prev">
             <p class="project-detail-nav-card__eyebrow">
               <span class="icon fa-angle-left" aria-hidden="true"></span>
-              <span class="nav-label">Previous Project</span>
+              <span class="nav-label" data-i18n="Previous Project">Previous Project</span>
             </p>
             <h5 class="project-detail-nav-card__title nav-title">-</h5>
             <p class="project-detail-nav-card__meta nav-category">-</p>
           </a>
           <a href="projects.html" id="all-projects-link" class="project-detail-nav-all">
             <span class="icon fa-th" aria-hidden="true"></span>
-            <span class="all-projects-label">All Projects</span>
+            <span class="all-projects-label" data-i18n="All Projects">All Projects</span>
           </a>
           <a href="#" id="next-project" class="project-detail-nav-card project-detail-nav-card--next">
             <p class="project-detail-nav-card__eyebrow">
-              <span class="nav-label">Next Project</span>
+              <span class="nav-label" data-i18n="Next Project">Next Project</span>
               <span class="icon fa-angle-right" aria-hidden="true"></span>
             </p>
             <h5 class="project-detail-nav-card__title nav-title">-</h5>

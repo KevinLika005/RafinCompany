@@ -732,7 +732,7 @@
      * UI To Top
      * @description Enables ToTop Button
      */
-    if (isDesktop && !isNoviBuilder) {
+    if (!isNoviBuilder) {
       $().UItoTop({
         easingType: 'easeOutQuart',
         containerClass: 'ui-to-top'

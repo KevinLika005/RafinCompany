@@ -25,7 +25,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const titleElement = document.querySelector('.i18n-projects-title');
     if (!titleElement) return;
     const localizedTitle = window.I18n.translate('projects');
-    titleElement.textContent = localizedTitle || (window.I18n.getCurrentLanguage() === 'sq' ? 'Projektet' : 'Projects');
+    const safeTitle = localizedTitle || (window.I18n.getCurrentLanguage() === 'sq' ? 'Projektet' : 'Projects');
+    titleElement.textContent = safeTitle;
+    document.title = `${safeTitle} | Rafin Company`;
   }
 
   function getProjectsForFilter(filterId) {
@@ -40,14 +42,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const projectsCountLabel = window.I18n.translate('projects') || 'Projects';
 
     const buttonsHtml = [
-      `<button class="projects-filter-btn ${activeState.filterId === 'all' ? 'active' : ''}" type="button" data-filter="all" aria-pressed="${activeState.filterId === 'all'}">${escapeHtml(allLabel)}</button>`
+      `<button class="projects-filter-btn ${activeState.filterId === 'all' ? 'active' : ''}" type="button" data-filter="all" aria-pressed="${activeState.filterId === 'all'}" aria-controls="projects-grid">${escapeHtml(allLabel)}</button>`
     ];
 
     categories.forEach((category) => {
       const label = window.I18n.getLocalizedValue(category.title) || 'Category';
       const isActive = activeState.filterId === category.id;
       buttonsHtml.push(
-        `<button class="projects-filter-btn ${isActive ? 'active' : ''}" type="button" data-filter="${escapeHtml(category.id)}" aria-pressed="${isActive}">${escapeHtml(label)}</button>`
+        `<button class="projects-filter-btn ${isActive ? 'active' : ''}" type="button" data-filter="${escapeHtml(category.id)}" aria-pressed="${isActive}" aria-controls="projects-grid">${escapeHtml(label)}</button>`
       );
     });
 
@@ -55,9 +57,9 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="projects-filter-bar__inner">
         <div class="projects-filter-bar__meta">
           <p class="projects-filter-bar__label">${escapeHtml(categoriesLabel)}</p>
-          <p class="projects-filter-bar__count"><strong>${filteredProjects.length}</strong> ${escapeHtml(projectsCountLabel)}</p>
+          <p class="projects-filter-bar__count" aria-live="polite"><strong>${filteredProjects.length}</strong> ${escapeHtml(projectsCountLabel)}</p>
         </div>
-        <div class="projects-filter-bar__actions" role="tablist" aria-label="${escapeHtml(categoriesLabel)}">
+        <div class="projects-filter-bar__actions" role="group" aria-label="${escapeHtml(categoriesLabel)}">
           ${buttonsHtml.join('')}
         </div>
       </div>

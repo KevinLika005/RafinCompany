@@ -9,16 +9,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const prevBtn = document.getElementById('prev-project');
   const nextBtn = document.getElementById('next-project');
   const allProjectsLink = document.getElementById('all-projects-link');
+  const sliderPrevBtn = document.getElementById('slider-prev');
+  const sliderNextBtn = document.getElementById('slider-next');
 
   if (!titleContainer || !heroContainer || !descriptionContainer) return;
 
   const urlParams = new URLSearchParams(window.location.search);
   const slug = urlParams.get('slug');
 
-  const defaultMissingTitle = window.I18n.getCurrentLanguage() === 'sq' ? 'Projekti nuk u gjet' : 'Project Not Found';
-  const defaultMissingDesc = window.I18n.getCurrentLanguage() === 'sq'
-    ? 'Ju lutemi kthehuni dhe zgjidhni nje projekt te vlefshem.'
-    : 'Please go back and select a valid project.';
+  const defaultMissingTitle = window.I18n.translate('Project Not Found') || 'Project Not Found';
+  const defaultMissingDesc = window.I18n.translate('Please go back and select a valid project.') || 'Please go back and select a valid project.';
 
   const showMissingState = () => {
     titleContainer.textContent = defaultMissingTitle;
@@ -43,62 +43,68 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  // Local translations for project fields
-  const uiTranslations = {
-    location: { en: 'Location', sq: 'Vendndodhja' },
-    year: { en: 'Year', sq: 'Viti' },
-    status: { en: 'Status', sq: 'Statusi' },
-    category: { en: 'Category', sq: 'Kategoria' },
-    projectInfo: { en: 'Project Information', sq: 'Informacion mbi Projektin' },
-    prevProject: { en: 'Previous Project', sq: 'Projekti i Mëparshëm' },
-    nextProject: { en: 'Next Project', sq: 'Projekti i Radhes' },
-    allProjects: { en: 'All Projects', sq: 'Te Gjitha Projektet' }
+  const getUiText = (translationKey, fallback) => {
+    const translated = window.I18n.translate(translationKey);
+    return translated && translated !== translationKey ? translated : fallback;
   };
 
-  const getUiText = (key) => {
-    const lang = window.I18n.getCurrentLanguage();
-    return uiTranslations[key][lang] || uiTranslations[key]['en'];
+  const localizeStatus = (statusValue) => {
+    if (!statusValue) return '';
+    const statusMap = {
+      completed: { en: 'Completed', sq: 'Përfunduar' },
+      'in progress': { en: 'In Progress', sq: 'Në Proces' }
+    };
+    const normalizedStatus = String(statusValue).trim().toLowerCase();
+    const localized = statusMap[normalizedStatus];
+    if (!localized) return statusValue;
+    return window.I18n.getLocalizedValue(localized);
   };
 
-  // Set localized values
   const title = window.I18n.getLocalizedValue(project.title) || 'Project';
   const description = window.I18n.getLocalizedValue(project.description) || '';
   const excerpt = window.I18n.getLocalizedValue(project.excerpt) || '';
   const location = project.location ? window.I18n.getLocalizedValue(project.location) : '';
-  
+
   titleContainer.textContent = title;
   document.title = `${title} | Rafin Company`;
-
-  if (excerpt) {
-    excerptContainer.innerHTML = excerpt;
-    excerptContainer.style.display = 'block';
-  } else if (excerptContainer) {
-    excerptContainer.style.display = 'none';
+  const metaDescription = document.querySelector('meta[name="description"]');
+  if (metaDescription) {
+    metaDescription.setAttribute('content', excerpt || description || metaDescription.getAttribute('content') || '');
   }
 
-  if (description) {
-    descriptionContainer.innerHTML = description;
-  } else {
-    descriptionContainer.innerHTML = '';
+  if (excerptContainer) {
+    if (excerpt) {
+      excerptContainer.innerHTML = excerpt;
+      excerptContainer.style.display = 'block';
+    } else {
+      excerptContainer.style.display = 'none';
+    }
   }
 
-  // Project Info Sidebar
-  document.getElementById('project-info-heading').textContent = getUiText('projectInfo');
+  descriptionContainer.innerHTML = description || '';
+
+  const infoHeading = document.getElementById('project-info-heading');
+  if (infoHeading) {
+    infoHeading.textContent = getUiText('Project Information', 'Project Information');
+  }
 
   const populateField = (id, labelSelector, valSelector, value, labelKey) => {
     const el = document.getElementById(id);
+    if (!el) return;
     if (value) {
-      el.querySelector(labelSelector).textContent = getUiText(labelKey);
-      el.querySelector(valSelector).textContent = value;
+      const labelEl = el.querySelector(labelSelector);
+      const valueEl = el.querySelector(valSelector);
+      if (labelEl) labelEl.textContent = getUiText(labelKey, labelKey);
+      if (valueEl) valueEl.textContent = value;
       el.style.display = 'list-item';
     } else {
       el.style.display = 'none';
     }
   };
 
-  populateField('info-location', '.lbl-location', '.val-location', location, 'location');
-  populateField('info-year', '.lbl-year', '.val-year', project.year, 'year');
-  populateField('info-status', '.lbl-status', '.val-status', project.status, 'status');
+  populateField('info-location', '.lbl-location', '.val-location', location, 'Location');
+  populateField('info-year', '.lbl-year', '.val-year', project.year, 'Year');
+  populateField('info-status', '.lbl-status', '.val-status', localizeStatus(project.status), 'Status');
 
   const categories = window.ContentStore.getCategories() || [];
   const categoryById = new Map(categories.map((item) => [item.id, item]));
@@ -106,14 +112,16 @@ document.addEventListener('DOMContentLoaded', () => {
     ? categoryById.get(project.categoryId) || window.ContentStore.getCategoryBySlug(project.categoryId)
     : null;
   const categoryName = category ? window.I18n.getLocalizedValue(category.title) : '';
-  populateField('info-category', '.lbl-category', '.val-category', categoryName, 'category');
+  populateField('info-category', '.lbl-category', '.val-category', categoryName, 'Category');
 
-  // Hero Slider Initialization (Simplest working implementation)
   const navContainer = document.getElementById('project-slider-nav');
   let currentImageIdx = 0;
-  const heroImages = (project.heroImages && project.heroImages.length > 0) 
-                     ? project.heroImages 
-                     : (project.coverImage ? [project.coverImage] : ['#212121']);
+  const heroImages =
+    project.heroImages && project.heroImages.length > 0
+      ? project.heroImages
+      : project.coverImage
+        ? [project.coverImage]
+        : ['#212121'];
 
   const setHeroBackground = (idx) => {
     const val = heroImages[idx];
@@ -128,57 +136,63 @@ document.addEventListener('DOMContentLoaded', () => {
 
   setHeroBackground(0);
 
-  if (heroImages.length > 1) {
+  if (sliderPrevBtn) {
+    sliderPrevBtn.setAttribute('aria-label', getUiText('Previous Project', 'Previous Project'));
+    sliderPrevBtn.setAttribute('title', getUiText('Previous Project', 'Previous Project'));
+  }
+  if (sliderNextBtn) {
+    sliderNextBtn.setAttribute('aria-label', getUiText('Next Project', 'Next Project'));
+    sliderNextBtn.setAttribute('title', getUiText('Next Project', 'Next Project'));
+  }
+
+  if (heroImages.length > 1 && navContainer) {
     navContainer.style.display = 'flex';
-    
-    // Check if event listeners are already attached to prevent duplicates on language switch
-    const sliderPrevBtn = document.getElementById('slider-prev');
-    const sliderNextBtn = document.getElementById('slider-next');
-    
-    if (sliderPrevBtn.dataset.bound !== 'true') {
+
+    if (sliderPrevBtn && sliderPrevBtn.dataset.bound !== 'true') {
       sliderPrevBtn.addEventListener('click', () => {
         currentImageIdx = (currentImageIdx - 1 + heroImages.length) % heroImages.length;
         setHeroBackground(currentImageIdx);
       });
       sliderPrevBtn.dataset.bound = 'true';
     }
-    
-    if (sliderNextBtn.dataset.bound !== 'true') {
+
+    if (sliderNextBtn && sliderNextBtn.dataset.bound !== 'true') {
       sliderNextBtn.addEventListener('click', () => {
         currentImageIdx = (currentImageIdx + 1) % heroImages.length;
         setHeroBackground(currentImageIdx);
       });
       sliderNextBtn.dataset.bound = 'true';
     }
-    
-    // Auto slide
+
     if (heroContainer.dataset.intervalId) {
-       clearInterval(parseInt(heroContainer.dataset.intervalId, 10));
+      clearInterval(parseInt(heroContainer.dataset.intervalId, 10));
     }
     const intervalId = setInterval(() => {
       currentImageIdx = (currentImageIdx + 1) % heroImages.length;
       setHeroBackground(currentImageIdx);
     }, 4500);
     heroContainer.dataset.intervalId = intervalId.toString();
-  } else {
+  } else if (navContainer) {
     navContainer.style.display = 'none';
   }
 
-  // Same-Category Project Navigation
   const allProjects = window.ContentStore.getProjects();
   const categoryProjects = allProjects
-    .filter(p => p.categoryId === project.categoryId)
+    .filter((p) => p.categoryId === project.categoryId)
     .sort((a, b) => (a.order || 0) - (b.order || 0));
 
-  const currentIndex = categoryProjects.findIndex(p => p.slug === project.slug);
+  const currentIndex = categoryProjects.findIndex((p) => p.slug === project.slug);
 
   const prevProject = currentIndex > 0 ? categoryProjects[currentIndex - 1] : null;
-  const nextProject = currentIndex >= 0 && currentIndex < categoryProjects.length - 1 ? categoryProjects[currentIndex + 1] : null;
+  const nextProject =
+    currentIndex >= 0 && currentIndex < categoryProjects.length - 1
+      ? categoryProjects[currentIndex + 1]
+      : null;
 
   if (allProjectsLink) {
     const allProjectsLabel = allProjectsLink.querySelector('.all-projects-label');
     if (allProjectsLabel) {
-      allProjectsLabel.textContent = getUiText('allProjects');
+      allProjectsLabel.textContent = getUiText('All Projects', 'All Projects');
     }
   }
 
@@ -199,7 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
     card.href = `project.html?slug=${encodeURIComponent(targetProject.slug)}`;
     card.style.display = 'flex';
 
-    if (labelEl) labelEl.textContent = getUiText(navLabelKey);
+    if (labelEl) labelEl.textContent = getUiText(navLabelKey, navLabelKey);
     if (titleEl) titleEl.textContent = targetTitle;
     if (categoryEl) {
       if (targetCategoryName) {
@@ -216,7 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const hasAdjacentProjects = Boolean(prevProject || nextProject);
     projectNav.style.display = hasAdjacentProjects ? 'grid' : 'none';
 
-    populateNavCard(prevBtn, prevProject, 'prevProject');
-    populateNavCard(nextBtn, nextProject, 'nextProject');
+    populateNavCard(prevBtn, prevProject, 'Previous Project');
+    populateNavCard(nextBtn, nextProject, 'Next Project');
   }
 });

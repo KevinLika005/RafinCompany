@@ -1,16 +1,8 @@
 (function () {
   const MOUNT_ID = "contacts-section-container";
 
-  function getLanguage() {
-    if (window.I18n && typeof window.I18n.getCurrentLanguage === "function") {
-      return window.I18n.getCurrentLanguage();
-    }
-    return localStorage.getItem("lang") || "en";
-  }
-
-  function localize(value, lang) {
-    if (!value || typeof value !== "object") return value || "";
-    return value[lang] || value.en || "";
+  function getLocalizedValue(value) {
+    return window.I18n.getLocalizedValue(value);
   }
 
   function escapeHtml(value) {
@@ -22,10 +14,29 @@
       .replace(/'/g, "&#39;");
   }
 
-  function renderMapCard(location, lang) {
-    const name = escapeHtml(localize(location.name, lang));
-    const address = escapeHtml(localize(location.address, lang));
-    const mapTitle = escapeHtml(localize(location.mapTitle, lang) || name);
+  function isProvisionalLocation(location) {
+    const raw = [
+      getLocalizedValue(location?.name),
+      getLocalizedValue(location?.address),
+      getLocalizedValue(location?.mapTitle)
+    ]
+      .join(" ")
+      .toLowerCase();
+
+    return (
+      raw.includes("provisional") ||
+      raw.includes("pending") ||
+      raw.includes("përkoh") ||
+      raw.includes("perkoh") ||
+      raw.includes("në pritje") ||
+      raw.includes("ne pritje")
+    );
+  }
+
+  function renderMapCard(location) {
+    const name = escapeHtml(getLocalizedValue(location.name));
+    const address = escapeHtml(getLocalizedValue(location.address));
+    const mapTitle = escapeHtml(getLocalizedValue(location.mapTitle) || name);
     const mapUrl = escapeHtml(location.mapEmbedUrl || "about:blank");
 
     return `
@@ -44,45 +55,46 @@
   function renderContactsSection() {
     const contacts = window.siteData?.contacts;
     const mount = document.getElementById(MOUNT_ID);
-    if (!contacts || !mount) return;
+    if (!contacts || !mount || !window.I18n || typeof window.I18n.getLocalizedValue !== "function") return;
 
-    const lang = getLanguage();
     const section = contacts.section || {};
     const form = contacts.form || {};
     const fields = form.fields || {};
-    const locations = Array.isArray(contacts.locations) ? contacts.locations.slice(0, 2) : [];
+    const locations = Array.isArray(contacts.locations)
+      ? contacts.locations.filter((location) => !isProvisionalLocation(location)).slice(0, 2)
+      : [];
 
-    const mapCards = locations.map((location) => renderMapCard(location, lang)).join("");
+    const mapCards = locations.map((location) => renderMapCard(location)).join("");
 
     mount.innerHTML = `
       <div class="container">
         <div class="contacts-section-header text-center">
-          <p class="contacts-eyebrow">${escapeHtml(localize(section.eyebrow, lang))}</p>
-          <h4 class="heading-decorated contacts-title">${escapeHtml(localize(section.title, lang))}</h4>
-          <p class="contacts-intro">${escapeHtml(localize(section.intro, lang))}</p>
+          <p class="contacts-eyebrow">${escapeHtml(getLocalizedValue(section.eyebrow))}</p>
+          <h4 class="heading-decorated contacts-title">${escapeHtml(getLocalizedValue(section.title))}</h4>
+          <p class="contacts-intro">${escapeHtml(getLocalizedValue(section.intro))}</p>
         </div>
         <div class="contacts-layout">
           <article class="contacts-form-card">
-            <h5>${escapeHtml(localize(form.title, lang))}</h5>
+            <h5>${escapeHtml(getLocalizedValue(form.title))}</h5>
             <form class="rd-mailform text-left" data-form-output="form-output-global" data-form-type="contact" method="${escapeHtml(form.method || "post")}" action="${escapeHtml(form.action || "bat/rd-mailform.php")}">
               <div class="form-wrap">
-                <label class="form-label" for="contacts-name">${escapeHtml(localize(fields.name, lang))}</label>
+                <label class="form-label" for="contacts-name">${escapeHtml(getLocalizedValue(fields.name))}</label>
                 <input class="form-input" id="contacts-name" type="text" name="name" data-constraints="@Required" />
               </div>
               <div class="form-wrap">
-                <label class="form-label" for="contacts-phone">${escapeHtml(localize(fields.phone, lang))}</label>
+                <label class="form-label" for="contacts-phone">${escapeHtml(getLocalizedValue(fields.phone))}</label>
                 <input class="form-input" id="contacts-phone" type="text" name="phone" data-constraints="@Numeric @Required" />
               </div>
               <div class="form-wrap">
-                <label class="form-label" for="contacts-email">${escapeHtml(localize(fields.email, lang))}</label>
+                <label class="form-label" for="contacts-email">${escapeHtml(getLocalizedValue(fields.email))}</label>
                 <input class="form-input" id="contacts-email" type="email" name="email" data-constraints="@Email @Required" />
               </div>
               <div class="form-wrap">
-                <label class="form-label" for="contacts-message">${escapeHtml(localize(fields.message, lang))}</label>
+                <label class="form-label" for="contacts-message">${escapeHtml(getLocalizedValue(fields.message))}</label>
                 <textarea class="form-input" id="contacts-message" name="message" data-constraints="@Required"></textarea>
               </div>
               <div class="form-wrap contacts-form-actions">
-                <button class="button button-primary" type="submit">${escapeHtml(localize(form.submitLabel, lang))}</button>
+                <button class="button button-primary" type="submit">${escapeHtml(getLocalizedValue(form.submitLabel))}</button>
               </div>
             </form>
           </article>

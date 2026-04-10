@@ -50,8 +50,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const urlParams = new URLSearchParams(window.location.search);
   const slug = urlParams.get('slug');
 
-  const defaultMissingTitle = window.I18n.getCurrentLanguage() === 'sq' ? 'Kategoria nuk u gjet' : 'Category Not Found';
-  const defaultMissingDesc = window.I18n.getCurrentLanguage() === 'sq' ? 'Ju lutemi zgjidhni një kategori të vlefshme.' : 'Please select a valid category.';
+  const defaultMissingTitle = window.I18n.translate('Category Not Found') || 'Category Not Found';
+  const defaultMissingDesc = window.I18n.translate('Please select a valid category.') || 'Please select a valid category.';
 
   if (eyebrowContainer) {
     eyebrowContainer.textContent = window.I18n.translate('Category') || 'Category';
@@ -76,6 +76,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   titleContainer.textContent = categoryTitle;
   document.title = `${categoryTitle} | Rafin Company`;
+  const metaDescription = document.querySelector('meta[name="description"]');
+  if (metaDescription) {
+    metaDescription.setAttribute('content', categoryDescription || metaDescription.getAttribute('content') || '');
+  }
 
   if (categoryDescription) {
     descriptionContainer.textContent = categoryDescription;
@@ -86,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (projects.length === 0) {
-    const emptyMsg = window.I18n.translate('noProjectsFound') || (window.I18n.getCurrentLanguage() === 'sq' ? 'Nuk ka projekte në këtë kategori.' : 'No projects found in this category.');
+    const emptyMsg = window.I18n.translate('noProjectsFound') || (window.I18n.getCurrentLanguage() === 'sq' ? 'Nuk ka projekte nÃ« kÃ«tÃ« kategori.' : 'No projects found in this category.');
     gridContainer.innerHTML = `<div class="col-12"><div class="projects-empty-state">${escapeHtml(emptyMsg)}</div></div>`;
     return;
   }

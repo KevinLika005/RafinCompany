@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!window.ContentStore || !window.I18n) return;
 
   const categories = window.ContentStore.getCategories() || [];
-  
   // Find the Projects link by ID, or fallback
   const navProjectsLink = document.getElementById('nav-projects-link') || 
                           document.querySelector('.rd-navbar-nav a[href="#projects"], .rd-navbar-nav a[href="projects.html"]');
@@ -10,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (navProjectsLink) {
     const parentLi = navProjectsLink.parentElement;
 
-    // Update main link to projects page and translate text
+    // Keep Projects as a page link (not section anchor) to preserve click-through behavior.
     navProjectsLink.href = 'projects.html';
     navProjectsLink.textContent = window.I18n.translate('projects');
 

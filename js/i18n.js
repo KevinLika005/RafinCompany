@@ -3,6 +3,9 @@
  * Replaces Google Translate widget for a professional "No-Bar" experience.
  */
 const I18n = {
+  // Kept only for backward compatibility with legacy callers.
+  normalizeText: (value) => (value == null ? '' : value),
+
   getCurrentLanguage: () => {
     return localStorage.getItem('lang') || 'en';
   },
@@ -20,11 +23,12 @@ const I18n = {
     const valObj = translations[key];
     if (!valObj) return key;
     const lang = I18n.getCurrentLanguage();
-    return valObj[lang] || valObj['en'] || key;
+    return valObj[lang] || valObj.en || key;
   },
 
   // Resolve bilingual objects used across data files, e.g. { en: '', sq: '' }.
   getLocalizedValue: (valueObj) => {
+    if (typeof valueObj === 'string') return valueObj;
     if (!valueObj || typeof valueObj !== 'object') return valueObj || '';
     const lang = I18n.getCurrentLanguage();
     return valueObj[lang] || valueObj.en || '';
@@ -51,15 +55,32 @@ const I18n = {
       }
     });
 
-    // Handle Title and Meta Description for SEO
-    const pageTitle = I18n.translate('pageTitle');
-    if (pageTitle && pageTitle !== 'pageTitle') document.title = pageTitle;
-    
-    const metaDesc = document.querySelector('meta[name="description"]');
-    const translatedDesc = I18n.translate('metaDescription');
-    if (metaDesc && translatedDesc && translatedDesc !== 'metaDescription') {
-      metaDesc.setAttribute('content', translatedDesc);
-    }
+    // Handle translated content attributes (meta/og tags).
+    document.querySelectorAll('[data-i18n-content]').forEach(el => {
+      const key = el.getAttribute('data-i18n-content');
+      const translated = I18n.translate(key);
+      if (translated && translated !== key) {
+        el.setAttribute('content', translated);
+      }
+    });
+
+    // Handle translated aria-label attributes.
+    document.querySelectorAll('[data-i18n-aria-label]').forEach(el => {
+      const key = el.getAttribute('data-i18n-aria-label');
+      const translated = I18n.translate(key);
+      if (translated && translated !== key) {
+        el.setAttribute('aria-label', translated);
+      }
+    });
+
+    // Handle translated title attributes.
+    document.querySelectorAll('[data-i18n-title]').forEach(el => {
+      const key = el.getAttribute('data-i18n-title');
+      const translated = I18n.translate(key);
+      if (translated && translated !== key) {
+        el.setAttribute('title', translated);
+      }
+    });
   },
 
   // Initialize your custom premium UI
