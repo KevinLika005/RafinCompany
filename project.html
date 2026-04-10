@@ -25,7 +25,7 @@
 		<![endif]-->
 </head>
 
-<body>
+<body class="project-page">
   <div id="page-loader">
     <div class="cssload-container">
       <div class="cssload-speeding-wheel"></div>
@@ -82,13 +82,13 @@
     <!-- Project Hero Section -->
     <section class="section project-hero bg-black" id="project-hero">
       <div class="project-hero-overlay"></div>
-      <div class="slider-nav" id="project-slider-nav" style="display: none;">
+      <div class="slider-nav" id="project-slider-nav">
         <button class="slider-btn" id="slider-prev">&#10094;</button>
         <button class="slider-btn" id="slider-next">&#10095;</button>
       </div>
-      <div class="section-lg text-center" style="width: 100%;">
+      <div class="section-lg text-center project-hero__content">
         <div class="container">
-          <h2 class="heading-decorated" id="project-title" style="color: #ffffff;">Loading...</h2>
+          <h2 class="heading-decorated project-hero__title" id="project-title">Loading...</h2>
         </div>
       </div>
     </section>
@@ -98,22 +98,21 @@
       <div class="container">
         <div class="row row-50">
           <div class="col-md-8">
-            <p class="lead" id="project-excerpt" style="display: none;"></p>
-            <div id="project-description" style="margin-top: 20px; font-size: 1.15em; line-height: 1.6; color: #555;">
-            </div>
+            <p class="lead project-excerpt" id="project-excerpt"></p>
+            <div class="project-description" id="project-description"></div>
           </div>
           <div class="col-md-4">
             <div class="project-info-box">
               <h5 id="project-info-heading">Project Information</h5>
               <hr />
-              <ul class="list-xs" style="margin-top: 15px;">
-                <li id="info-category" style="display:none;"><strong><span
+              <ul class="list-xs project-info-list">
+                <li id="info-category" class="project-info-item"><strong><span
                       class="lbl-category">Category</span>:</strong> <span class="val-category"></span></li>
-                <li id="info-location" style="display:none;"><strong><span
+                <li id="info-location" class="project-info-item"><strong><span
                       class="lbl-location">Location</span>:</strong> <span class="val-location"></span></li>
-                <li id="info-year" style="display:none;"><strong><span class="lbl-year">Year</span>:</strong> <span
+                <li id="info-year" class="project-info-item"><strong><span class="lbl-year">Year</span>:</strong> <span
                     class="val-year"></span></li>
-                <li id="info-status" style="display:none;"><strong><span class="lbl-status">Status</span>:</strong>
+                <li id="info-status" class="project-info-item"><strong><span class="lbl-status">Status</span>:</strong>
                   <span class="val-status"></span></li>
               </ul>
             </div>
@@ -123,26 +122,29 @@
     </section>
 
     <!-- Project Navigation Section -->
-    <section class="section-sm bg-default text-center">
+    <section class="section-sm bg-default project-detail-nav-section">
       <div class="container">
-        <div class="row justify-content-between align-items-center" id="project-navigation"
-          style="border-top: 1px solid #e5e5e5; padding-top: 30px; display: none;">
-          <div class="col-sm-5 text-left">
-            <a href="#" id="prev-project" class="button button-primary button-sm" style="display: none;">
-              <span class="icon fa-angle-left" style="margin-right: 8px;"></span><span class="nav-label">Previous</span>
-            </a>
-          </div>
-          <div class="col-sm-2 text-center">
-            <a href="projects.html" id="all-projects-link" class="button button-default-outline button-sm"
-              style="padding: 10px 15px;">
-              <span class="icon fa-th"></span>
-            </a>
-          </div>
-          <div class="col-sm-5 text-right">
-            <a href="#" id="next-project" class="button button-primary button-sm" style="display: none;">
-              <span class="nav-label">Next</span><span class="icon fa-angle-right" style="margin-left: 8px;"></span>
-            </a>
-          </div>
+        <div class="project-detail-nav" id="project-navigation">
+          <a href="#" id="prev-project" class="project-detail-nav-card project-detail-nav-card--prev">
+            <p class="project-detail-nav-card__eyebrow">
+              <span class="icon fa-angle-left" aria-hidden="true"></span>
+              <span class="nav-label">Previous Project</span>
+            </p>
+            <h5 class="project-detail-nav-card__title nav-title">-</h5>
+            <p class="project-detail-nav-card__meta nav-category">-</p>
+          </a>
+          <a href="projects.html" id="all-projects-link" class="project-detail-nav-all">
+            <span class="icon fa-th" aria-hidden="true"></span>
+            <span class="all-projects-label">All Projects</span>
+          </a>
+          <a href="#" id="next-project" class="project-detail-nav-card project-detail-nav-card--next">
+            <p class="project-detail-nav-card__eyebrow">
+              <span class="nav-label">Next Project</span>
+              <span class="icon fa-angle-right" aria-hidden="true"></span>
+            </p>
+            <h5 class="project-detail-nav-card__title nav-title">-</h5>
+            <p class="project-detail-nav-card__meta nav-category">-</p>
+          </a>
         </div>
       </div>
     </section>

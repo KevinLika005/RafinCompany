@@ -5,22 +5,30 @@ document.addEventListener('DOMContentLoaded', () => {
   const heroContainer = document.getElementById('project-hero');
   const descriptionContainer = document.getElementById('project-description');
   const excerptContainer = document.getElementById('project-excerpt');
-  
+  const projectNav = document.getElementById('project-navigation');
+  const prevBtn = document.getElementById('prev-project');
+  const nextBtn = document.getElementById('next-project');
+  const allProjectsLink = document.getElementById('all-projects-link');
+
   if (!titleContainer || !heroContainer || !descriptionContainer) return;
 
   const urlParams = new URLSearchParams(window.location.search);
   const slug = urlParams.get('slug');
 
   const defaultMissingTitle = window.I18n.getCurrentLanguage() === 'sq' ? 'Projekti nuk u gjet' : 'Project Not Found';
-  const defaultMissingDesc = window.I18n.getCurrentLanguage() === 'sq' ? 'Ju lutemi kthehuni dhe zgjidhni një projekt të vlefshëm.' : 'Please go back and select a valid project.';
-  
+  const defaultMissingDesc = window.I18n.getCurrentLanguage() === 'sq'
+    ? 'Ju lutemi kthehuni dhe zgjidhni nje projekt te vlefshem.'
+    : 'Please go back and select a valid project.';
+
   const showMissingState = () => {
     titleContainer.textContent = defaultMissingTitle;
     descriptionContainer.textContent = defaultMissingDesc;
+    if (excerptContainer) excerptContainer.style.display = 'none';
     heroContainer.style.backgroundColor = '#212121';
     heroContainer.style.backgroundImage = 'none';
     const infoBox = document.querySelector('.project-info-box');
     if (infoBox) infoBox.style.display = 'none';
+    if (projectNav) projectNav.style.display = 'none';
   };
 
   if (!slug) {
@@ -43,7 +51,8 @@ document.addEventListener('DOMContentLoaded', () => {
     category: { en: 'Category', sq: 'Kategoria' },
     projectInfo: { en: 'Project Information', sq: 'Informacion mbi Projektin' },
     prevProject: { en: 'Previous Project', sq: 'Projekti i Mëparshëm' },
-    nextProject: { en: 'Next Project', sq: 'Projekti i Rradhës' }
+    nextProject: { en: 'Next Project', sq: 'Projekti i Radhes' },
+    allProjects: { en: 'All Projects', sq: 'Te Gjitha Projektet' }
   };
 
   const getUiText = (key) => {
@@ -63,6 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (excerpt) {
     excerptContainer.innerHTML = excerpt;
     excerptContainer.style.display = 'block';
+  } else if (excerptContainer) {
+    excerptContainer.style.display = 'none';
   }
 
   if (description) {
@@ -89,7 +100,11 @@ document.addEventListener('DOMContentLoaded', () => {
   populateField('info-year', '.lbl-year', '.val-year', project.year, 'year');
   populateField('info-status', '.lbl-status', '.val-status', project.status, 'status');
 
-  const category = project.categoryId ? window.ContentStore.getCategoryBySlug(project.categoryId) || window.ContentStore.getCategories().find(c => c.id === project.categoryId) : null;
+  const categories = window.ContentStore.getCategories() || [];
+  const categoryById = new Map(categories.map((item) => [item.id, item]));
+  const category = project.categoryId
+    ? categoryById.get(project.categoryId) || window.ContentStore.getCategoryBySlug(project.categoryId)
+    : null;
   const categoryName = category ? window.I18n.getLocalizedValue(category.title) : '';
   populateField('info-category', '.lbl-category', '.val-category', categoryName, 'category');
 
@@ -106,6 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
       heroContainer.style.backgroundColor = val;
       heroContainer.style.backgroundImage = 'none';
     } else {
+      heroContainer.style.backgroundColor = '';
       heroContainer.style.backgroundImage = `url('${val}')`;
     }
   };
@@ -155,38 +171,52 @@ document.addEventListener('DOMContentLoaded', () => {
     .sort((a, b) => (a.order || 0) - (b.order || 0));
 
   const currentIndex = categoryProjects.findIndex(p => p.slug === project.slug);
-  
+
   const prevProject = currentIndex > 0 ? categoryProjects[currentIndex - 1] : null;
   const nextProject = currentIndex >= 0 && currentIndex < categoryProjects.length - 1 ? categoryProjects[currentIndex + 1] : null;
 
-  const projectNav = document.getElementById('project-navigation');
-  const prevBtn = document.getElementById('prev-project');
-  const nextBtn = document.getElementById('next-project');
+  if (allProjectsLink) {
+    const allProjectsLabel = allProjectsLink.querySelector('.all-projects-label');
+    if (allProjectsLabel) {
+      allProjectsLabel.textContent = getUiText('allProjects');
+    }
+  }
+
+  const populateNavCard = (card, targetProject, navLabelKey) => {
+    if (!card) return;
+    if (!targetProject) {
+      card.style.display = 'none';
+      return;
+    }
+
+    const targetTitle = window.I18n.getLocalizedValue(targetProject.title) || 'Project';
+    const targetCategory = categoryById.get(targetProject.categoryId);
+    const targetCategoryName = targetCategory ? window.I18n.getLocalizedValue(targetCategory.title) : '';
+    const labelEl = card.querySelector('.nav-label');
+    const titleEl = card.querySelector('.nav-title');
+    const categoryEl = card.querySelector('.nav-category');
+
+    card.href = `project.html?slug=${encodeURIComponent(targetProject.slug)}`;
+    card.style.display = 'flex';
+
+    if (labelEl) labelEl.textContent = getUiText(navLabelKey);
+    if (titleEl) titleEl.textContent = targetTitle;
+    if (categoryEl) {
+      if (targetCategoryName) {
+        categoryEl.textContent = targetCategoryName;
+        categoryEl.style.display = 'block';
+      } else {
+        categoryEl.textContent = '';
+        categoryEl.style.display = 'none';
+      }
+    }
+  };
 
   if (projectNav) {
-    if (categoryProjects.length > 1) {
-      // Show container and make it flex
-      projectNav.style.display = 'flex';
-    }
+    const hasAdjacentProjects = Boolean(prevProject || nextProject);
+    projectNav.style.display = hasAdjacentProjects ? 'grid' : 'none';
 
-    if (prevBtn) {
-      if (prevProject) {
-        prevBtn.href = `project.html?slug=${prevProject.slug}`;
-        prevBtn.style.display = 'inline-block';
-        prevBtn.querySelector('.nav-label').textContent = getUiText('prevProject');
-      } else {
-        prevBtn.style.display = 'none';
-      }
-    }
-
-    if (nextBtn) {
-      if (nextProject) {
-        nextBtn.href = `project.html?slug=${nextProject.slug}`;
-        nextBtn.style.display = 'inline-block';
-        nextBtn.querySelector('.nav-label').textContent = getUiText('nextProject');
-      } else {
-        nextBtn.style.display = 'none';
-      }
-    }
+    populateNavCard(prevBtn, prevProject, 'prevProject');
+    populateNavCard(nextBtn, nextProject, 'nextProject');
   }
 });
