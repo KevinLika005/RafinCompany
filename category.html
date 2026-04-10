@@ -25,7 +25,7 @@
 		<![endif]-->
 </head>
 
-<body>
+<body class="category-page projects-page">
   <div id="page-loader">
     <div class="cssload-container">
       <div class="cssload-speeding-wheel"></div>
@@ -82,28 +82,29 @@
     <!-- Category Hero Section -->
     <section class="section category-hero bg-black" id="category-hero">
       <div class="category-hero-overlay"></div>
-      <div class="section-lg text-center" style="width: 100%;">
+      <div class="section-lg text-center category-hero__inner">
         <div class="container">
-          <h2 class="heading-decorated" id="category-title" style="color: #ffffff;">Loading...</h2>
+          <p class="category-hero__eyebrow" id="category-eyebrow" data-i18n="Category">Category</p>
+          <h2 class="heading-decorated" id="category-title">Loading...</h2>
         </div>
       </div>
     </section>
 
     <!-- Category Description -->
-    <section class="section-sm bg-default text-center">
+    <section class="section-sm bg-default text-center category-description-section" id="category-description-section">
       <div class="container">
         <div class="row justify-content-md-center">
           <div class="col-sm-10 col-md-8">
-            <p id="category-description" style="font-size: 1.15em; line-height: 1.6; color: #555;"></p>
+            <p class="category-description" id="category-description"></p>
           </div>
         </div>
       </div>
     </section>
 
     <!-- Category Projects Grid -->
-    <section class="section-md bg-default text-center" style="padding-top: 0;">
+    <section class="section-md bg-default text-center projects-overview-section category-projects-section">
       <div class="container">
-        <div class="row row-50 justify-content-md-center justify-content-lg-start" id="category-projects-grid">
+        <div class="row row-50 justify-content-md-center justify-content-lg-start projects-grid" id="category-projects-grid">
           <!-- Projects injected here -->
         </div>
       </div>
