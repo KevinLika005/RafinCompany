@@ -1,5 +1,5 @@
 const contacts = {
-  status: "phase-3-ready-with-provisional-second-location",
+  status: "phase-4-production-contact",
   section: {
     eyebrow: {
       en: "Contact & Locations",
@@ -35,12 +35,12 @@ const contacts = {
     {
       id: "location-2",
       name: {
-        en: "Operations Hub - Durres (Provisional)",
-        sq: "Qender Operacionesh - Durres (Perkohesisht)"
+        en: "Operations Hub - Durres",
+        sq: "Qender Operacionesh - Durres"
       },
       address: {
-        en: "Second client location pending final confirmation. Current map is provisional for layout validation.",
-        sq: "Vendndodhja e dyte eshte ne pritje te konfirmimit final nga klienti. Harta aktuale eshte provizore per validim layout-i."
+        en: "Durres, Albania.",
+        sq: "Durres, Shqiperi."
       },
       mapEmbedUrl:
         "https://www.openstreetmap.org/export/embed.html?bbox=19.4110%2C41.2920%2C19.4850%2C41.3490&layer=mapnik&marker=41.3231%2C19.4414",

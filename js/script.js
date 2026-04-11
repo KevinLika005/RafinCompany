@@ -352,6 +352,38 @@
      * attachFormValidator
      * @description  attach form validation to elements
      */
+    function isPhoneField($input) {
+      var inputType = ($input.attr('type') || '').toLowerCase();
+      var inputName = ($input.attr('name') || '').toLowerCase();
+      var inputId = ($input.attr('id') || '').toLowerCase();
+      return inputType === 'tel' || inputName === 'phone' || inputId.indexOf('phone') !== -1;
+    }
+
+    function isMeaningfulPhoneNumber(value) {
+      var normalized = String(value || '').trim();
+      var plusSigns = normalized.match(/\+/g) || [];
+      var digits = normalized.replace(/\D/g, '');
+
+      if (!normalized) return false;
+      if (/[^0-9+\s().-]/.test(normalized)) return false;
+      if (plusSigns.length > 1 || (plusSigns.length === 1 && normalized.indexOf('+') > 0)) return false;
+
+      return digits.length >= 7 && digits.length <= 15;
+    }
+
+    function validatePhoneInput($input) {
+      if (!isPhoneField($input)) return true;
+      if (isMeaningfulPhoneNumber($input.val())) return true;
+
+      $input
+        .siblings(".form-validation")
+        .text("Enter a valid phone number (for example +355 68 123 4567).")
+        .parent()
+        .addClass("has-error");
+
+      return false;
+    }
+
     function attachFormValidator(elements) {
       for (var i = 0; i < elements.length; i++) {
         var o = $(elements[i]), v;
@@ -380,6 +412,8 @@
             for (i = 0; i < results.length; i++) {
               $this.siblings(".form-validation").text(results[i].message).parent().addClass("has-error")
             }
+          } else if (!validatePhoneInput($this)) {
+            return;
           } else {
             $this.siblings(".form-validation").text("").parent().removeClass("has-error")
           }
@@ -432,6 +466,8 @@
               errors++;
               $input.siblings(".form-validation").text(results[k].message).parent().addClass("has-error");
             }
+          } else if (!validatePhoneInput($input)) {
+            errors++;
           } else {
             $input.siblings(".form-validation").text("").parent().removeClass("has-error")
           }
@@ -1038,6 +1074,37 @@
      * RD Mailform
      * @version      3.2.0
      */
+    function getFormStartedAtTimestamp() {
+      return Math.floor(Date.now() / 1000).toString();
+    }
+
+    function ensureHoneypotField($form) {
+      var $honeypot = $form.find('input[name="company_website"]');
+
+      if (!$honeypot.length) {
+        $honeypot = $('<input type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;" />');
+        $form.append($honeypot);
+      }
+    }
+
+    function ensureFormStartedAtField($form) {
+      var $startedAt = $form.find('input[name="form_started_at"]');
+
+      if (!$startedAt.length) {
+        $startedAt = $('<input type="hidden" name="form_started_at" value="">');
+        $form.append($startedAt);
+      }
+
+      if (!/^\d{10}$/.test(String($startedAt.val() || ''))) {
+        $startedAt.val(getFormStartedAtTimestamp());
+      }
+    }
+
+    function ensureAntiSpamFields($form) {
+      ensureHoneypotField($form);
+      ensureFormStartedAtField($form);
+    }
+
     if (plugins.rdMailForm.length) {
       var i, j, k,
         msg = {
@@ -1054,6 +1121,8 @@
         var $form = $(plugins.rdMailForm[i]),
           formHasCaptcha = false;
 
+        ensureAntiSpamFields($form);
+
         $form.attr('novalidate', 'novalidate').ajaxForm({
           data: {
             "form-type": $form.attr("data-form-type") || "contact",
@@ -1068,6 +1137,8 @@
               output = $("#" + form.attr("data-form-output")),
               captcha = form.find('.recaptcha'),
               captchaFlag = true;
+
+            ensureAntiSpamFields(form);
 
             output.removeClass("active error success");
 

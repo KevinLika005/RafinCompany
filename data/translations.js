@@ -131,6 +131,8 @@ const translations = {
   "Our Staff": { en: "Our Staff", sq: "Stafi Ynë" },
   "Recent News": { en: "Recent News", sq: "Lajmet e Fundit" },
   "Get In Touch": { en: "Get In Touch", sq: "Na Kontaktoni" },
+  "Email Contact": { en: "Email Contact", sq: "Kontakt me E-Mail" },
+  "Footer Contact Clarifier": { en: "Use this form for business contact by email.", sq: "Perdoreni kete formular per kontakt biznesi me email." },
   "Contact Us": { en: "Contact Us", sq: "Na Kontaktoni" },
 
   // Footer / Search Information

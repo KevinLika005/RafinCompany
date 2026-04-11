@@ -20,6 +20,7 @@ html {
 
 body {
   color: var(--rafin-ink);
+  top: 0 !important;
 }
 
 .ui-to-top,
@@ -49,6 +50,18 @@ textarea:focus-visible,
 select:focus-visible {
   outline: none;
   box-shadow: var(--rafin-focus);
+}
+
+@supports not selector(:focus-visible) {
+
+  a:focus,
+  button:focus,
+  input:focus,
+  textarea:focus,
+  select:focus {
+    outline: none;
+    box-shadow: var(--rafin-focus);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -108,6 +121,7 @@ select:focus-visible {
 
 .page-header .rd-navbar-dropdown>li>a {
   color: rgba(255, 255, 255, 0.9);
+  white-space: nowrap;
 }
 
 .page-header .rd-navbar-dropdown>li>a:hover {
@@ -185,6 +199,7 @@ select:focus-visible {
     right: 52px;
     z-index: 1001;
     height: 56px;
+    max-width: calc(100vw - 64px);
     margin-left: 0;
     padding-left: 0;
   }
@@ -206,17 +221,22 @@ select:focus-visible {
 
 @media (max-width: 575px) {
   .page-header .rd-navbar-aside-right {
-    right: 48px;
+    right: 44px;
+    max-width: calc(100vw - 56px);
   }
 }
 
 /* Moved from page-level style blocks (Phase 1 centralization) */
 .filter-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
   margin-bottom: 30px;
 }
 
 .filter-btn {
-  margin: 5px;
+  margin: 0;
   transition: all 0.3s ease;
 }
 
@@ -237,9 +257,16 @@ select:focus-visible {
   margin-bottom: 30px;
 }
 
+.thumb-creative,
+.thumb-creative__front,
+.thumb-creative__back {
+  min-height: 260px;
+}
+
 .category-hero {
   background-size: cover;
   background-position: center;
+  background-attachment: scroll;
   min-height: 400px;
   display: flex;
   align-items: center;
@@ -264,6 +291,7 @@ select:focus-visible {
 .project-hero {
   background-size: cover;
   background-position: center;
+  background-attachment: scroll;
   min-height: 500px;
   display: flex;
   align-items: center;
@@ -320,6 +348,74 @@ select:focus-visible {
 
 .project-info-box h5 {
   margin-bottom: 20px;
+}
+
+/* Legacy responsive safeguards migrated from phase9-fixes.css */
+#projects .row.no-gutters {
+  flex-wrap: wrap;
+}
+
+#projects .col-sm-6 {
+  padding: 0;
+}
+
+#jobs-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#footer-company-container section {
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.footer-corporate {
+  padding: 15px 0;
+}
+
+@media (max-width: 767px) {
+
+  .thumb-creative,
+  .thumb-creative__front,
+  .thumb-creative__back {
+    min-height: 200px;
+  }
+
+  .project-hero {
+    min-height: 320px;
+  }
+
+  .project-info-box {
+    margin-top: 30px;
+  }
+
+  .slider-btn {
+    padding: 10px 14px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 575px) {
+  #projects .col-sm-6 {
+    width: 100%;
+    max-width: 100%;
+    flex: 0 0 100%;
+  }
+
+  .filter-btn {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+
+  #category-title,
+  #project-title {
+    font-size: 1.5rem !important;
+  }
+
+  #jobs-container .col-md-6 {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
 }
 
 /*
@@ -792,6 +888,7 @@ select:focus-visible {
   color: rgba(255, 255, 255, 0.76);
   font-size: 14px;
   line-height: 1.7;
+  overflow-wrap: anywhere;
 }
 
 .footer-social-list {
@@ -861,11 +958,13 @@ select:focus-visible {
 
 .footer-department-card a {
   display: inline-flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 8px;
   color: rgba(255, 255, 255, 0.8);
   font-size: 13px;
   text-decoration: none;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .footer-department-card a:hover,
@@ -994,6 +1093,40 @@ select:focus-visible {
   .footer-departments-grid {
     grid-template-columns: 1fr;
   }
+
+  .contacts-map-frame,
+  .contacts-map-frame iframe {
+    min-height: 220px;
+  }
+}
+
+@media (max-width: 575px) {
+  .contacts-form-card {
+    padding: 18px 16px;
+  }
+
+  .redesign-footer-bottom .rights {
+    text-align: center;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+  }
+}
+
+/* Google Translate UI suppression (migrated from phase9-fixes.css). */
+.goog-te-banner-frame.skiptranslate,
+.goog-te-banner-frame,
+#google_translate_element,
+.goog-te-balloon-frame,
+#goog-gt-tt,
+.goog-tooltip,
+.goog-tooltip:hover {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+font {
+  background-color: transparent !important;
+  box-shadow: none !important;
 }
 
 /*

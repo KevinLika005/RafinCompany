@@ -6,8 +6,7 @@
   <title data-i18n="Projects Page Title">Projects | Rafin Company</title>
   <meta name="description" data-i18n-content="Projects Meta Description" content="Browse the diverse portfolio of construction and infrastructure projects by Rafin Company, including civil engineering, public works, and more.">
   <meta name="format-detection" content="telephone=no">
-  <meta name="viewport"
-    content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta charset="utf-8">
   <link rel="icon" href="images/favicon.ico" type="image/x-icon">
@@ -17,7 +16,6 @@
   <link rel="stylesheet" href="css/bootstrap.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/fonts.css">
-  <link rel="stylesheet" href="css/phase9-fixes.css">
   <link rel="stylesheet" href="css/redesign.css">
   <!--[if lt IE 10]>
     <div style="background: #212121; padding: 10px 0; box-shadow: 3px 3px 5px 0 rgba(0,0,0,.3); clear: both; text-align:center; position: relative; z-index:1;"><a href="http://windows.microsoft.com/en-US/internet-explorer/"><img src="images/ie8-panel/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."></a></div>
@@ -124,8 +122,8 @@
               </div>
               <div class="form-wrap">
                 <label class="form-label" for="contact-phone1" data-i18n="Phone">Phone</label>
-                <input class="form-input" id="contact-phone1" type="text" name="phone"
-                  data-constraints="@Numeric @Required">
+                <input class="form-input" id="contact-phone1" type="tel" name="phone" inputmode="tel"
+                  autocomplete="tel" data-constraints="@Required">
               </div>
               <div class="form-wrap">
                 <label class="form-label" for="contact-email1" data-i18n="E-Mail">E-Mail</label>
@@ -137,6 +135,8 @@
                 <textarea class="form-input" id="contact-message1" name="message"
                   data-constraints="@Required"></textarea>
               </div>
+              <input type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;">
+              <input type="hidden" name="form_started_at" value="">
               <div class="form-wrap form-button group-sm text-center text-lg-left">
                 <button class="button button-primary" type="submit" data-i18n="Send">Send</button>
               </div>

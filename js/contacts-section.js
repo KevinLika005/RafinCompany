@@ -42,6 +42,7 @@
     const form = contacts.form || {};
     const fields = form.fields || {};
     const locations = Array.isArray(contacts.locations) ? contacts.locations.slice(0, 2) : [];
+    const formStartedAt = Math.floor(Date.now() / 1000);
 
     const mapCards = locations.map((location) => renderMapCard(location)).join("");
 
@@ -62,7 +63,7 @@
               </div>
               <div class="form-wrap">
                 <label class="form-label" for="contacts-phone">${escapeHtml(getLocalizedValue(fields.phone))}</label>
-                <input class="form-input" id="contacts-phone" type="text" name="phone" data-constraints="@Numeric @Required" />
+                <input class="form-input" id="contacts-phone" type="tel" name="phone" inputmode="tel" autocomplete="tel" data-constraints="@Required" />
               </div>
               <div class="form-wrap">
                 <label class="form-label" for="contacts-email">${escapeHtml(getLocalizedValue(fields.email))}</label>
@@ -72,6 +73,8 @@
                 <label class="form-label" for="contacts-message">${escapeHtml(getLocalizedValue(fields.message))}</label>
                 <textarea class="form-input" id="contacts-message" name="message" data-constraints="@Required"></textarea>
               </div>
+              <input type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;" />
+              <input type="hidden" name="form_started_at" value="${formStartedAt}" />
               <div class="form-wrap contacts-form-actions">
                 <button class="button button-primary" type="submit">${escapeHtml(getLocalizedValue(form.submitLabel))}</button>
               </div>
