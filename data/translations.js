@@ -49,22 +49,6 @@ const translations = {
     en: "Building Materials",
     sq: "Materiale Ndertimi"
   },
-  "Materials Section Intro": {
-    en: "Structured content placeholder for the upcoming materials section.",
-    sq: "Permbajtje e perkohshme per seksionin e ardhshem te materialeve."
-  },
-  "Materials Recycling Note": {
-    en: "Recycling and sustainability note placeholder.",
-    sq: "Shenim i perkohshem per riciklimin dhe qendrueshmerine."
-  },
-  "Contacts Section Intro": {
-    en: "Placeholder structure for contact form and two map locations.",
-    sq: "Strukture e perkohshme per formularin e kontaktit dhe dy vendndodhje harte."
-  },
-  "Location Pending": {
-    en: "Pending client-provided address.",
-    sq: "Adresa ne pritje nga klienti."
-  },
   "Career Level": {
     en: "Career Level",
     sq: "Niveli i Karrieres"
@@ -145,13 +129,13 @@ const translations = {
   "Status": { en: "Status", sq: "Statusi" },
   "Category": { en: "Category", sq: "Kategoria" },
 
-  // Meta / SEO placeholders
+  // Meta / SEO
   "metaDescription": {
     en: "Rafin Company - Leading construction and infrastructure company in Albania, specializing in civil construction, public works, and professional engineering.",
     sq: "Rafin Company - Kompani lider në ndërtim dhe infrastrukturë në Shqipëri, e specializuar në ndërtime civile, vepra publike dhe inxhinieri profesionale."
   },
 
-  // Recent News Placeholders
+  // Recent News
   "News1Title": { en: "Quality Infrastructure Development", sq: "Zhvillimi i Infrastrukturës Cilësore" },
   "News1Body": { en: "We are expanding our reach in public works across Albania, bringing innovation and high standards.", sq: "Po zgjerojmë shtrirjen tonë në veprat publike në të gjithë Shqipërinë, duke sjellë inovacion dhe standarde të larta." },
   "News2Title": { en: "Sustainable Building Practices", sq: "Praktikat e Ndërtimit të Qëndrueshëm" },

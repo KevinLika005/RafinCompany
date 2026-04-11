@@ -96,8 +96,12 @@ function mfValidatePhone($value)
         return '';
     }
 
-    if ($plusCount === 1 && strpos($phone, '+') !== 0) {
-        return '';
+    if ($plusCount === 1) {
+        $plusPosition = strpos($phone, '+');
+        $startsWithParenthesizedPlus = ($plusPosition === 1 && strpos($phone, '(+') === 0);
+        if ($plusPosition !== 0 && !$startsWithParenthesizedPlus) {
+            return '';
+        }
     }
 
     $digits = preg_replace('/\D+/', '', $phone);

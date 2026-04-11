@@ -366,7 +366,12 @@
 
       if (!normalized) return false;
       if (/[^0-9+\s().-]/.test(normalized)) return false;
-      if (plusSigns.length > 1 || (plusSigns.length === 1 && normalized.indexOf('+') > 0)) return false;
+      if (plusSigns.length > 1) return false;
+      if (plusSigns.length === 1) {
+        var plusIndex = normalized.indexOf('+');
+        var startsWithParenthesizedPlus = plusIndex === 1 && normalized.indexOf('(+') === 0;
+        if (plusIndex !== 0 && !startsWithParenthesizedPlus) return false;
+      }
 
       return digits.length >= 7 && digits.length <= 15;
     }
