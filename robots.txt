@@ -1,0 +1,25 @@
+User-agent: *
+Allow: /index.html
+Allow: /projects.html
+Allow: /category.html
+Allow: /project.html
+
+Disallow: /bat/
+Disallow: /cgi-bin/
+Disallow: /mysql/
+Disallow: /tmp/
+Disallow: /index2.html
+Disallow: /Index3.html
+Disallow: /index4.html
+Disallow: /index5.html
+Disallow: /index6.html
+Disallow: /index7.html
+Disallow: /index8.html
+Disallow: /index9.html
+Disallow: /js/index2.html
+Disallow: /PLAN.md
+Disallow: /SEO-Responsiveness-Plan.md
+Disallow: /Plani-Struktura.txt
+Disallow: /Rafin_Codex_Redesign_Brief.docx
+
+Sitemap: https://www.rafincompany.com/sitemap.xml

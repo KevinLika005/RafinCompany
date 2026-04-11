@@ -7,12 +7,26 @@ const I18n = {
   normalizeText: (value) => (value == null ? '' : value),
 
   getCurrentLanguage: () => {
+    try {
+      const queryLang = new URLSearchParams(window.location.search).get('lang');
+      if (queryLang === 'en' || queryLang === 'sq') return queryLang;
+    } catch (error) {
+      // Ignore URL parsing failures and fall back to persisted language.
+    }
     return localStorage.getItem('lang') || 'en';
   },
 
   setCurrentLanguage: (lang) => {
     if (lang === 'en' || lang === 'sq') {
       localStorage.setItem('lang', lang);
+      try {
+        const url = new URL(window.location.href);
+        url.searchParams.set('lang', lang);
+        window.location.href = url.toString();
+        return;
+      } catch (error) {
+        // Fallback for older environments.
+      }
       location.reload(); // Reload to ensure all components/sliders reflect the new language
     }
   },

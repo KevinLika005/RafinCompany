@@ -16,7 +16,11 @@ const site = {
     facebook: ""
   },
   companyName: "Rafin Company",
-  established: 2018
+  established: 2018,
+  seo: {
+    canonicalHost: "https://www.rafincompany.com",
+    defaultOgImage: "/images/logo-inverse-304x39.png"
+  }
 };
 
 if (typeof window !== "undefined") {

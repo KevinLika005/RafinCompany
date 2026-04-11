@@ -14,25 +14,6 @@
       .replace(/'/g, "&#39;");
   }
 
-  function isProvisionalLocation(location) {
-    const raw = [
-      getLocalizedValue(location?.name),
-      getLocalizedValue(location?.address),
-      getLocalizedValue(location?.mapTitle)
-    ]
-      .join(" ")
-      .toLowerCase();
-
-    return (
-      raw.includes("provisional") ||
-      raw.includes("pending") ||
-      raw.includes("përkoh") ||
-      raw.includes("perkoh") ||
-      raw.includes("në pritje") ||
-      raw.includes("ne pritje")
-    );
-  }
-
   function renderMapCard(location) {
     const name = escapeHtml(getLocalizedValue(location.name));
     const address = escapeHtml(getLocalizedValue(location.address));
@@ -60,9 +41,7 @@
     const section = contacts.section || {};
     const form = contacts.form || {};
     const fields = form.fields || {};
-    const locations = Array.isArray(contacts.locations)
-      ? contacts.locations.filter((location) => !isProvisionalLocation(location)).slice(0, 2)
-      : [];
+    const locations = Array.isArray(contacts.locations) ? contacts.locations.slice(0, 2) : [];
 
     const mapCards = locations.map((location) => renderMapCard(location)).join("");
 
