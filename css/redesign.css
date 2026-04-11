@@ -77,8 +77,12 @@ select:focus-visible {
 }
 
 .page-header {
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
   z-index: 100;
+  background: transparent;
 }
 
 .page-header .rd-navbar-top-panel {
@@ -179,12 +183,46 @@ select:focus-visible {
   padding-bottom: 14px;
 }
 
+/* Force navbar and its background to extend edge-to-edge on ultra-wide screens */
+.rd-navbar-static.rd-navbar_boxed {
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
+.page-header .rd-navbar-static {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: transparent !important;
+  transition: background 0.4s ease;
+}
+
+.page-header .rd-navbar-static.rd-navbar_transparent {
+  background: transparent !important;
+}
+
+.page-header .rd-navbar-static.rd-navbar--is-stuck,
+.page-header .rd-navbar-static.rd-navbar--is-clone,
+.rd-navbar-static.rd-navbar--is-stuck,
+.rd-navbar-static.rd-navbar--is-clone {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(17, 26, 36, 0.95) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 1000;
+}
+
 .rd-navbar-static.rd-navbar--is-stuck .rd-navbar-inner,
 .rd-navbar-static.rd-navbar--is-clone .rd-navbar-inner {
   min-height: 68px;
-  background: rgba(17, 26, 36, 0.95);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: transparent;
+
+
 }
 
 .rd-navbar-static.rd-navbar--is-stuck .rd-navbar-nav>li>.rd-navbar-dropdown,
@@ -1708,4 +1746,27 @@ img:not(.certificate-badge):not(.certificate-circle):not(.img-circle):not(.csslo
   .project-page .project-detail-nav-card__title {
     font-size: 18px;
   }
+}
+
+/* Recovered Changes: Button Hover & Smooth Image Scrolling */
+.btn, .button, button, .filter-btn, .slider-btn {
+  transition: all 0.3s ease !important;
+}
+
+.btn:hover, .button:hover, button:hover, .filter-btn:hover, .slider-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Smooth Image Scrolling/Scaling */
+img:not(.certificate-badge):not(.certificate-circle):not(.img-circle):not(.cssload-speeding-wheel) {
+  transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
+}
+
+.card:hover img,
+.materials-card:hover img,
+.jobs-card:hover img,
+.project-card:hover img,
+.thumb-creative:hover img {
+  transform: scale(1.05) !important;
 }

@@ -3,9 +3,6 @@
  * Replaces Google Translate widget for a professional "No-Bar" experience.
  */
 const I18n = {
-  // Kept only for backward compatibility with legacy callers.
-  normalizeText: (value) => (value == null ? '' : value),
-
   getCurrentLanguage: () => {
     try {
       const queryLang = new URLSearchParams(window.location.search).get('lang');
