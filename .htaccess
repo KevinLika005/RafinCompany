@@ -1,18 +1,13 @@
-### php handler provided by phpupgrader ###
-AddHandler application/x-httpd-php70 .php
-
 <IfModule mod_authz_core.c>
-  <FilesMatch "^(PLAN\.md|SEO-Responsiveness-Plan\.md|Plani-Struktura\.txt|Rafin_Codex_Redesign_Brief\.docx|rd-mailform\.env\.example|rd-mailform\.config\.json|rd-mailform\.tpl)$">
+  <FilesMatch "^(PLAN\.md|Final-Release-HardeningPlan\.md|SEO-Responsiveness-Plan\.md|Plani-Struktura\.txt|Rafin_Codex_Redesign_Brief\.docx|rd-mailform\.env\.example|rd-mailform\.config\.json|rd-mailform\.tpl)$">
     Require all denied
   </FilesMatch>
 </IfModule>
 
 <IfModule !mod_authz_core.c>
-  <FilesMatch "^(PLAN\.md|SEO-Responsiveness-Plan\.md|Plani-Struktura\.txt|Rafin_Codex_Redesign_Brief\.docx|rd-mailform\.env\.example|rd-mailform\.config\.json|rd-mailform\.tpl)$">
+  <FilesMatch "^(PLAN\.md|Final-Release-HardeningPlan\.md|SEO-Responsiveness-Plan\.md|Plani-Struktura\.txt|Rafin_Codex_Redesign_Brief\.docx|rd-mailform\.env\.example|rd-mailform\.config\.json|rd-mailform\.tpl)$">
     Order allow,deny
     Deny from all
   </FilesMatch>
 </IfModule>
-
-
 

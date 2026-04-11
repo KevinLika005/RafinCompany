@@ -43,6 +43,7 @@
     const fields = form.fields || {};
     const locations = Array.isArray(contacts.locations) ? contacts.locations.slice(0, 2) : [];
     const formStartedAt = Math.floor(Date.now() / 1000);
+    const formAction = "bat/rd-mailform.php";
 
     const mapCards = locations.map((location) => renderMapCard(location)).join("");
 
@@ -56,7 +57,7 @@
         <div class="contacts-layout">
           <article class="contacts-form-card">
             <h5>${escapeHtml(getLocalizedValue(form.title))}</h5>
-            <form class="rd-mailform text-left" data-form-output="form-output-global" data-form-type="contact" method="${escapeHtml(form.method || "post")}" action="${escapeHtml(form.action || "bat/rd-mailform.php")}">
+            <form class="rd-mailform text-left" data-form-output="form-output-global" data-form-type="contact" method="${escapeHtml(form.method || "post")}" action="${formAction}">
               <div class="form-wrap">
                 <label class="form-label" for="contacts-name">${escapeHtml(getLocalizedValue(fields.name))}</label>
                 <input class="form-input" id="contacts-name" type="text" name="name" data-constraints="@Required" />
@@ -73,6 +74,7 @@
                 <label class="form-label" for="contacts-message">${escapeHtml(getLocalizedValue(fields.message))}</label>
                 <textarea class="form-input" id="contacts-message" name="message" data-constraints="@Required"></textarea>
               </div>
+              <input type="hidden" name="form-type" value="contact" />
               <input type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;" />
               <input type="hidden" name="form_started_at" value="${formStartedAt}" />
               <div class="form-wrap contacts-form-actions">
@@ -88,7 +90,7 @@
     `;
   }
 
-  document.addEventListener("DOMContentLoaded", renderContactsSection);
+  renderContactsSection();
   document.addEventListener("languageChanged", renderContactsSection);
 
   window.RafinSections = window.RafinSections || {};

@@ -1,169 +1,378 @@
-# Rafin Website Redesign Implementation Plan
+# Rafin Website Performance, CSS Cleanup, and Scalability Plan
 
-## Summary
-- Ground the redesign in the current static stack, the local repo, the live content baseline at [rafincompany.com](https://rafincompany.com/), and Eberhard’s layout language at [eberhard.ch](https://eberhard.ch/) without copying content.
-- Keep the existing multi-page HTML/CSS/JS architecture. Do not migrate frameworks and do not redesign orphaned legacy files like `index2.html` to `index9.html` or `js/index2.html`.
-- Use incremental refactoring: centralize new styling in `css/redesign.css`, keep vendor files stable, and update the four live templates in lockstep.
-- Locked assumptions chosen now:
-  - Career Level will use 3 inferred buckets in `data/jobs.js`: `Entry` = Truck Driver, Construction Worker; `Mid` = Surveyor, Machinery Mechanic, Industrial Electrician, Mechatronics Technician; `Senior` = Electrical Engineer, Mechanical Engineer, Team Leader.
-  - Contacts maps are blocked until the client provides the exact 2 real locations.
-  - Building Materials content is blocked until the client provides the actual list.
-  - When map data arrives, use simple iframe embeds in a new `data/contacts.js`; do not revive the legacy Google Maps JS/API path in `js/script.js`.
+## Goal
 
-## 1. Repository Audit
-- Framework / stack:
-  - Static multi-page site with [index.html](c:/Users/kevin/Documents/Rafin/index.html), [projects.html](c:/Users/kevin/Documents/Rafin/projects.html), [category.html](c:/Users/kevin/Documents/Rafin/category.html), [project.html](c:/Users/kevin/Documents/Rafin/project.html).
-  - CSS is vendor-heavy: [css/bootstrap.css](c:/Users/kevin/Documents/Rafin/css/bootstrap.css), [css/style.css](c:/Users/kevin/Documents/Rafin/css/style.css), [css/fonts.css](c:/Users/kevin/Documents/Rafin/css/fonts.css), then patch layer [css/phase9-fixes.css](c:/Users/kevin/Documents/Rafin/css/phase9-fixes.css).
-  - JS is plain browser JS plus legacy plugin bundle [js/core.min.js](c:/Users/kevin/Documents/Rafin/js/core.min.js) and site behavior in [js/script.js](c:/Users/kevin/Documents/Rafin/js/script.js).
-  - Contact submission uses PHP mailform files under `bat/`.
-- Routing / page structure:
-  - Homepage sections live in [index.html](c:/Users/kevin/Documents/Rafin/index.html): hero, about, stats, services, category grid, certificates, jobs, staff, news, footer mount, modal contact form.
-  - Projects overview is [projects.html](c:/Users/kevin/Documents/Rafin/projects.html) with category filters and grid.
-  - Category detail is [category.html](c:/Users/kevin/Documents/Rafin/category.html) via `?slug=`.
-  - Project detail is [project.html](c:/Users/kevin/Documents/Rafin/project.html) via `?slug=`.
-- Reusable components already present:
-  - Data layer in [data/site.js](c:/Users/kevin/Documents/Rafin/data/site.js), [data/categories.js](c:/Users/kevin/Documents/Rafin/data/categories.js), [data/projects.js](c:/Users/kevin/Documents/Rafin/data/projects.js), [data/jobs.js](c:/Users/kevin/Documents/Rafin/data/jobs.js), [data/departments.js](c:/Users/kevin/Documents/Rafin/data/departments.js), [data/certificates.js](c:/Users/kevin/Documents/Rafin/data/certificates.js), [data/translations.js](c:/Users/kevin/Documents/Rafin/data/translations.js).
-  - Render helpers in [js/content-store.js](c:/Users/kevin/Documents/Rafin/js/content-store.js), [js/nav-projects.js](c:/Users/kevin/Documents/Rafin/js/nav-projects.js), [js/home-categories.js](c:/Users/kevin/Documents/Rafin/js/home-categories.js), [js/projects-page.js](c:/Users/kevin/Documents/Rafin/js/projects-page.js), [js/category-page.js](c:/Users/kevin/Documents/Rafin/js/category-page.js), [js/project-page.js](c:/Users/kevin/Documents/Rafin/js/project-page.js), [js/jobs-section.js](c:/Users/kevin/Documents/Rafin/js/jobs-section.js), [js/certificates-section.js](c:/Users/kevin/Documents/Rafin/js/certificates-section.js), [js/footer-company.js](c:/Users/kevin/Documents/Rafin/js/footer-company.js).
-- CSS architecture:
-  - Base styling is monolithic and vendor-oriented.
-  - [projects.html](c:/Users/kevin/Documents/Rafin/projects.html), [project.html](c:/Users/kevin/Documents/Rafin/project.html), and [category.html](c:/Users/kevin/Documents/Rafin/category.html) each add page-local `<style>` blocks.
-  - [js/jobs-section.js](c:/Users/kevin/Documents/Rafin/js/jobs-section.js) and [js/certificates-section.js](c:/Users/kevin/Documents/Rafin/js/certificates-section.js) inject CSS via `document.createElement('style')`.
-  - `phase9-fixes.css` is already a catch-all patch file; using it for the redesign will increase drift. Create `css/redesign.css` instead.
-- JS / data architecture:
-  - Data files assign into `window.siteData`.
-  - [js/content-store.js](c:/Users/kevin/Documents/Rafin/js/content-store.js) sorts and exposes lookups.
-  - Renderers rely on `DOMContentLoaded` and `innerHTML` string templates.
-  - Current templates load data scripts before custom renderers, then vendor JS.
-- Assets / content structure:
-  - Project/category imagery is under `images/`.
-  - There is some legacy material/equipment imagery in `images/materials/` and `images/equipement/`, but no structured materials data source yet.
-  - SQL dumps under `mysql/` are not part of the current front-end rendering path.
-- Technical debt / risky areas:
-  - The top strip/header markup is duplicated across all 4 live templates, so global nav changes must be applied in all 4 files.
-  - The current top strip still shows the stale `Gjik Kuqali` address and placeholder Facebook/Twitter/Google Plus links.
-  - [js/i18n.js](c:/Users/kevin/Documents/Rafin/js/i18n.js) has consumers calling `I18n.getLocalizedValue`, but that helper is not defined in the file. This must be fixed before relying on any dynamic localized rendering.
-  - Albanian strings in several data files show mojibake and need UTF-8 normalization before final QA.
-  - [bat/rd-mailform.config.json](c:/Users/kevin/Documents/Rafin/bat/rd-mailform.config.json) still contains demo SMTP values, so a new Contacts form can reuse the existing backend path, but real delivery is blocked until real credentials or another endpoint is supplied.
-  - The worktree is already dirty in [index.html](c:/Users/kevin/Documents/Rafin/index.html), [projects.html](c:/Users/kevin/Documents/Rafin/projects.html), [project.html](c:/Users/kevin/Documents/Rafin/project.html), [category.html](c:/Users/kevin/Documents/Rafin/category.html), [data/projects.js](c:/Users/kevin/Documents/Rafin/data/projects.js), [js/i18n.js](c:/Users/kevin/Documents/Rafin/js/i18n.js), and [css/phase9-fixes.css](c:/Users/kevin/Documents/Rafin/css/phase9-fixes.css). Implementation must layer on top of those edits, not reset them.
-  - Sticky header offsets and sticky project filters will need recalibration once the top strip is removed.
+Turn the current Rafin static website into a faster, cleaner, and more maintainable production site without redesigning the approved UI, changing the stack, or breaking existing routes.
 
-## 2. Requirement Mapping
-- Header / top strip / Careers nav:
-  - Affected pages: homepage, projects, category, project.
-  - Affected files: [index.html](c:/Users/kevin/Documents/Rafin/index.html), [projects.html](c:/Users/kevin/Documents/Rafin/projects.html), [category.html](c:/Users/kevin/Documents/Rafin/category.html), [project.html](c:/Users/kevin/Documents/Rafin/project.html), [js/nav-projects.js](c:/Users/kevin/Documents/Rafin/js/nav-projects.js), [data/translations.js](c:/Users/kevin/Documents/Rafin/data/translations.js), new `css/redesign.css`.
-  - Components: remove `.rd-navbar-top-panel`, keep main nav, add `Careers` anchor, preserve Projects dropdown.
-  - Dependency: none.
-- Building Materials section:
-  - Affected pages: homepage.
-  - Affected files: [index.html](c:/Users/kevin/Documents/Rafin/index.html), new `data/materials.js`, new `js/materials-section.js`, [data/translations.js](c:/Users/kevin/Documents/Rafin/data/translations.js), new `css/redesign.css`.
-  - New component: Eberhard-inspired materials grid/story block with recycling note.
-  - Dependency: blocked on client-supplied materials list.
-- Careers redesign + filters:
-  - Affected pages: homepage plus header link target.
-  - Affected files: [index.html](c:/Users/kevin/Documents/Rafin/index.html), [data/jobs.js](c:/Users/kevin/Documents/Rafin/data/jobs.js), [js/jobs-section.js](c:/Users/kevin/Documents/Rafin/js/jobs-section.js), [data/translations.js](c:/Users/kevin/Documents/Rafin/data/translations.js), new `css/redesign.css`.
-  - New component: filter toolbar with Career Level + Job Category controls and image-led job cards.
-  - Data needed: add `careerLevel`, optional card image, meta labels, empty-state copy.
-- Projects overview sticky filter bar:
-  - Affected pages: projects overview.
-  - Affected files: [projects.html](c:/Users/kevin/Documents/Rafin/projects.html), [js/projects-page.js](c:/Users/kevin/Documents/Rafin/js/projects-page.js), [data/translations.js](c:/Users/kevin/Documents/Rafin/data/translations.js), new `css/redesign.css`.
-  - New component: sticky top filter bar replacing current button cluster.
-  - Dependency: must be coordinated with header height after top-strip removal.
-- Category page alignment:
-  - Affected pages: category detail.
-  - Affected files: [category.html](c:/Users/kevin/Documents/Rafin/category.html), [js/category-page.js](c:/Users/kevin/Documents/Rafin/js/category-page.js), new `css/redesign.css`.
-  - Components: hero, description block, category project card grid.
-  - Dependency: inherit project-card visual system from projects page.
-- Project detail previous/next redesign:
-  - Affected pages: project detail.
-  - Affected files: [project.html](c:/Users/kevin/Documents/Rafin/project.html), [js/project-page.js](c:/Users/kevin/Documents/Rafin/js/project-page.js), new `css/redesign.css`.
-  - Components: keep hero/slider and info block, replace small button strip with large previous/next navigation blocks while preserving same-category logic.
-- Footer changes:
-  - Affected pages: all live templates through footer mount.
-  - Affected files: [js/footer-company.js](c:/Users/kevin/Documents/Rafin/js/footer-company.js), [data/site.js](c:/Users/kevin/Documents/Rafin/data/site.js), [data/departments.js](c:/Users/kevin/Documents/Rafin/data/departments.js), [data/translations.js](c:/Users/kevin/Documents/Rafin/data/translations.js), new `css/redesign.css`.
-  - Components: stronger social icons, equal-height email input and button, company logo, departments, address, social links.
-  - Dependency: social URLs need to be real before launch.
-- Dedicated Contacts section:
-  - Affected pages: homepage.
-  - Affected files: [index.html](c:/Users/kevin/Documents/Rafin/index.html), new `data/contacts.js`, new `js/contacts-section.js`, [data/translations.js](c:/Users/kevin/Documents/Rafin/data/translations.js), new `css/redesign.css`, optionally [bat/rd-mailform.config.json](c:/Users/kevin/Documents/Rafin/bat/rd-mailform.config.json) only if real mail credentials are supplied.
-  - New component: split layout with form and two side-by-side maps.
-  - Dependencies: blocked on exact 2 locations; email delivery blocked on real backend configuration.
+This plan is focused on:
 
-## 3. Execution Plan
-- Phase 1: Shared foundation and header cleanup.
-  - Fix `I18n.getLocalizedValue`, create `css/redesign.css`, move page-inline and JS-injected styles into it, remove the duplicated top strip from all 4 live templates, add Careers to all navs, and re-tune sticky header offsets before any section redesign.
-- Phase 2: Data model expansion and homepage shells.
-  - Extend `jobs.js` with career levels, add `data/materials.js` and `data/contacts.js` placeholders/interfaces, expand translations, and insert homepage mount points for Materials and Contacts without styling drift.
-- Phase 3: Homepage redesign.
-  - Redesign the careers cards/filters, footer, and dedicated Contacts section in [index.html](c:/Users/kevin/Documents/Rafin/index.html), using JS renderers only for data-driven sections and keeping white-on-dark text intact where intended.
-- Phase 4: Projects overview redesign.
-  - Replace the current filter buttons with the sticky filter bar, rebuild project cards to match the new system, and ensure the sticky bar interacts correctly with the fixed header on desktop/mobile.
-- Phase 5: Category page alignment.
-  - Bring [category.html](c:/Users/kevin/Documents/Rafin/category.html) onto the same visual system as the new projects overview and homepage category cards, with a stronger hero and cleaner content spacing.
-- Phase 6: Project detail redesign.
-  - Rebuild hero controls and previous/next navigation blocks in [project.html](c:/Users/kevin/Documents/Rafin/project.html), preserving same-category-only navigation logic.
-- Phase 7: Responsive, accessibility, and content QA.
-  - Verify all four live pages, normalize encoding, remove placeholder social links, test empty states, and confirm no new inline styles or duplicated patch logic remain.
+- slow initial page opening
+- heavy CSS and JS loading
+- cleanup of unnecessary or duplicated code
+- removal of inline and JS-injected styling debt
+- professional production hardening for a scalable static site
 
-## 4. File-Level Action List
-- Phase 1:
-  - Edit [index.html](c:/Users/kevin/Documents/Rafin/index.html), [projects.html](c:/Users/kevin/Documents/Rafin/projects.html), [category.html](c:/Users/kevin/Documents/Rafin/category.html), [project.html](c:/Users/kevin/Documents/Rafin/project.html), [js/i18n.js](c:/Users/kevin/Documents/Rafin/js/i18n.js), [js/nav-projects.js](c:/Users/kevin/Documents/Rafin/js/nav-projects.js), [data/translations.js](c:/Users/kevin/Documents/Rafin/data/translations.js).
-  - Create `css/redesign.css`.
-  - Move page `<style>` blocks and JS-injected styles out of [projects.html](c:/Users/kevin/Documents/Rafin/projects.html), [project.html](c:/Users/kevin/Documents/Rafin/project.html), [category.html](c:/Users/kevin/Documents/Rafin/category.html), [js/jobs-section.js](c:/Users/kevin/Documents/Rafin/js/jobs-section.js), and [js/certificates-section.js](c:/Users/kevin/Documents/Rafin/js/certificates-section.js) into `css/redesign.css`.
-- Phase 2:
-  - Edit [data/jobs.js](c:/Users/kevin/Documents/Rafin/data/jobs.js), [data/translations.js](c:/Users/kevin/Documents/Rafin/data/translations.js), [index.html](c:/Users/kevin/Documents/Rafin/index.html).
-  - Create `data/materials.js`, `js/materials-section.js`, `data/contacts.js`, `js/contacts-section.js`.
-  - Data location: jobs in `data/jobs.js`; materials in `data/materials.js`; maps/contact locations in `data/contacts.js`; new UI labels in `data/translations.js`.
-- Phase 3:
-  - Edit [index.html](c:/Users/kevin/Documents/Rafin/index.html), [js/home-categories.js](c:/Users/kevin/Documents/Rafin/js/home-categories.js), [js/jobs-section.js](c:/Users/kevin/Documents/Rafin/js/jobs-section.js), [js/certificates-section.js](c:/Users/kevin/Documents/Rafin/js/certificates-section.js), [js/footer-company.js](c:/Users/kevin/Documents/Rafin/js/footer-company.js).
-  - Wire in `js/materials-section.js` and `js/contacts-section.js`.
-  - Refactor: keep the footer JS-rendered, but split its markup into clear sub-blocks so footer and contacts do not collapse into one monolith.
-- Phase 4:
-  - Edit [projects.html](c:/Users/kevin/Documents/Rafin/projects.html), [js/projects-page.js](c:/Users/kevin/Documents/Rafin/js/projects-page.js), `css/redesign.css`, [data/translations.js](c:/Users/kevin/Documents/Rafin/data/translations.js).
-  - Refactor: keep data in [data/projects.js](c:/Users/kevin/Documents/Rafin/data/projects.js); do not move projects into HTML.
-- Phase 5:
-  - Edit [category.html](c:/Users/kevin/Documents/Rafin/category.html), [js/category-page.js](c:/Users/kevin/Documents/Rafin/js/category-page.js), `css/redesign.css`.
-  - Refactor: reuse the same project-card HTML contract as the projects page to avoid two card systems.
-- Phase 6:
-  - Edit [project.html](c:/Users/kevin/Documents/Rafin/project.html), [js/project-page.js](c:/Users/kevin/Documents/Rafin/js/project-page.js), `css/redesign.css`.
-  - Refactor: keep same-category prev/next selection in JS; change only markup output and layout styling.
-- Phase 7:
-  - Edit [data/site.js](c:/Users/kevin/Documents/Rafin/data/site.js), [data/translations.js](c:/Users/kevin/Documents/Rafin/data/translations.js), [data/projects.js](c:/Users/kevin/Documents/Rafin/data/projects.js), [css/redesign.css](c:/Users/kevin/Documents/Rafin/css/redesign.css) as needed for QA cleanup.
-  - Leave [css/style.css](c:/Users/kevin/Documents/Rafin/css/style.css) and [js/core.min.js](c:/Users/kevin/Documents/Rafin/js/core.min.js) unchanged unless an override is impossible.
+This is not a redesign plan.
 
-## 5. Risks and Assumptions
-- Exact 2 map locations are still missing. The Contacts section layout can be planned now, but the final map embeds are blocked until those real addresses/URLs are provided.
-- Building Materials content is still missing. The section/data structure should be created, but the final item list and copy remain blocked.
-- The repo already contains current user edits in 7 files. Implementation must merge carefully and must not revert unrelated local work.
-- The live site baseline contains stale content such as the old `Gjik Kuqali` address, old service labels, and old stats. The brief and current local data supersede those values.
-- The current project dataset is fully categorized but still reads like sample/placeholder portfolio content. Launch-quality project copy and imagery still require content QA.
-- The existing mailform backend is present, but real mail delivery is not production-ready because SMTP config is demo-only.
-- The existing Google Maps integration in [js/script.js](c:/Users/kevin/Documents/Rafin/js/script.js) is legacy and should not be used for the new Contacts section.
-- The Albanian text encoding must be normalized to UTF-8 before final QA.
-- `phase9-fixes.css` should remain a legacy patch layer; new redesign work belongs in `css/redesign.css`.
+## Constraints
 
-## 6. Definition of Done
-- Visual:
-  - All four live pages share the same redesigned header/footer language.
-  - The homepage has a real Materials section, redesigned Careers section, stronger footer, and dedicated Contacts section.
-  - Projects filter bar and project prev/next layout reflect the supplied reference direction while staying within Rafin branding and blue/dark-blue identity.
-- Functional:
-  - Top strip is gone on every live template.
-  - Careers is in the main nav and scrolls/links correctly.
-  - Projects dropdown works on hover and keyboard focus.
-  - Careers filter works by Career Level and Job Category.
-  - Projects page sticky filter works without breaking layout.
-  - Project previous/next stays inside the same category only.
-  - Contact form submits through the agreed backend and both maps render once exact locations are supplied.
-- Responsive:
-  - Header, sticky filter bar, careers cards, footer, contacts maps, category cards, and project navigation all work on desktop, tablet, and mobile.
-  - Removing the top strip does not introduce offset jumps, clipped dropdowns, or broken sticky states.
-- Accessibility:
-  - Nav/dropdowns/filters are keyboard reachable.
-  - Focus states are visible.
-  - White text remains white where intended and contrast stays acceptable.
-  - Map iframes have titles; images have meaningful alt text; section headings remain semantic.
-- Maintainability:
-  - New content lives in data files, not hardcoded HTML.
-  - New styling is centralized in `css/redesign.css`.
-  - No new inline styles or JS-injected CSS are introduced.
-  - Legacy orphan files remain untouched unless they are explicitly brought back into scope later.
+- Keep the current static HTML/CSS/JS/PHP stack
+- Keep the current route structure:
+  - `index.html`
+  - `projects.html`
+  - `category.html?slug=...`
+  - `project.html?slug=...`
+- Preserve the approved design direction
+- Do not migrate frameworks
+- Do not rewrite the app into a build-tool-based SPA
+- Do not remove functional anti-spam, validation, or mail behavior
+
+## Current Diagnosis
+
+The homepage feels slow to open mainly because of the current critical rendering path.
+
+Primary causes already visible in the repo:
+
+- full-page loader at [index.html](c:/Users/kevin/Documents/Rafin/index.html) stays active until `window.load`
+- page-loader release is tied to `window.load` in [js/script.js](c:/Users/kevin/Documents/Rafin/js/script.js), which waits for images, fonts, CSS, and JS
+- large early assets:
+  - [js/core.min.js](c:/Users/kevin/Documents/Rafin/js/core.min.js) is large
+  - [css/style.css](c:/Users/kevin/Documents/Rafin/css/style.css) is large
+  - several homepage images are large, including multi-hundred-KB to multi-MB assets
+- blocking external font request to Google Fonts in [index.html](c:/Users/kevin/Documents/Rafin/index.html)
+- styling debt spread across:
+  - monolithic CSS
+  - page-level `<style>` blocks
+  - JS-injected styles
+  - patch-layer CSS
+- probable legacy code and assets that still ship but are not necessary for current live functionality
+
+Secondary maintainability issues:
+
+- styling is not centralized enough
+- vendor and project-specific styles are not cleanly separated
+- data/debug artifacts are sitting in project directories and can bloat local workflows
+- global plugin loading is broader than the actual page needs
+
+## Success Criteria
+
+The work is done when:
+
+- the homepage becomes visible quickly without waiting for every asset to finish loading
+- the page-loader no longer blocks first render unnecessarily
+- inline and JS-injected styles are removed or minimized into maintainable CSS files
+- the CSS architecture becomes easier to reason about and extend safely
+- unnecessary code/assets are identified and either removed or clearly isolated
+- heavy assets above the fold are optimized
+- current design, routes, forms, and content behavior still work
+- the site is easier to scale and maintain without adding framework complexity
+
+## Guiding Principles
+
+- Optimize the critical rendering path first
+- Prefer bounded, predictable behavior over clever hacks
+- Centralize styling instead of adding more patch layers
+- Remove dead weight before adding new abstraction
+- Keep vendor files stable when possible; layer changes around them
+- Measure visible improvements by user-perceived loading first, then by code cleanliness
+
+## Phase 1: Baseline Audit and Performance Budget
+
+### Objective
+
+Create a reliable inventory of what is slowing the site down and define safe target budgets before changing behavior.
+
+### Tasks
+
+- Audit initial-page dependencies for the homepage:
+  - HTML
+  - CSS
+  - JS
+  - fonts
+  - hero/parallax imagery
+- Inventory all CSS sources:
+  - vendor CSS
+  - project CSS
+  - inline `<style>` blocks
+  - JS-injected style tags
+- Inventory all JS sources:
+  - vendor bundle
+  - page-specific scripts
+  - globally loaded scripts that are not needed on every page
+- Identify above-the-fold assets on the homepage
+- Identify obvious dead or legacy files that are not part of current live routes
+- Define practical budgets for:
+  - initial CSS
+  - initial JS
+  - above-the-fold image weight
+  - loader maximum blocking time
+
+### Deliverables
+
+- dependency inventory
+- CSS/JS/style-debt inventory
+- list of likely removable or deferrable assets
+- target performance budget for homepage and secondary pages
+
+## Phase 2: Critical Rendering Path and Loader Rework
+
+### Objective
+
+Make the site feel fast because the page becomes visible earlier for the right reasons, not because of a cosmetic shortcut.
+
+### Tasks
+
+- Replace the current loader behavior so it does not wait on full `window.load`
+- Redefine loader release based on critical readiness:
+  - DOM readiness
+  - critical layout readiness
+  - bounded fallback timeout
+- Ensure the loader can never trap the page for too long
+- Preserve visual polish while removing full-page perceived blocking
+- Verify the loader behavior on:
+  - homepage
+  - projects page
+  - category page
+  - project page
+- Ensure no flash-of-broken-layout regression is introduced
+
+### Deliverables
+
+- revised loader lifecycle
+- documented rule for when the page is allowed to reveal
+- regression-tested loader behavior across active routes
+
+### Acceptance Criteria
+
+- page becomes visible before all images finish loading
+- no permanent loader stalls
+- no broken initial layout on first paint
+
+## Phase 3: CSS Architecture Cleanup and Inline Style Removal
+
+### Objective
+
+Move the styling system toward a maintainable, centralized structure and remove scattered style debt.
+
+### Tasks
+
+- Identify all page-local `<style>` blocks and move them into proper CSS files
+- Remove JS-injected CSS from render scripts and move it into static stylesheets
+- Define a clean CSS layering strategy:
+  - vendor base
+  - site base
+  - redesign/site overrides
+  - page/component styles
+- Reduce duplication between:
+  - homepage
+  - projects page
+  - category page
+  - project page
+- Consolidate one-off selector patches into named sections with clear ownership
+- Normalize spacing, naming, and organization in project-owned CSS
+- Review whether [css/redesign.css](c:/Users/kevin/Documents/Rafin/css/redesign.css) should become the main project-owned layer or whether a clearer split is needed
+
+### Deliverables
+
+- centralized CSS ownership model
+- reduced inline CSS usage
+- reduced JS-injected CSS usage
+- documented CSS file responsibilities
+
+### Acceptance Criteria
+
+- no new inline `<style>` blocks are required for active pages
+- no active UI components depend on JS-created style tags
+- project-owned styling is easier to trace and extend safely
+
+## Phase 4: JavaScript Loading Strategy and Plugin Pruning
+
+### Objective
+
+Reduce unnecessary blocking JavaScript and make script loading match actual page needs.
+
+### Tasks
+
+- Audit [js/core.min.js](c:/Users/kevin/Documents/Rafin/js/core.min.js) usage versus what active pages actually need
+- Audit [js/script.js](c:/Users/kevin/Documents/Rafin/js/script.js) for:
+  - global initialization work
+  - page-specific logic running everywhere
+  - legacy plugin setup that can be deferred or gated
+- Defer non-critical scripts where safe
+- Gate feature initialization by page presence instead of always running
+- Remove or isolate legacy integrations not used by the current release path
+- Review whether some `data/*.js` files can load later instead of all at once on the homepage
+
+### Deliverables
+
+- script loading map by page
+- reduced blocking JS on initial load
+- cleanup list of legacy plugin behavior kept, deferred, or removed
+
+### Acceptance Criteria
+
+- initial script execution is reduced
+- non-critical features do not block primary content visibility
+- no active route loses required interactivity
+
+## Phase 5: Asset, Image, and Font Optimization
+
+### Objective
+
+Reduce weight of the assets that matter most to first impression and page stability.
+
+### Tasks
+
+- Audit the homepage and other live pages for oversized images
+- Compress and resize early-loading images appropriately
+- Prioritize optimization of:
+  - hero imagery
+  - parallax backgrounds
+  - large homepage visuals
+  - repeated project/staff thumbnails
+- Review whether some decorative images should load later or in lighter variants
+- Improve font loading strategy:
+  - add `preconnect` where appropriate
+  - reduce blocking impact of external fonts
+  - ensure acceptable fallback typography behavior
+- Review favicon and non-critical media loading
+
+### Deliverables
+
+- optimized early-loading images
+- reduced above-the-fold asset weight
+- font loading strategy aligned with faster first render
+
+### Acceptance Criteria
+
+- homepage opens faster on first load
+- above-the-fold imagery no longer dominates initial load cost
+- font loading does not unnecessarily delay usable rendering
+
+## Phase 6: Cleanup of Unnecessary Files, Dead Code, and Shipping Noise
+
+### Objective
+
+Reduce long-term maintenance cost by cleaning what the release does not need.
+
+### Tasks
+
+- Audit root-level docs and temporary artifacts that should not affect the shipped site
+- Separate runtime data from local diagnostic artifacts
+- Review whether local debug files should be gitignored or isolated
+- Identify unused or orphaned legacy HTML files and decide:
+  - remove from release scope
+  - keep but isolate as non-production artifacts
+- Audit CSS/JS for dead selectors, dead initializers, and dead utilities related to inactive features
+- Audit images/assets for files not referenced by active routes
+- Remove or clearly quarantine obsolete patch layers and temporary files
+
+### Deliverables
+
+- cleanup list with keep/remove/isolate decisions
+- reduced release noise
+- clearer distinction between production assets and local testing artifacts
+
+### Acceptance Criteria
+
+- active release output is easier to understand
+- non-production artifacts do not clutter maintenance or shipping decisions
+- dead code is reduced without breaking live functionality
+
+## Phase 7: Production Delivery Hardening
+
+### Objective
+
+Make the optimized site behave professionally under real hosting conditions.
+
+### Tasks
+
+- Review cache strategy for:
+  - CSS
+  - JS
+  - images
+  - fonts
+- Review Apache delivery settings in `.htaccess`
+- Ensure internal docs/config/testing artifacts are not publicly exposed
+- Review compression strategy where hosting supports it
+- Confirm robots and sitemap still match actual release scope after cleanup
+- Confirm contact form and PHP mail behavior remain compatible with the final delivery flow
+
+### Deliverables
+
+- delivery hardening checklist
+- updated hosting guidance
+- cache/compression recommendations or implementation where safe
+
+### Acceptance Criteria
+
+- production delivery supports the optimized front-end path
+- no internal files are unintentionally public
+- no release regression is introduced by caching or routing rules
+
+## Phase 8: QA, Regression Testing, and Documentation
+
+### Objective
+
+Close the work with confidence and leave a maintainable reference for future updates.
+
+### Tasks
+
+- Test active routes on desktop and mobile widths
+- Verify:
+  - loader behavior
+  - page reveal timing
+  - layout stability
+  - nav behavior
+  - projects/category/project rendering
+  - contact form behavior
+- Check for visual regressions caused by CSS consolidation
+- Check for broken references after asset cleanup
+- Record final architecture decisions:
+  - CSS ownership
+  - script loading rules
+  - asset optimization rules
+  - cleanup conventions
+
+### Deliverables
+
+- regression checklist
+- final cleanup summary
+- maintainability notes for future work
+
+### Acceptance Criteria
+
+- active pages are faster and still visually correct
+- the codebase is cleaner and easier to extend
+- future work can follow a clearer structure instead of adding more patch debt
+
+## Recommended Execution Order
+
+1. Phase 1: Baseline Audit and Performance Budget
+2. Phase 2: Critical Rendering Path and Loader Rework
+3. Phase 3: CSS Architecture Cleanup and Inline Style Removal
+4. Phase 4: JavaScript Loading Strategy and Plugin Pruning
+5. Phase 5: Asset, Image, and Font Optimization
+6. Phase 6: Cleanup of Unnecessary Files, Dead Code, and Shipping Noise
+7. Phase 7: Production Delivery Hardening
+8. Phase 8: QA, Regression Testing, and Documentation
+
+## What This Plan Intentionally Avoids
+
+- framework migration
+- route rewrite
+- redesign of approved UI
+- broad backend rewrites unrelated to delivery/performance
+- cosmetic-only speed hacks that do not improve the underlying loading path
+
+## Definition of Done
+
+The site is considered complete for this effort when:
+
+- it opens quickly for users because the critical rendering path is fixed
+- CSS is centralized and maintainable
+- inline and JS-injected style debt are removed or minimized
+- unnecessary code and files are cleaned up responsibly
+- heavy early assets are optimized
+- production delivery behavior is hardened
+- the existing site remains stable, professional, and scalable within the current stack

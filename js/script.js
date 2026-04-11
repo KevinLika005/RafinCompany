@@ -359,6 +359,25 @@
       return inputType === 'tel' || inputName === 'phone' || inputId.indexOf('phone') !== -1;
     }
 
+    function isContactFormField($input) {
+      return (($input.closest('form').attr('data-form-type') || '').toLowerCase() === 'contact');
+    }
+
+    function isContactNameField($input) {
+      if (!isContactFormField($input)) return false;
+      var inputType = ($input.attr('type') || '').toLowerCase();
+      var inputName = ($input.attr('name') || '').toLowerCase();
+      var inputId = ($input.attr('id') || '').toLowerCase();
+      return inputType === 'text' && (inputName === 'name' || inputId.indexOf('name') !== -1);
+    }
+
+    function isContactMessageField($input) {
+      if (!isContactFormField($input)) return false;
+      var inputName = ($input.attr('name') || '').toLowerCase();
+      var inputId = ($input.attr('id') || '').toLowerCase();
+      return inputName === 'message' || inputId.indexOf('message') !== -1;
+    }
+
     function isMeaningfulPhoneNumber(value) {
       var normalized = String(value || '').trim();
       var plusSigns = normalized.match(/\+/g) || [];
@@ -376,6 +395,35 @@
       return digits.length >= 7 && digits.length <= 15;
     }
 
+    function validateContactNameInput($input) {
+      if (!isContactNameField($input)) return true;
+
+      if (String($input.val() || '').trim().length >= 2) return true;
+
+      $input
+        .siblings(".form-validation")
+        .text("Name must be at least 2 characters.")
+        .parent()
+        .addClass("has-error");
+
+      return false;
+    }
+
+    function validateContactMessageInput($input) {
+      if (!isContactMessageField($input)) return true;
+
+      var normalized = String($input.val() || '').replace(/\s+/g, '');
+      if (normalized.length >= 5) return true;
+
+      $input
+        .siblings(".form-validation")
+        .text("Message must be at least 5 characters.")
+        .parent()
+        .addClass("has-error");
+
+      return false;
+    }
+
     function validatePhoneInput($input) {
       if (!isPhoneField($input)) return true;
       if (isMeaningfulPhoneNumber($input.val())) return true;
@@ -387,6 +435,12 @@
         .addClass("has-error");
 
       return false;
+    }
+
+    function validateContactFieldInput($input) {
+      return validateContactNameInput($input)
+        && validateContactMessageInput($input)
+        && validatePhoneInput($input);
     }
 
     function attachFormValidator(elements) {
@@ -417,7 +471,7 @@
             for (i = 0; i < results.length; i++) {
               $this.siblings(".form-validation").text(results[i].message).parent().addClass("has-error")
             }
-          } else if (!validatePhoneInput($this)) {
+          } else if (!validateContactFieldInput($this)) {
             return;
           } else {
             $this.siblings(".form-validation").text("").parent().removeClass("has-error")
@@ -471,7 +525,7 @@
               errors++;
               $input.siblings(".form-validation").text(results[k].message).parent().addClass("has-error");
             }
-          } else if (!validatePhoneInput($input)) {
+          } else if (!validateContactFieldInput($input)) {
             errors++;
           } else {
             $input.siblings(".form-validation").text("").parent().removeClass("has-error")
@@ -1110,16 +1164,123 @@
       ensureFormStartedAtField($form);
     }
 
+    function normalizeMailFormResult(result, xhr) {
+      var rawResult = '',
+        headerCode = '',
+        diagnostic = '',
+        requestId = '',
+        matchedCode;
+
+      if (typeof result === 'string') {
+        rawResult = result;
+      } else if (result && typeof result.responseText === 'string') {
+        rawResult = result.responseText;
+      } else if (xhr && typeof xhr.responseText === 'string') {
+        rawResult = xhr.responseText;
+      }
+
+      rawResult = String(rawResult == null ? '' : rawResult).trim();
+
+      if (xhr && typeof xhr.getResponseHeader === 'function') {
+        headerCode = xhr.getResponseHeader('X-Rafin-Mail-Code') || '';
+        diagnostic = xhr.getResponseHeader('X-Rafin-Mail-Diagnostic') || '';
+        requestId = xhr.getResponseHeader('X-Rafin-Mail-Request-Id') || '';
+      } else if (result && typeof result.getResponseHeader === 'function') {
+        headerCode = result.getResponseHeader('X-Rafin-Mail-Code') || '';
+        diagnostic = result.getResponseHeader('X-Rafin-Mail-Diagnostic') || '';
+        requestId = result.getResponseHeader('X-Rafin-Mail-Request-Id') || '';
+      }
+
+      matchedCode = String(headerCode || rawResult).match(/MF\d{3}/);
+
+      return {
+        code: matchedCode ? matchedCode[0] : 'MF255',
+        raw: rawResult,
+        diagnostic: diagnostic,
+        requestId: requestId
+      };
+    }
+
+    function getMailFormMessage(code, rawResult, fallbackMessages, diagnostic) {
+      var isLocalHost = /^(localhost|127\.0\.0\.1)$/i.test(window.location.hostname || '');
+      var diagnosticMessages = {
+        'php_openssl_missing': 'PHP OpenSSL is not enabled, so Gmail TLS cannot work on this server.',
+        'smtp_connect_failed': 'The server could not connect to the SMTP service.',
+        'smtp_tls_failed': 'The SMTP TLS handshake failed.',
+        'smtp_auth_failed': 'SMTP authentication failed. Check the Gmail account and App Password.',
+        'recipient_missing': 'MAIL_RECIPIENT is missing or invalid.',
+        'mail_config_invalid': 'Mail server configuration is incomplete or invalid.',
+        'localhost_live_delivery_blocked': 'Live SMTP delivery from localhost is blocked by configuration.',
+        'anti_spam_rejected': 'Submission blocked by anti-spam checks. Wait and try again.'
+      };
+
+      if (code === 'MF255' && isLocalHost && /(<\?php|<!doctype|<html[\s>])/i.test(rawResult)) {
+        return 'Run the site through PHP locally. A static server cannot execute bat/rd-mailform.php.';
+      }
+
+      if (isLocalHost && diagnostic && diagnosticMessages[diagnostic]) {
+        return diagnosticMessages[diagnostic];
+      }
+
+      return fallbackMessages[code] || fallbackMessages.MF255;
+    }
+
+    function renderMailFormResult(form, output, normalizedResult, fallbackMessages) {
+      var select = form.find('select'),
+        code = normalizedResult.code,
+        message = getMailFormMessage(code, normalizedResult.raw, fallbackMessages, normalizedResult.diagnostic),
+        isSuccess = code === "MF000";
+
+      form.removeClass('form-in-process success');
+      output.removeClass("active error success");
+
+      if (isSuccess) {
+        form.addClass('success');
+      }
+
+      output.text(message);
+
+      if (output.hasClass("snackbars")) {
+        if (isSuccess) {
+          output.html('<p><span class="icon text-middle mdi mdi-check icon-xxs"></span><span>' + message + '</span></p>');
+        } else {
+          output.html('<p class="snackbars-left"><span class="icon icon-xxs mdi mdi-alert-outline text-middle"></span><span>' + message + '</span></p>');
+        }
+        output.addClass("active");
+      } else {
+        output.addClass(isSuccess ? "active success" : "active error");
+      }
+
+      if (isSuccess) {
+        form.clearForm();
+
+        if (select.length) {
+          select.select2("val", "");
+        }
+
+        ensureAntiSpamFields(form);
+        form.find('input, textarea').trigger('blur');
+      }
+
+      setTimeout(function () {
+        output.removeClass("active error success");
+        form.removeClass('success');
+      }, 3500);
+    }
+
     if (plugins.rdMailForm.length) {
       var i, j, k,
         msg = {
-          'MF000': 'Successfully sent!',
+          'MF000': 'Message accepted for delivery.',
           'MF001': 'Recipients are not set!',
+          'MF005': 'Please review the highlighted form fields.',
+          'MF006': 'Mail delivery is not available with the current server configuration.',
+          'MF007': 'Submission blocked by anti-spam checks. Please wait and try again.',
           'MF002': 'Form will not work locally!',
           'MF003': 'Please, define email field in your form!',
           'MF004': 'Please, define type of your form!',
-          'MF254': 'Something went wrong with PHPMailer!',
-          'MF255': 'Aw, snap! Something went wrong.'
+          'MF254': 'Mail server rejected the message. Please try again later.',
+          'MF255': 'Unexpected server error. Please try again later.'
         };
 
       for (i = 0; i < plugins.rdMailForm.length; i++) {
@@ -1203,60 +1364,28 @@
               return;
 
             var output = $("#" + $(plugins.rdMailForm[this.extraData.counter]).attr("data-form-output")),
-              form = $(plugins.rdMailForm[this.extraData.counter]);
-
-            output.text(msg[result]);
-            form.removeClass('form-in-process');
+              form = $(plugins.rdMailForm[this.extraData.counter]),
+              normalizedResult = normalizeMailFormResult(result);
 
             if (formHasCaptcha) {
               grecaptcha.reset();
             }
+
+            renderMailFormResult(form, output, normalizedResult, msg);
           },
-          success: function (result) {
+          success: function (result, statusText, xhr) {
             if (isNoviBuilder)
               return;
 
             var form = $(plugins.rdMailForm[this.extraData.counter]),
               output = $("#" + form.attr("data-form-output")),
-              select = form.find('select');
-
-            form
-              .addClass('success')
-              .removeClass('form-in-process');
+              normalizedResult = normalizeMailFormResult(result, xhr);
 
             if (formHasCaptcha) {
               grecaptcha.reset();
             }
 
-            result = result.length === 5 ? result : 'MF255';
-            output.text(msg[result]);
-
-            if (result === "MF000") {
-              if (output.hasClass("snackbars")) {
-                output.html('<p><span class="icon text-middle mdi mdi-check icon-xxs"></span><span>' + msg[result] + '</span></p>');
-              } else {
-                output.addClass("active success");
-              }
-            } else {
-              if (output.hasClass("snackbars")) {
-                output.html(' <p class="snackbars-left"><span class="icon icon-xxs mdi mdi-alert-outline text-middle"></span><span>' + msg[result] + '</span></p>');
-              } else {
-                output.addClass("active error");
-              }
-            }
-
-            form.clearForm();
-
-            if (select.length) {
-              select.select2("val", "");
-            }
-
-            form.find('input, textarea').trigger('blur');
-
-            setTimeout(function () {
-              output.removeClass("active error success");
-              form.removeClass('success');
-            }, 3500);
+            renderMailFormResult(form, output, normalizedResult, msg);
           }
         });
       }

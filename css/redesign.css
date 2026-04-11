@@ -604,7 +604,20 @@ select:focus-visible {
   font-size: 14px;
 }
 
+.jobs-filter-control:focus,
+.jobs-filter-control:active {
+  background: #fff;
+  border-color: #fff;
+  color: #111a24;
+}
+
 .jobs-filter-control option {
+  background: #fff;
+  color: #111a24;
+}
+
+.jobs-filter-control optgroup {
+  background: #fff;
   color: #111a24;
 }
 
@@ -1749,13 +1762,37 @@ img:not(.certificate-badge):not(.certificate-circle):not(.img-circle):not(.csslo
 }
 
 /* Recovered Changes: Button Hover & Smooth Image Scrolling */
-.btn, .button, button, .filter-btn, .slider-btn {
+.btn,
+.button,
+button,
+.filter-btn,
+.slider-btn,
+.projects-page .projects-filter-btn {
   transition: all 0.3s ease !important;
 }
 
-.btn:hover, .button:hover, button:hover, .filter-btn:hover, .slider-btn:hover {
+.btn:hover,
+.button:hover,
+button:hover,
+.filter-btn:hover,
+.slider-btn:hover,
+.projects-page .projects-filter-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  background-color: #111a24 !important;
+  border-color: #111a24 !important;
+  color: #fff !important;
+}
+
+.footer-inline-form .button:hover {
+  background-color: #fff !important;
+  border-color: #fff !important;
+  color: #111a24 !important;
+}
+
+/* Services icons hover follows the same blue as button hover */
+.desktop #services .blurb-circle .blurb-circle__icon .icon::after {
+  background: #111a24;
 }
 
 /* Smooth Image Scrolling/Scaling */

@@ -1,15 +1,163 @@
 <?php
 
 date_default_timezone_set('Etc/UTC');
+error_reporting(E_ALL);
+@ini_set('display_errors', '0');
+@ini_set('log_errors', '1');
 
-function mfExitWithCode($code)
+if (ob_get_level() === 0) {
+    ob_start();
+}
+
+function mfGenerateRequestId()
 {
+    try {
+        return bin2hex(random_bytes(8));
+    } catch (Exception $exception) {
+        return uniqid('mf', true);
+    }
+}
+
+$GLOBALS['mfRequestId'] = mfGenerateRequestId();
+$GLOBALS['mfDebugContext'] = array();
+
+function mfResponseHttpStatus($code)
+{
+    switch ($code) {
+        case 'MF000':
+            return 200;
+        case 'MF005':
+            return 422;
+        case 'MF007':
+            return 429;
+        case 'MF006':
+            return 503;
+        case 'MF254':
+            return 502;
+        case 'MF255':
+            return 500;
+        default:
+            return 400;
+    }
+}
+
+function mfSanitizeHeaderValue($value)
+{
+    $value = preg_replace('/[\x00-\x1F\x7F]+/', ' ', (string)$value);
+    $value = preg_replace('/\s+/', ' ', $value);
+    return trim(substr($value, 0, 180));
+}
+
+function mfAppendDebugContext($context)
+{
+    if (!isset($GLOBALS['mfDebugContext']) || !is_array($GLOBALS['mfDebugContext'])) {
+        $GLOBALS['mfDebugContext'] = array();
+    }
+
+    if (is_array($context)) {
+        $GLOBALS['mfDebugContext'] = array_merge($GLOBALS['mfDebugContext'], $context);
+    }
+}
+
+function mfDebugEnabled()
+{
+    return mfEnvBool('MAIL_DEBUG', false);
+}
+
+function mfDebugLog($stage, $context = array())
+{
+    if (!mfDebugEnabled()) {
+        return;
+    }
+
+    $payload = array_merge(
+        array(
+            'loggedAt' => gmdate('c'),
+            'requestId' => isset($GLOBALS['mfRequestId']) ? $GLOBALS['mfRequestId'] : '',
+            'stage' => $stage
+        ),
+        isset($GLOBALS['mfDebugContext']) && is_array($GLOBALS['mfDebugContext']) ? $GLOBALS['mfDebugContext'] : array(),
+        is_array($context) ? $context : array()
+    );
+
+    $encoded = json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+    if ($encoded === false) {
+        return;
+    }
+
+    $logPath = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'mail-debug.jsonl';
+    @file_put_contents($logPath, $encoded . PHP_EOL, FILE_APPEND | LOCK_EX);
+}
+
+function mfClassifyMailErrorReason($errorInfo)
+{
+    $normalized = strtolower(trim((string)$errorInfo));
+    if ($normalized === '') {
+        return 'smtp_delivery_failed';
+    }
+    if (strpos($normalized, 'connect() failed') !== false) {
+        return 'smtp_connect_failed';
+    }
+    if (strpos($normalized, 'starttls') !== false || strpos($normalized, 'crypto') !== false) {
+        return 'smtp_tls_failed';
+    }
+    if (strpos($normalized, 'authenticate') !== false || strpos($normalized, 'username') !== false || strpos($normalized, 'password') !== false) {
+        return 'smtp_auth_failed';
+    }
+    if (strpos($normalized, 'recipients are not set') !== false || strpos($normalized, 'invalid address') !== false) {
+        return 'smtp_address_failed';
+    }
+    return 'smtp_delivery_failed';
+}
+
+function mfExitWithCode($code, $logMessage = '', $publicReason = '')
+{
+    $bufferedOutput = '';
+    while (ob_get_level() > 0) {
+        $chunk = ob_get_clean();
+        if ($chunk !== false) {
+            $bufferedOutput .= $chunk;
+        }
+    }
+
+    $trimmedOutput = trim($bufferedOutput);
+    if ($trimmedOutput !== '') {
+        error_log('[rafin-mailform] Suppressed output before response code ' . $code . ': ' . substr($trimmedOutput, 0, 500));
+    }
+
+    if ($logMessage !== '') {
+        error_log('[rafin-mailform] ' . $logMessage);
+    }
+
+    if (!headers_sent()) {
+        http_response_code(mfResponseHttpStatus($code));
+        header('Content-Type: text/plain; charset=UTF-8');
+        header('X-Rafin-Mail-Code: ' . $code);
+        header('X-Rafin-Mail-Request-Id: ' . mfSanitizeHeaderValue(isset($GLOBALS['mfRequestId']) ? $GLOBALS['mfRequestId'] : ''));
+        if (mfDebugEnabled() && $publicReason !== '') {
+            header('X-Rafin-Mail-Diagnostic: ' . mfSanitizeHeaderValue($publicReason));
+        }
+    }
+
+    mfDebugLog('request_finished', array(
+        'responseCode' => $code,
+        'httpStatus' => mfResponseHttpStatus($code),
+        'reason' => $publicReason,
+        'detail' => $logMessage
+    ));
+
     die($code);
 }
 
 function mfEnvString($key, $defaultValue)
 {
     $value = getenv($key);
+    if ($value === false && isset($_SERVER[$key])) {
+        $value = $_SERVER[$key];
+    }
+    if ($value === false && isset($_ENV[$key])) {
+        $value = $_ENV[$key];
+    }
     if ($value === false) {
         return $defaultValue;
     }
@@ -19,11 +167,80 @@ function mfEnvString($key, $defaultValue)
 function mfEnvBool($key, $defaultValue)
 {
     $value = getenv($key);
+    if ($value === false && isset($_SERVER[$key])) {
+        $value = $_SERVER[$key];
+    }
+    if ($value === false && isset($_ENV[$key])) {
+        $value = $_ENV[$key];
+    }
     if ($value === false) {
         return $defaultValue;
     }
 
     $normalized = strtolower(trim($value));
+    if ($normalized === '1' || $normalized === 'true' || $normalized === 'yes' || $normalized === 'on') {
+        return true;
+    }
+    if ($normalized === '0' || $normalized === 'false' || $normalized === 'no' || $normalized === 'off') {
+        return false;
+    }
+
+    return $defaultValue;
+}
+
+function mfLoadMailConfig()
+{
+    $configPath = __DIR__ . '/rd-mailform.config.json';
+    if (!is_file($configPath) || !is_readable($configPath)) {
+        return array();
+    }
+
+    $raw = file_get_contents($configPath);
+    if ($raw === false || trim($raw) === '') {
+        return array();
+    }
+
+    $decoded = json_decode($raw, true);
+    return is_array($decoded) ? $decoded : array();
+}
+
+function mfConfigString($config, $envKey, $configKey, $defaultValue)
+{
+    $value = mfEnvString($envKey, '__MF_UNSET__');
+    if ($value !== '__MF_UNSET__') {
+        return $value;
+    }
+
+    if (isset($config[$configKey]) && is_scalar($config[$configKey])) {
+        return trim((string)$config[$configKey]);
+    }
+
+    return $defaultValue;
+}
+
+function mfConfigBool($config, $envKey, $configKey, $defaultValue)
+{
+    $value = getenv($envKey);
+    if ($value === false && isset($_SERVER[$envKey])) {
+        $value = $_SERVER[$envKey];
+    }
+    if ($value === false && isset($_ENV[$envKey])) {
+        $value = $_ENV[$envKey];
+    }
+
+    if ($value !== false) {
+        return mfEnvBool($envKey, $defaultValue);
+    }
+
+    if (!array_key_exists($configKey, $config)) {
+        return $defaultValue;
+    }
+
+    if (is_bool($config[$configKey])) {
+        return $config[$configKey];
+    }
+
+    $normalized = strtolower(trim((string)$config[$configKey]));
     if ($normalized === '1' || $normalized === 'true' || $normalized === 'yes' || $normalized === 'on') {
         return true;
     }
@@ -162,6 +379,58 @@ function mfGetRemoteIpAddress()
     return 'unknown';
 }
 
+function mfIsLoopbackAddress($ipAddress)
+{
+    return in_array($ipAddress, array('127.0.0.1', '::1'), true);
+}
+
+function mfGetRequestHost()
+{
+    $host = '';
+    if (isset($_SERVER['HTTP_HOST'])) {
+        $host = (string)$_SERVER['HTTP_HOST'];
+    } elseif (isset($_SERVER['SERVER_NAME'])) {
+        $host = (string)$_SERVER['SERVER_NAME'];
+    }
+
+    $host = trim($host);
+    if ($host === '') {
+        return '';
+    }
+
+    if (strpos($host, ':') !== false) {
+        $hostParts = explode(':', $host, 2);
+        $host = $hostParts[0];
+    }
+
+    return strtolower(trim($host, "[] \t\n\r\0\x0B"));
+}
+
+function mfIsLocalDevelopmentRequest($ipAddress)
+{
+    $host = mfGetRequestHost();
+    $localHosts = array('localhost', '127.0.0.1', '::1');
+
+    return mfIsLoopbackAddress($ipAddress) || in_array($host, $localHosts, true);
+}
+
+function mfNormalizeHostName($value)
+{
+    $value = strtolower(trim((string)$value));
+    return trim($value, "[] \t\n\r\0\x0B");
+}
+
+function mfIsLocalSmtpHost($host)
+{
+    $normalized = mfNormalizeHostName($host);
+    return in_array($normalized, array('localhost', '127.0.0.1', '::1', 'mailpit', 'mailhog', 'host.docker.internal'), true);
+}
+
+function mfAllowLiveDeliveryOnLocalhost()
+{
+    return mfEnvBool('MAIL_ALLOW_LOCALHOST_LIVE_DELIVERY', false);
+}
+
 function mfRateLimitAllowsSubmission($ipAddress, $maxPerWindow, $windowSeconds, $minSecondsBetween)
 {
     $storagePath = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'rafin_mailform_rate_limit.json';
@@ -243,12 +512,12 @@ if (!isset($_POST['form-type'])) {
 }
 
 if (!array_key_exists('company_website', $_POST)) {
-    mfExitWithCode('MF255');
+    mfExitWithCode('MF007', 'Missing honeypot field.', 'anti_spam_rejected');
 }
 
 $honeypotValue = mfSanitizeSingleLine($_POST['company_website'], 255);
 if ($honeypotValue !== '') {
-    mfExitWithCode('MF255');
+    mfExitWithCode('MF007', 'Honeypot field contained a value.', 'anti_spam_rejected');
 }
 
 $formType = strtolower(mfSanitizeSingleLine($_POST['form-type'], 20));
@@ -258,18 +527,18 @@ if (!in_array($formType, $allowedFormTypes, true)) {
 }
 
 if (!array_key_exists('form_started_at', $_POST)) {
-    mfExitWithCode('MF255');
+    mfExitWithCode('MF007', 'Missing form_started_at field.', 'anti_spam_rejected');
 }
 
 $formStartedAt = mfValidateUnixTimestamp($_POST['form_started_at']);
 if ($formStartedAt <= 0) {
-    mfExitWithCode('MF255');
+    mfExitWithCode('MF007', 'Invalid form_started_at timestamp.', 'anti_spam_rejected');
 }
 
 $now = time();
 $formAgeSeconds = $now - $formStartedAt;
 if ($formAgeSeconds < 2 || $formAgeSeconds > 86400) {
-    mfExitWithCode('MF255');
+    mfExitWithCode('MF007', 'Form age failed anti-spam validation.', 'anti_spam_rejected');
 }
 
 $commonAllowedFields = array('form-type', 'counter', 'email', 'company_website', 'form_started_at', 'g-recaptcha-response');
@@ -283,36 +552,37 @@ if (!isset($allowedFieldsByType[$formType]) || !mfHasOnlyAllowedFields($_POST, $
 }
 
 $remoteIp = mfGetRemoteIpAddress();
-if (!mfRateLimitAllowsSubmission($remoteIp, 8, 3600, 10)) {
-    mfExitWithCode('MF255');
+$isLocalDevelopmentRequest = mfIsLocalDevelopmentRequest($remoteIp);
+
+if (!$isLocalDevelopmentRequest && !mfRateLimitAllowsSubmission($remoteIp, 8, 3600, 10)) {
+    mfExitWithCode('MF007', 'Rate limit rejected the submission.', 'anti_spam_rejected');
 }
 
-$configPath = __DIR__ . '/rd-mailform.config.json';
-$config = array();
-if (is_readable($configPath)) {
-    $configFile = file_get_contents($configPath);
-    if ($configFile !== false) {
-        $decodedConfig = json_decode($configFile, true);
-        if (is_array($decodedConfig)) {
-            $config = $decodedConfig;
-        }
-    }
-}
+$allowLocalhostLiveDelivery = mfAllowLiveDeliveryOnLocalhost();
 
-$defaultRecipient = isset($config['recipientEmail']) ? $config['recipientEmail'] : '';
-$defaultFromEmail = isset($config['fromEmail']) ? $config['fromEmail'] : '';
-$defaultUseSmtp = isset($config['useSmtp']) ? (bool)$config['useSmtp'] : false;
+mfAppendDebugContext(array(
+    'remoteIp' => $remoteIp,
+    'requestHost' => mfGetRequestHost(),
+    'formType' => $formType,
+    'isLocalDevelopmentRequest' => $isLocalDevelopmentRequest,
+    'allowLocalhostLiveDelivery' => $allowLocalhostLiveDelivery
+));
 
-$recipientRaw = mfEnvString('MAIL_RECIPIENT', $defaultRecipient);
-$fromEmail = mfValidateEmail(mfEnvString('MAIL_FROM_EMAIL', $defaultFromEmail));
-$useSmtp = mfEnvBool('MAIL_USE_SMTP', $defaultUseSmtp);
-$smtpHost = mfEnvString('MAIL_SMTP_HOST', '');
-$smtpPort = (int)mfEnvString('MAIL_SMTP_PORT', '587');
-$smtpUser = mfEnvString('MAIL_SMTP_USERNAME', '');
-$smtpPassword = mfEnvString('MAIL_SMTP_PASSWORD', '');
-$smtpSecure = strtolower(mfEnvString('MAIL_SMTP_SECURE', 'tls'));
-if (!in_array($smtpSecure, array('', 'tls', 'ssl'), true)) {
-    $smtpSecure = 'tls';
+$mailConfig = mfLoadMailConfig();
+$recipientRaw = mfConfigString($mailConfig, 'MAIL_RECIPIENT', 'recipientEmail', '');
+$fromEmail = mfValidateEmail(mfConfigString($mailConfig, 'MAIL_FROM_EMAIL', 'fromEmail', ''));
+$useSmtp = mfConfigBool($mailConfig, 'MAIL_USE_SMTP', 'useSmtp', false);
+$smtpHost = mfConfigString($mailConfig, 'MAIL_SMTP_HOST', 'smtpHost', '');
+$smtpPort = (int)mfConfigString($mailConfig, 'MAIL_SMTP_PORT', 'smtpPort', '587');
+$smtpUser = mfConfigString($mailConfig, 'MAIL_SMTP_USERNAME', 'smtpUsername', '');
+$smtpPassword = mfConfigString($mailConfig, 'MAIL_SMTP_PASSWORD', 'smtpPassword', '');
+$smtpSecureRaw = strtolower(mfConfigString($mailConfig, 'MAIL_SMTP_SECURE', 'smtpSecure', 'tls'));
+if ($smtpSecureRaw === 'none') {
+    $smtpSecure = '';
+} elseif (in_array($smtpSecureRaw, array('', 'tls', 'ssl'), true)) {
+    $smtpSecure = $smtpSecureRaw;
+} else {
+    mfExitWithCode('MF006', 'MAIL_SMTP_SECURE must be one of tls, ssl, or none.');
 }
 
 $recipientCandidates = preg_split('/[;,]+/', $recipientRaw);
@@ -326,17 +596,67 @@ if (is_array($recipientCandidates)) {
     }
 }
 
+$usingLocalSmtpHost = $useSmtp && mfIsLocalSmtpHost($smtpHost);
+$hasSmtpUsername = $smtpUser !== '';
+$hasSmtpPassword = $smtpPassword !== '';
+$smtpUsesAuth = $hasSmtpUsername || $hasSmtpPassword;
+
+mfAppendDebugContext(array(
+    'recipientCount' => count($recipients),
+    'transport' => $useSmtp ? 'smtp' : 'php-mail',
+    'smtpHost' => $smtpHost !== '' ? mfNormalizeHostName($smtpHost) : '',
+    'smtpPort' => $smtpPort,
+    'smtpSecure' => $smtpSecure === '' ? 'none' : $smtpSecure,
+    'smtpUsesAuth' => $smtpUsesAuth,
+    'usingLocalSmtpHost' => $usingLocalSmtpHost
+));
+
+if (mfDebugEnabled()) {
+    $resolvedIpv4 = array();
+    if ($smtpHost !== '' && function_exists('gethostbynamel')) {
+        $resolved = @gethostbynamel($smtpHost);
+        if (is_array($resolved)) {
+            $resolvedIpv4 = $resolved;
+        }
+    }
+
+    mfDebugLog('runtime_capabilities', array(
+        'phpVersion' => PHP_VERSION,
+        'opensslLoaded' => extension_loaded('openssl'),
+        'streamSocketClientAvailable' => function_exists('stream_socket_client'),
+        'resolvedIpv4' => $resolvedIpv4
+    ));
+}
+
 if (count($recipients) === 0) {
-    mfExitWithCode('MF001');
+    mfExitWithCode('MF001', 'MAIL_RECIPIENT is missing or invalid.', 'recipient_missing');
 }
 
 if ($fromEmail === '') {
-    $fromEmail = $recipients[0];
+    mfExitWithCode('MF006', 'MAIL_FROM_EMAIL is missing or invalid.', 'mail_config_invalid');
+}
+
+if ($useSmtp) {
+    if ($smtpHost === '' || $smtpPort <= 0) {
+        mfExitWithCode('MF006', 'SMTP is enabled but MAIL_SMTP_HOST or MAIL_SMTP_PORT is missing/invalid.', 'mail_config_invalid');
+    }
+
+    if (($hasSmtpUsername && !$hasSmtpPassword) || (!$hasSmtpUsername && $hasSmtpPassword)) {
+        mfExitWithCode('MF006', 'SMTP credentials are incomplete; username and password must both be set or both be empty.', 'mail_config_invalid');
+    }
+
+    if ($smtpSecure !== '' && !extension_loaded('openssl')) {
+        mfExitWithCode(
+            'MF006',
+            'SMTP TLS/SSL was requested but the PHP OpenSSL extension is not loaded.',
+            'php_openssl_missing'
+        );
+    }
 }
 
 $email = isset($_POST['email']) ? mfValidateEmail($_POST['email']) : '';
 if ($email === '') {
-    mfExitWithCode('MF255');
+    mfExitWithCode('MF005', 'Submitted email is missing or invalid.', 'validation_failed');
 }
 
 $name = '';
@@ -350,21 +670,29 @@ if ($formType === 'contact') {
     $message = isset($_POST['message']) ? mfSanitizeMultiLine($_POST['message'], 2000) : '';
 
     if ($name === '' || $phone === '' || $message === '') {
-        mfExitWithCode('MF255');
+        mfExitWithCode('MF005', 'One or more contact fields are missing or invalid.', 'validation_failed');
     }
 
     if (strlen($name) < 2) {
-        mfExitWithCode('MF255');
+        mfExitWithCode('MF005', 'Contact name is too short.', 'validation_failed');
     }
 
     if (strlen(preg_replace('/\s+/', '', $message)) < 5) {
-        mfExitWithCode('MF255');
+        mfExitWithCode('MF005', 'Contact message is too short.', 'validation_failed');
     }
 
     $subject = 'Website contact request';
 } else {
     $subject = 'Website email contact request';
     $message = 'Submitted through the footer email contact form.';
+}
+
+if ($isLocalDevelopmentRequest && !$allowLocalhostLiveDelivery && !$usingLocalSmtpHost) {
+    mfExitWithCode(
+        'MF006',
+        'Blocked localhost live delivery because MAIL_ALLOW_LOCALHOST_LIVE_DELIVERY is false and the transport is not a local SMTP catcher.',
+        'localhost_live_delivery_blocked'
+    );
 }
 
 $templatePath = __DIR__ . '/rd-mailform.tpl';
@@ -428,25 +756,30 @@ try {
     $mail = new PHPMailer();
 
     if ($useSmtp) {
-        if ($smtpHost === '' || $smtpPort <= 0) {
-            mfExitWithCode('MF255');
-        }
-
         $mail->isSMTP();
-        $mail->SMTPDebug = 0;
-        $mail->Debugoutput = 'html';
+        $mail->SMTPDebug = mfDebugEnabled() ? 3 : 0;
+        if (mfDebugEnabled()) {
+            $mail->Debugoutput = function ($message, $level) {
+                mfDebugLog('smtp_debug', array(
+                    'smtpDebugLevel' => $level,
+                    'smtpMessage' => trim((string)$message)
+                ));
+            };
+        } else {
+            $mail->Debugoutput = 'html';
+        }
         $mail->Host = $smtpHost;
         $mail->Port = $smtpPort;
-        $mail->SMTPAuth = ($smtpUser !== '');
-        if ($mail->SMTPAuth) {
-            if ($smtpPassword === '') {
-                mfExitWithCode('MF255');
-            }
+        $mail->Timeout = 30;
+        $mail->SMTPAuth = $smtpUsesAuth;
+        if ($smtpUsesAuth) {
             $mail->Username = $smtpUser;
             $mail->Password = $smtpPassword;
         }
         if ($smtpSecure !== '') {
             $mail->SMTPSecure = $smtpSecure;
+        } else {
+            $mail->SMTPAutoTLS = false;
         }
     }
 
@@ -461,14 +794,26 @@ try {
     $mail->CharSet = 'utf-8';
     $mail->Subject = $subject;
     $mail->MsgHTML($template);
+    $mail->AltBody = "Subject: " . $subject . "\n"
+        . "Name: " . $name . "\n"
+        . "Phone: " . $phone . "\n"
+        . "Email: " . $email . "\n\n"
+        . $message;
+
+    mfDebugLog('send_attempt');
 
     if (!$mail->send()) {
-        mfExitWithCode('MF254');
+        mfExitWithCode(
+            'MF254',
+            'PHPMailer send() returned false. ErrorInfo: ' . $mail->ErrorInfo,
+            mfClassifyMailErrorReason($mail->ErrorInfo)
+        );
     }
 
-    mfExitWithCode('MF000');
+    mfDebugLog('send_success');
+    mfExitWithCode('MF000', '', 'smtp_submission_accepted');
 } catch (phpmailerException $e) {
-    mfExitWithCode('MF254');
+    mfExitWithCode('MF254', 'PHPMailer exception thrown. ' . $e->getMessage(), mfClassifyMailErrorReason($e->getMessage()));
 } catch (Exception $e) {
-    mfExitWithCode('MF255');
+    mfExitWithCode('MF255', 'Unhandled server exception. ' . $e->getMessage(), 'server_exception');
 }
