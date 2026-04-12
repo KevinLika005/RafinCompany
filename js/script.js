@@ -17,24 +17,28 @@
     isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1,
     isIE = userAgent.indexOf("msie") !== -1 ? parseInt(userAgent.split("msie")[1], 10) : userAgent.indexOf("trident") !== -1 ? 11 : userAgent.indexOf("edge") !== -1 ? 12 : false,
     isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
+    isCategoryRoute = $body.hasClass("category-page"),
+    isProjectRoute = $body.hasClass("project-page"),
+    isProjectsRoute = $body.hasClass("projects-page") && !isCategoryRoute,
+    isHomeRoute = !isCategoryRoute && !isProjectRoute && !isProjectsRoute,
 
     plugins = {
       pointerEvents: isIE < 11 ? "js/pointer-events.min.js" : false,
       bootstrapTooltip: $("[data-toggle='tooltip']"),
       bootstrapModalDialog: $('.modal'),
       rdNavbar: $(".rd-navbar"),
-      materialParallax: $(".parallax-container"),
-      rdGoogleMaps: $(".rd-google-map"),
+      materialParallax: isHomeRoute ? $(".parallax-container") : $(),
+      rdGoogleMaps: isHomeRoute ? $(".rd-google-map") : $(),
       mailchimp: $('.mailchimp-mailform'),
       campaignMonitor: $('.campaign-mailform'),
       rdMailForm: $(".rd-mailform"),
       rdInputLabel: $(".form-label"),
       regula: $("[data-constraints]"),
       captcha: $('.recaptcha'),
-      owl: $(".owl-carousel"),
-      swiper: $(".swiper-slider"),
+      owl: isHomeRoute ? $(".owl-carousel") : $(),
+      swiper: isHomeRoute ? $(".swiper-slider") : $(),
       
-      wow: $('.wow'),
+      wow: isHomeRoute ? $('.wow') : $(),
      
       radio: $("input[type='radio']"),
       checkbox: $("input[type='checkbox']"),
@@ -48,8 +52,8 @@
       customParallax: $(".custom-parallax"),
       
       stepper: $("input[type='number']"),
-      customWaypoints: $('[data-custom-scroll-to]'),
-      scroller: $(".scroll-wrap"),
+      customWaypoints: isHomeRoute ? $('[data-custom-scroll-to]') : $(),
+      scroller: isHomeRoute ? $(".scroll-wrap") : $(),
       copyrightYear: $(".copyright-year")
     };
 
@@ -1495,13 +1499,15 @@
      *
      */
     var bootstrapCollapse = $('.calendar-box-list-view');
-    bootstrapCollapse.collapse({
-      toggle: false
-    });
+    if (bootstrapCollapse.length) {
+      bootstrapCollapse.collapse({
+        toggle: false
+      });
 
-    $body.on("click", bootstrapCollapse, function (e) {
-      bootstrapCollapse.collapse('hide');
-    });
+      $body.on("click", bootstrapCollapse, function () {
+        bootstrapCollapse.collapse('hide');
+      });
+    }
 
     /**
      * Stepper

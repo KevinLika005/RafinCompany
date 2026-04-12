@@ -31,6 +31,26 @@ document.addEventListener('DOMContentLoaded', () => {
     return `url("${escapedUrl}")`;
   };
 
+  const preloadHeroImages = (images) => {
+    if (!document.head || !Array.isArray(images)) return;
+
+    images.forEach((imagePath, index) => {
+      const safePath = String(imagePath || '');
+      if (!safePath || safePath.startsWith('#')) return;
+
+      const preloadKey = encodeURIComponent(safePath);
+      if (document.head.querySelector(`link[data-project-hero-preload="${preloadKey}"]`)) return;
+
+      const preloadLink = document.createElement('link');
+      preloadLink.rel = 'preload';
+      preloadLink.as = 'image';
+      preloadLink.href = safePath;
+      preloadLink.setAttribute('fetchpriority', index === 0 ? 'high' : 'low');
+      preloadLink.setAttribute('data-project-hero-preload', preloadKey);
+      document.head.appendChild(preloadLink);
+    });
+  };
+
   const setHeroBackgroundState = (value) => {
     if (value && value.startsWith('#')) {
       heroContainer.style.removeProperty('--project-hero-image');
@@ -148,6 +168,8 @@ document.addEventListener('DOMContentLoaded', () => {
       : project.coverImage
         ? [project.coverImage]
         : ['#212121'];
+
+  preloadHeroImages(heroImages);
 
   const setHeroBackground = (idx) => {
     const val = heroImages[idx];

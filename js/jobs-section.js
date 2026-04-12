@@ -166,7 +166,7 @@
           <div class="col-md-6 col-xl-4">
             <article class="jobs-card">
               <figure class="jobs-card__media">
-                <img src="${image}" alt="${imageAlt}" loading="lazy" />
+                <img src="${image}" alt="${imageAlt}" width="480" height="360" loading="lazy" decoding="async" fetchpriority="low" />
               </figure>
               <div class="jobs-card__content">
                 <p class="jobs-card__meta">

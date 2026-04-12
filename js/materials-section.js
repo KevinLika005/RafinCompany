@@ -34,7 +34,7 @@
         return `
           <article class="materials-card">
             <figure class="materials-card__media">
-              <img src="${image}" alt="${imageAlt}" loading="lazy" />
+              <img src="${image}" alt="${imageAlt}" width="480" height="360" loading="lazy" decoding="async" fetchpriority="low" />
             </figure>
             <div class="materials-card__body">
               <h6>${title}</h6>

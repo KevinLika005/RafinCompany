@@ -12,8 +12,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="preload" as="image" href="images/parallax-2.jpg" fetchpriority="high">
     <!-- Stylesheets: vendor base -> theme layer -> font/icon layer -> project overrides -->
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lato:300,300italic%7CMontserrat:400,700">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;1,300&family=Montserrat:wght@400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;1,300&family=Montserrat:wght@400;700&display=swap"></noscript>
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/fonts.css">
@@ -41,7 +45,7 @@
               <div class="rd-navbar-panel rd-navbar-search-lg_collapsable">
                 <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-nav-wrap"><span></span></button>
                 <!-- RD Navbar Brand-->
-                <div class="rd-navbar-brand"><a class="brand-name" href="index.html"><img src="images/logo-inverse-304x39.png" alt="Rafin Company" width="120" height="120"/></a></div>
+                <div class="rd-navbar-brand"><a class="brand-name" href="index.html"><img src="images/logo-inverse-304x39.png" alt="Rafin Company" width="120" height="120" decoding="async"/></a></div>
               </div>
               <!-- RD Navbar Nav-->
               <div class="rd-navbar-nav-wrap rd-navbar-search_not-collapsable">
@@ -127,7 +131,7 @@
               <p class="heading-6 text-width-1" data-i18n="About Company Label">"RAFIN COMPANY"</p>
               <p data-i18n="About Intro Body">Was founded with the mission to develop a new standard in the Albanian market. Our desire and passion for professionalism made it possible to achieve our goals. We have established long-standing relationships with international partners in different areas of construction and create complex infrastructure projects with sophisticated technical and quality standards. Our contacts have been established nationwide and across the region to stay close to innovative methods and high standards in this industry.<br>Established in Tirana, "Rafin Company" has created a development strategy focused on meeting market requirements and offering high-quality solutions to clients. We specialize in projects such as: civil construction, public construction, machinery trade, technology, water supply infrastructure, and high-quality materials from leading brands, etc.</p><a class="button button-primary" href="#modal" data-toggle="modal" data-i18n="Contact Us">Contact Us</a>
             </div>
-            <div class="col-md-11 col-lg-10 col-xl-6"><img src="images/home-1-652x491.jpg" alt="Rafin Company Construction Site" width="652" height="491"/>
+            <div class="col-md-11 col-lg-10 col-xl-6"><img src="images/home-1-652x491.jpg" alt="Rafin Company Construction Site" width="652" height="491" loading="lazy" decoding="async" fetchpriority="low"/>
             </div>
           </div>
         </div>
@@ -322,7 +326,7 @@
             <div class="col-md-6 col-xl-4">
               <!-- Post classic-->
               <article class="post-classic post-minimal">
-                <img src="images/home-post-1-418x315.jpg" alt="Construction Development" width="418" height="315"/>
+                <img src="images/home-post-1-418x315.jpg" alt="Construction Development" width="418" height="315" loading="lazy" decoding="async" fetchpriority="low"/>
                 <div class="post-classic-title">
                   <h6><a href="projects.html" data-i18n="News1Title">Quality Infrastructure Development</a></h6>
                 </div>
@@ -339,7 +343,7 @@
             <div class="col-md-6 col-xl-4">
               <!-- Post classic-->
               <article class="post-classic post-minimal">
-                <img src="images/home-post-2-418x315.jpg" alt="Sustainable Building" width="418" height="315"/>
+                <img src="images/home-post-2-418x315.jpg" alt="Sustainable Building" width="418" height="315" loading="lazy" decoding="async" fetchpriority="low"/>
                 <div class="post-classic-title">
                   <h6><a href="projects.html" data-i18n="News2Title">Sustainable Building Practices</a></h6>
                 </div>
@@ -356,7 +360,7 @@
             <div class="col-md-6 col-xl-4">
               <!-- Post classic-->
               <article class="post-classic post-minimal">
-                <img src="images/home-post-3-418x315.jpg" alt="Engineering Excellence" width="418" height="315"/>
+                <img src="images/home-post-3-418x315.jpg" alt="Engineering Excellence" width="418" height="315" loading="lazy" decoding="async" fetchpriority="low"/>
                 <div class="post-classic-title">
                   <h6><a href="projects.html" data-i18n="News3Title">Engineering Excellence</a></h6>
                 </div>
@@ -427,27 +431,26 @@
     <div class="snackbars" id="form-output-global"></div>
     <!-- Javascript-->
     <!-- Data & Custom Scripts inserted before core behavior -->
-    <script src="data/categories.js"></script>
-    <script src="data/projects.js"></script>
-    <script src="data/site.js"></script>
-    <script src="data/departments.js"></script>
-    <script src="data/certificates.js"></script>
-    <script src="data/jobs.js"></script>
-    <script src="data/materials.js"></script>
-    <script src="data/contacts.js"></script>
-    <script src="data/translations.js"></script>
-    <script src="js/content-store.js"></script>
-    <script src="js/i18n.js"></script>
-    <script src="js/nav-projects.js"></script>
-    <script src="js/home-categories.js"></script>
-    <script src="js/certificates-section.js"></script>
-    <script src="js/jobs-section.js"></script>
-    <script src="js/materials-section.js"></script>
-    <script src="js/contacts-section.js"></script>
-    <script src="js/footer-company.js"></script>
-    <script src="js/seo-head.js"></script>
+    <script src="data/categories.js" defer></script>
+    <script src="data/site.js" defer></script>
+    <script src="data/departments.js" defer></script>
+    <script src="data/certificates.js" defer></script>
+    <script src="data/jobs.js" defer></script>
+    <script src="data/materials.js" defer></script>
+    <script src="data/contacts.js" defer></script>
+    <script src="data/translations.js" defer></script>
+    <script src="js/content-store.js" defer></script>
+    <script src="js/i18n.js" defer></script>
+    <script src="js/nav-projects.js" defer></script>
+    <script src="js/home-categories.js" defer></script>
+    <script src="js/certificates-section.js" defer></script>
+    <script src="js/jobs-section.js" defer></script>
+    <script src="js/materials-section.js" defer></script>
+    <script src="js/contacts-section.js" defer></script>
+    <script src="js/footer-company.js" defer></script>
+    <script src="js/seo-head.js" defer></script>
 
-    <script src="js/core.min.js"></script>
-    <script src="js/script.js"></script>
+    <script src="js/core.min.js" defer></script>
+    <script src="js/script.js" defer></script>
   </body>
 </html>

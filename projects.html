@@ -10,9 +10,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta charset="utf-8">
   <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+  <link rel="preload" as="image" href="images/parallax-3.jpg" fetchpriority="high">
   <!-- Stylesheets: vendor base -> theme layer -> font/icon layer -> project overrides -->
-  <link rel="stylesheet" type="text/css"
-    href="//fonts.googleapis.com/css?family=Lato:300,300italic%7CMontserrat:400,700">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;1,300&family=Montserrat:wght@400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;1,300&family=Montserrat:wght@400;700&display=swap"></noscript>
   <link rel="stylesheet" href="css/bootstrap.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/fonts.css">
@@ -48,7 +51,7 @@
               <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-nav-wrap"><span></span></button>
               <!-- RD Navbar Brand-->
               <div class="rd-navbar-brand"><a class="brand-name" href="index.html"><img
-                    src="images/logo-inverse-304x39.png" alt="Rafin Company" width="120" height="120" /></a></div>
+                    src="images/logo-inverse-304x39.png" alt="Rafin Company" width="120" height="120" decoding="async" /></a></div>
             </div>
             <!-- RD Navbar Nav-->
             <div class="rd-navbar-nav-wrap rd-navbar-search_not-collapsable">
@@ -150,22 +153,20 @@
   <div class="snackbars" id="form-output-global"></div>
   <!-- Javascript-->
   <!-- Data & Custom Scripts inserted before core behavior -->
-  <script src="data/categories.js"></script>
-  <script src="data/projects.js"></script>
-  <script src="data/site.js"></script>
-  <script src="data/departments.js"></script>
-  <script src="data/certificates.js"></script>
-  <script src="data/jobs.js"></script>
-  <script src="data/translations.js"></script>
-  <script src="js/content-store.js"></script>
-  <script src="js/i18n.js"></script>
-  <script src="js/nav-projects.js"></script>
-  <script src="js/projects-page.js"></script>
-  <script src="js/footer-company.js"></script>
-  <script src="js/seo-head.js"></script>
+  <script src="data/categories.js" defer></script>
+  <script src="data/projects.js" defer></script>
+  <script src="data/site.js" defer></script>
+  <script src="data/departments.js" defer></script>
+  <script src="data/translations.js" defer></script>
+  <script src="js/content-store.js" defer></script>
+  <script src="js/i18n.js" defer></script>
+  <script src="js/nav-projects.js" defer></script>
+  <script src="js/projects-page.js" defer></script>
+  <script src="js/footer-company.js" defer></script>
+  <script src="js/seo-head.js" defer></script>
 
-  <script src="js/core.min.js"></script>
-  <script src="js/script.js"></script>
+  <script src="js/core.min.js" defer></script>
+  <script src="js/script.js" defer></script>
 </body>
 
 </html>

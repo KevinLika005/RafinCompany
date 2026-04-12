@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="thumb-creative__inner">
             <div class="thumb-creative__front">
               <figure class="thumb-creative__image-wrap">
-                <img class="thumb-creative__image" src="${thumbImage}" alt="${title}"/>
+                <img class="thumb-creative__image" src="${thumbImage}" alt="${title}" width="480" height="361" loading="lazy" decoding="async" fetchpriority="low"/>
               </figure>
               <div class="thumb-creative__content">
                 <h6>${title}</h6>
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
             <div class="thumb-creative__back">
               <figure class="thumb-creative__image-wrap">
-                <img class="thumb-creative__image" src="${thumbImage}" alt="${title}"/>
+                <img class="thumb-creative__image" src="${thumbImage}" alt="${title}" width="480" height="361" loading="lazy" decoding="async" fetchpriority="low"/>
               </figure>
               <div class="thumb-creative__content">
                 <h6 class="thumb-creative__title"><a href="${slugUrl}">${title}</a></h6>

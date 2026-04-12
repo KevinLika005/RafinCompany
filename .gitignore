@@ -1,0 +1,9 @@
+# Local environment noise
+.tmp-edge/
+
+# Local mail/debug captures (generated at runtime)
+data/*.jsonl
+
+# OS/editor noise
+Thumbs.db
+*.log

@@ -26,10 +26,27 @@ document.addEventListener('DOMContentLoaded', () => {
     return `url("${escapedUrl}")`;
   }
 
+  function preloadHeroImage(url) {
+    const safeUrl = String(url || '');
+    if (!safeUrl || !document.head) return;
+
+    const preloadKey = encodeURIComponent(safeUrl);
+    if (document.head.querySelector(`link[data-hero-preload="${preloadKey}"]`)) return;
+
+    const preloadLink = document.createElement('link');
+    preloadLink.rel = 'preload';
+    preloadLink.as = 'image';
+    preloadLink.href = safeUrl;
+    preloadLink.setAttribute('fetchpriority', 'high');
+    preloadLink.setAttribute('data-hero-preload', preloadKey);
+    document.head.appendChild(preloadLink);
+  }
+
   function setHeroBackground(category) {
     const heroImage = category && (category.heroImage || category.thumbImage);
 
     if (heroImage) {
+      preloadHeroImage(heroImage);
       heroContainer.style.setProperty('--category-hero-image', toCssUrlValue(heroImage));
       heroContainer.classList.add('category-hero--has-media');
       heroContainer.classList.remove('category-hero--fallback');
@@ -110,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="col-sm-6 col-lg-4 project-card-item">
         <article class="project-card">
           <a class="project-card__media" href="${slugUrl}">
-            <img src="${escapeHtml(coverImage)}" alt="${escapeHtml(projectTitle)}" width="418" height="315" loading="lazy">
+            <img src="${escapeHtml(coverImage)}" alt="${escapeHtml(projectTitle)}" width="418" height="315" loading="lazy" decoding="async" fetchpriority="low">
           </a>
           <div class="project-card__content">
             <p class="project-card__category">${escapeHtml(categoryTitle)}</p>

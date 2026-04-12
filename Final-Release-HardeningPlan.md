@@ -125,3 +125,45 @@ Risks / technical debt to defer unless blocking
 old PHPMailer version can remain for now if mail works correctly after SMTP setup
 deeper mailer modernization can be done post-launch
 broader repo cleanup can happen later if it does not affect release
+Performance QA follow-up (post-Phase 5)
+Run hosted Lighthouse/CWV checks on:
+https://www.rafincompany.com/
+https://www.rafincompany.com/projects.html
+https://www.rafincompany.com/category.html?slug=civil-buildings
+https://www.rafincompany.com/project.html?slug=healthcare-facility-renovation
+Record LCP/CLS/INP and compare against the byte-level optimization changes before release sign-off.
+
+Phase 6-8 combined pass notes (2026-04-12)
+Completed cleanup
+- Removed tracked local debug artifacts: `data/mail-debug.jsonl`, `data/local-mail-capture.jsonl`.
+- Added root `.gitignore` rules to keep local runtime noise out of commits (`.tmp-edge/`, `data/*.jsonl`, `*.log`, `Thumbs.db`).
+- Removed `style.css` source map footer comment to avoid public source-map fetches in production traffic.
+
+Completed delivery hardening
+- Expanded root `.htaccess` with:
+  - safer default indexing behavior (`Options -Indexes`),
+  - hidden-path protection while preserving `/.well-known/`,
+  - basic security headers (`nosniff`, `SAMEORIGIN`, `referrer-policy`, limited permissions policy),
+  - conservative cache-control/expires for HTML vs static assets,
+  - text/SVG compression via `mod_deflate`,
+  - deny rules for non-public release artifacts and runtime debug file types (`.map`, `.jsonl`, `.log`).
+
+Completed QA/regression (local browser run)
+- Verified render/runtime smoke on:
+  - `index.html?lang=en|sq`
+  - `projects.html?lang=en|sq`
+  - `category.html?slug=civil-buildings&lang=en|sq`
+  - `project.html?slug=healthcare-facility-renovation&lang=en|sq`
+- Confirmed dynamic content hydration for navbar projects dropdown, home dynamic sections, projects cards/filters UI, category/project dynamic title/content, footer/contact blocks, and language switching output.
+- Verified required form anti-spam hidden inputs still render (`company_website`, `form_started_at`).
+- Verified no missing local asset references for active-route dependency paths.
+
+Deferred / remaining risks
+- Full click-by-click interaction automation (menu open/close, filter toggles, slider next/prev) was not scripted in this pass; DOM/state hydration confirms baseline but not every interaction branch.
+- Runtime cache lifetimes remain conservative and non-fingerprinted; long-term strategy can be improved later with hashed asset filenames.
+- Repo-level decision on retaining tracked local toolchains (`.tools/`, `.vendor/`) is deferred.
+
+Contributor guardrails
+- Do not commit runtime captures/logs from `data/*.jsonl`.
+- Keep release-only docs/config/templates non-public via `.htaccess` deny rules.
+- Keep route contracts unchanged: `index.html`, `projects.html`, `category.html?slug=...`, `project.html?slug=...`.
