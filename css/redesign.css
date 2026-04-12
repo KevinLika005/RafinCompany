@@ -1,6 +1,9 @@
 /*
-  Rafin redesign - Phase 1
-  Shared foundation and header cleanup only.
+  Rafin CSS ownership model (Phase 3):
+  - bootstrap.css: vendor framework baseline.
+  - style.css: template/theme baseline and third-party plugin skins.
+  - fonts.css: icon/font-face packs.
+  - redesign.css: project-owned overrides, components, and route states.
 */
 
 :root {
@@ -21,6 +24,26 @@ html {
 body {
   color: var(--rafin-ink);
   top: 0 !important;
+}
+
+/* Phase 3 shared utilities: inline-style replacements and form anti-spam field styling */
+.legacy-browser-warning {
+  background: #212121;
+  padding: 10px 0;
+  box-shadow: 3px 3px 5px 0 rgba(0, 0, 0, 0.3);
+  clear: both;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.form-honeypot {
+  position: absolute !important;
+  left: -10000px !important;
+  top: auto !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
 }
 
 .ui-to-top,
@@ -231,6 +254,18 @@ select:focus-visible {
 }
 
 @media (max-width: 1199px) {
+  /* Keep mobile fixed navbar in the same project blue used on desktop states */
+  .page-header .rd-navbar-fixed .rd-navbar-panel,
+  .page-header .rd-navbar-fixed .rd-navbar-nav-wrap,
+  .page-header .rd-navbar-fixed .rd-navbar-top-panel__content {
+    background: var(--rafin-dark);
+  }
+
+  .page-header .rd-navbar-fixed .rd-navbar-nav-wrap,
+  .page-header .rd-navbar-fixed .rd-navbar-top-panel__content {
+    border-color: rgba(255, 255, 255, 0.14);
+  }
+
   .page-header .rd-navbar-aside-right {
     position: fixed;
     top: 0;
@@ -302,6 +337,9 @@ select:focus-visible {
 }
 
 .category-hero {
+  --category-hero-image: none;
+  background-image: var(--category-hero-image);
+  background-color: #212121;
   background-size: cover;
   background-position: center;
   background-attachment: scroll;
@@ -310,6 +348,15 @@ select:focus-visible {
   align-items: center;
   justify-content: center;
   position: relative;
+}
+
+.category-hero.category-hero--has-media {
+  background-color: transparent;
+}
+
+.category-hero.category-hero--fallback {
+  background-image: none;
+  background-color: #212121;
 }
 
 .category-hero-overlay {
@@ -327,6 +374,10 @@ select:focus-visible {
 }
 
 .project-hero {
+  --project-hero-image: none;
+  --project-hero-color: #212121;
+  background-image: var(--project-hero-image);
+  background-color: var(--project-hero-color);
   background-size: cover;
   background-position: center;
   background-attachment: scroll;
@@ -336,6 +387,14 @@ select:focus-visible {
   justify-content: center;
   position: relative;
   transition: background-image 0.8s ease-in-out;
+}
+
+.project-hero.project-hero--has-image {
+  --project-hero-color: transparent;
+}
+
+.project-hero.project-hero--has-color {
+  --project-hero-image: none;
 }
 
 .project-hero-overlay {
@@ -1344,12 +1403,16 @@ img:not(.certificate-badge):not(.certificate-circle):not(.img-circle):not(.csslo
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  transition: all 0.3s ease !important;
 }
 
 .projects-page .projects-filter-btn:hover,
 .projects-page .projects-filter-btn:focus-visible {
-  border-color: #112436;
-  color: #112436;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  border-color: #111a24;
+  background-color: #111a24;
+  color: #fff;
 }
 
 .projects-page .projects-filter-btn.active {
@@ -1596,12 +1659,20 @@ img:not(.certificate-badge):not(.certificate-circle):not(.img-circle):not(.csslo
   display: none;
 }
 
+.project-page .slider-nav.slider-nav--active {
+  display: flex;
+}
+
 .project-page .project-hero__title {
   color: #fff;
 }
 
 .project-page .project-excerpt {
   display: none;
+}
+
+.project-page .project-excerpt.project-excerpt--visible {
+  display: block;
 }
 
 .project-page .project-description {
@@ -1615,12 +1686,20 @@ img:not(.certificate-badge):not(.certificate-circle):not(.img-circle):not(.csslo
   margin-top: 15px;
 }
 
+.project-page .project-info-box.project-info-box--hidden {
+  display: none;
+}
+
 .project-page .project-info-item {
   display: none;
   margin-bottom: 10px;
   color: #3c4e5f;
   font-size: 14px;
   letter-spacing: 0.02em;
+}
+
+.project-page .project-info-item.project-info-item--visible {
+  display: list-item;
 }
 
 .project-page .project-detail-nav-section {
@@ -1636,6 +1715,10 @@ img:not(.certificate-badge):not(.certificate-circle):not(.img-circle):not(.csslo
   border-top: 1px solid #dbe3ee;
 }
 
+.project-page .project-detail-nav.project-detail-nav--active {
+  display: grid;
+}
+
 .project-page .project-detail-nav-card {
   display: none;
   flex-direction: column;
@@ -1646,6 +1729,10 @@ img:not(.certificate-badge):not(.certificate-circle):not(.img-circle):not(.csslo
   background: #fff;
   text-decoration: none;
   transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.project-page .project-detail-nav-card.project-detail-nav-card--active {
+  display: flex;
 }
 
 .project-page .project-detail-nav-card:hover,
@@ -1681,6 +1768,14 @@ img:not(.certificate-badge):not(.certificate-circle):not(.img-circle):not(.csslo
   font-weight: 700;
   letter-spacing: 0.11em;
   text-transform: uppercase;
+}
+
+.project-page .nav-category {
+  display: none;
+}
+
+.project-page .nav-category.nav-category--visible {
+  display: block;
 }
 
 .project-page .project-detail-nav-card--next {
@@ -1766,8 +1861,7 @@ img:not(.certificate-badge):not(.certificate-circle):not(.img-circle):not(.csslo
 .button,
 button,
 .filter-btn,
-.slider-btn,
-.projects-page .projects-filter-btn {
+.slider-btn {
   transition: all 0.3s ease !important;
 }
 
@@ -1775,8 +1869,7 @@ button,
 .button:hover,
 button:hover,
 .filter-btn:hover,
-.slider-btn:hover,
-.projects-page .projects-filter-btn:hover {
+.slider-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
   background-color: #111a24 !important;

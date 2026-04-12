@@ -21,21 +21,24 @@ document.addEventListener('DOMContentLoaded', () => {
       .replace(/'/g, '&#39;');
   }
 
+  function toCssUrlValue(url) {
+    const escapedUrl = String(url || '').replace(/"/g, '\\"');
+    return `url("${escapedUrl}")`;
+  }
+
   function setHeroBackground(category) {
-    if (category && category.heroImage) {
-      heroContainer.style.backgroundImage = `url('${category.heroImage}')`;
-      heroContainer.style.backgroundColor = '';
+    const heroImage = category && (category.heroImage || category.thumbImage);
+
+    if (heroImage) {
+      heroContainer.style.setProperty('--category-hero-image', toCssUrlValue(heroImage));
+      heroContainer.classList.add('category-hero--has-media');
+      heroContainer.classList.remove('category-hero--fallback');
       return;
     }
 
-    if (category && category.thumbImage) {
-      heroContainer.style.backgroundImage = `url('${category.thumbImage}')`;
-      heroContainer.style.backgroundColor = '';
-      return;
-    }
-
-    heroContainer.style.backgroundImage = '';
-    heroContainer.style.backgroundColor = '#212121';
+    heroContainer.style.removeProperty('--category-hero-image');
+    heroContainer.classList.remove('category-hero--has-media');
+    heroContainer.classList.add('category-hero--fallback');
   }
 
   function renderMissingState(titleText, descriptionText) {

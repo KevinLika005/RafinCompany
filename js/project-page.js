@@ -19,16 +19,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const defaultMissingTitle = window.I18n.translate('Project Not Found') || 'Project Not Found';
   const defaultMissingDesc = window.I18n.translate('Please go back and select a valid project.') || 'Please go back and select a valid project.';
+  const infoBox = document.querySelector('.project-info-box');
+
+  const toggleClassState = (element, className, shouldEnable) => {
+    if (!element) return;
+    element.classList.toggle(className, Boolean(shouldEnable));
+  };
+
+  const toCssUrlValue = (url) => {
+    const escapedUrl = String(url || '').replace(/"/g, '\\"');
+    return `url("${escapedUrl}")`;
+  };
+
+  const setHeroBackgroundState = (value) => {
+    if (value && value.startsWith('#')) {
+      heroContainer.style.removeProperty('--project-hero-image');
+      heroContainer.style.setProperty('--project-hero-color', value);
+      heroContainer.classList.add('project-hero--has-color');
+      heroContainer.classList.remove('project-hero--has-image');
+      return;
+    }
+
+    heroContainer.style.setProperty('--project-hero-image', toCssUrlValue(value));
+    heroContainer.style.removeProperty('--project-hero-color');
+    heroContainer.classList.add('project-hero--has-image');
+    heroContainer.classList.remove('project-hero--has-color');
+  };
 
   const showMissingState = () => {
     titleContainer.textContent = defaultMissingTitle;
     descriptionContainer.textContent = defaultMissingDesc;
-    if (excerptContainer) excerptContainer.style.display = 'none';
-    heroContainer.style.backgroundColor = '#212121';
-    heroContainer.style.backgroundImage = 'none';
-    const infoBox = document.querySelector('.project-info-box');
-    if (infoBox) infoBox.style.display = 'none';
-    if (projectNav) projectNav.style.display = 'none';
+    toggleClassState(excerptContainer, 'project-excerpt--visible', false);
+    setHeroBackgroundState('#212121');
+    toggleClassState(infoBox, 'project-info-box--hidden', true);
+    toggleClassState(projectNav, 'project-detail-nav--active', false);
   };
 
   if (!slug) {
@@ -42,6 +66,8 @@ document.addEventListener('DOMContentLoaded', () => {
     showMissingState();
     return;
   }
+
+  toggleClassState(infoBox, 'project-info-box--hidden', false);
 
   const getUiText = (translationKey, fallback) => {
     const translated = window.I18n.translate(translationKey);
@@ -75,9 +101,9 @@ document.addEventListener('DOMContentLoaded', () => {
   if (excerptContainer) {
     if (excerpt) {
       excerptContainer.innerHTML = excerpt;
-      excerptContainer.style.display = 'block';
+      toggleClassState(excerptContainer, 'project-excerpt--visible', true);
     } else {
-      excerptContainer.style.display = 'none';
+      toggleClassState(excerptContainer, 'project-excerpt--visible', false);
     }
   }
 
@@ -96,9 +122,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const valueEl = el.querySelector(valSelector);
       if (labelEl) labelEl.textContent = getUiText(labelKey, labelKey);
       if (valueEl) valueEl.textContent = value;
-      el.style.display = 'list-item';
+      toggleClassState(el, 'project-info-item--visible', true);
     } else {
-      el.style.display = 'none';
+      toggleClassState(el, 'project-info-item--visible', false);
     }
   };
 
@@ -125,13 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const setHeroBackground = (idx) => {
     const val = heroImages[idx];
-    if (val.startsWith('#')) {
-      heroContainer.style.backgroundColor = val;
-      heroContainer.style.backgroundImage = 'none';
-    } else {
-      heroContainer.style.backgroundColor = '';
-      heroContainer.style.backgroundImage = `url('${val}')`;
-    }
+    setHeroBackgroundState(val);
   };
 
   setHeroBackground(0);
@@ -146,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (heroImages.length > 1 && navContainer) {
-    navContainer.style.display = 'flex';
+    toggleClassState(navContainer, 'slider-nav--active', true);
 
     if (sliderPrevBtn && sliderPrevBtn.dataset.bound !== 'true') {
       sliderPrevBtn.addEventListener('click', () => {
@@ -173,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 4500);
     heroContainer.dataset.intervalId = intervalId.toString();
   } else if (navContainer) {
-    navContainer.style.display = 'none';
+    toggleClassState(navContainer, 'slider-nav--active', false);
   }
 
   const allProjects = window.ContentStore.getProjects();
@@ -199,7 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const populateNavCard = (card, targetProject, navLabelKey) => {
     if (!card) return;
     if (!targetProject) {
-      card.style.display = 'none';
+      toggleClassState(card, 'project-detail-nav-card--active', false);
       return;
     }
 
@@ -211,24 +231,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const categoryEl = card.querySelector('.nav-category');
 
     card.href = `project.html?slug=${encodeURIComponent(targetProject.slug)}`;
-    card.style.display = 'flex';
+    toggleClassState(card, 'project-detail-nav-card--active', true);
 
     if (labelEl) labelEl.textContent = getUiText(navLabelKey, navLabelKey);
     if (titleEl) titleEl.textContent = targetTitle;
     if (categoryEl) {
       if (targetCategoryName) {
         categoryEl.textContent = targetCategoryName;
-        categoryEl.style.display = 'block';
+        toggleClassState(categoryEl, 'nav-category--visible', true);
       } else {
         categoryEl.textContent = '';
-        categoryEl.style.display = 'none';
+        toggleClassState(categoryEl, 'nav-category--visible', false);
       }
     }
   };
 
   if (projectNav) {
     const hasAdjacentProjects = Boolean(prevProject || nextProject);
-    projectNav.style.display = hasAdjacentProjects ? 'grid' : 'none';
+    toggleClassState(projectNav, 'project-detail-nav--active', hasAdjacentProjects);
 
     populateNavCard(prevBtn, prevProject, 'Previous Project');
     populateNavCard(nextBtn, nextProject, 'Next Project');

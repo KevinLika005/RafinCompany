@@ -1141,7 +1141,7 @@
       var $honeypot = $form.find('input[name="company_website"]');
 
       if (!$honeypot.length) {
-        $honeypot = $('<input type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;" />');
+        $honeypot = $('<input class="form-honeypot" type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" />');
         $form.append($honeypot);
       }
     }
@@ -1547,14 +1547,126 @@
 
   /**
    * Page loader
-   * @description Enables Page loader
+   * @description Releases page loader on critical route readiness with a hard fallback
    */
   if (plugins.pageLoader.length) {
-    $window.on("load", function () {
+    var pageLoaderReleased = false;
+    var pageLoaderStartedAt = Date.now();
+    var pageLoaderMinVisibleMs = 120;
+    var pageLoaderFallbackMs = 1800;
+    var pageLoaderPollMs = 40;
+    var pageLoaderReadinessTimer = null;
+    var pageLoaderFallbackTimer = null;
+
+    function getLoaderRoute() {
+      if ($body.hasClass("category-page")) {
+        return "category";
+      }
+
+      if ($body.hasClass("project-page")) {
+        return "project";
+      }
+
+      if ($body.hasClass("projects-page")) {
+        return "projects";
+      }
+
+      return "home";
+    }
+
+    function isCriticalRouteReady() {
+      var pageRoot = document.querySelector(".page");
+      var route = getLoaderRoute();
+      var titleText, grid, title, descriptionText;
+
+      if (!pageRoot) {
+        return false;
+      }
+
+      if (route === "home") {
+        return !!(document.querySelector(".page-header .rd-navbar") && document.querySelector("#home .swiper-container"));
+      }
+
+      if (route === "projects") {
+        grid = document.getElementById("projects-grid");
+        return !!(document.getElementById("project-filters") && grid && grid.childElementCount > 0);
+      }
+
+      if (route === "category") {
+        title = document.getElementById("category-title");
+        grid = document.getElementById("category-projects-grid");
+        titleText = title ? $.trim(title.textContent || "") : "";
+        return !!(title && grid && grid.childElementCount > 0 && titleText && titleText !== "Loading...");
+      }
+
+      if (route === "project") {
+        title = document.getElementById("project-title");
+        titleText = title ? $.trim(title.textContent || "") : "";
+        descriptionText = $.trim($("#project-description").text() || "");
+        return !!(title && (descriptionText.length > 0 || (titleText && titleText !== "Loading...")));
+      }
+
+      return true;
+    }
+
+    function revealPageLoader() {
+      var elapsed, remainingDelay;
+
+      if (pageLoaderReleased) {
+        return;
+      }
+
+      pageLoaderReleased = true;
+
+      if (pageLoaderReadinessTimer) {
+        clearInterval(pageLoaderReadinessTimer);
+        pageLoaderReadinessTimer = null;
+      }
+
+      if (pageLoaderFallbackTimer) {
+        clearTimeout(pageLoaderFallbackTimer);
+        pageLoaderFallbackTimer = null;
+      }
+
+      elapsed = Date.now() - pageLoaderStartedAt;
+      remainingDelay = Math.max(0, pageLoaderMinVisibleMs - elapsed);
+
       setTimeout(function () {
         plugins.pageLoader.addClass("loaded");
         $window.trigger("resize");
-      }, 50);
+      }, remainingDelay);
+    }
+
+    function startPageLoaderReadinessChecks() {
+      if (isCriticalRouteReady()) {
+        revealPageLoader();
+        return;
+      }
+
+      pageLoaderReadinessTimer = setInterval(function () {
+        if (isCriticalRouteReady()) {
+          revealPageLoader();
+        }
+      }, pageLoaderPollMs);
+    }
+
+    pageLoaderFallbackTimer = setTimeout(function () {
+      revealPageLoader();
+    }, pageLoaderFallbackMs);
+
+    if (document.readyState === "loading") {
+      var onDomReady = function () {
+        document.removeEventListener("DOMContentLoaded", onDomReady);
+        startPageLoaderReadinessChecks();
+      };
+
+      document.addEventListener("DOMContentLoaded", onDomReady);
+    } else {
+      startPageLoaderReadinessChecks();
+    }
+
+    $window.on("load.pageLoader", function () {
+      revealPageLoader();
     });
   }
 

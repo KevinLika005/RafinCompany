@@ -75,7 +75,7 @@
                 <textarea class="form-input" id="contacts-message" name="message" data-constraints="@Required"></textarea>
               </div>
               <input type="hidden" name="form-type" value="contact" />
-              <input type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;" />
+              <input class="form-honeypot" type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" />
               <input type="hidden" name="form_started_at" value="${formStartedAt}" />
               <div class="form-wrap contacts-form-actions">
                 <button class="button button-primary" type="submit">${escapeHtml(getLocalizedValue(form.submitLabel))}</button>

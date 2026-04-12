@@ -178,7 +178,7 @@
                     <input class="form-input" id="footer-email" type="email" name="email" data-constraints="@Email @Required" />
                   </div>
                   <input type="hidden" name="form-type" value="subscribe" />
-                  <input type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;" />
+                  <input class="form-honeypot" type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" />
                   <input type="hidden" name="form_started_at" value="${formStartedAt}" />
                   <button class="button button-primary" type="submit">${escapeHtml(t("Send", "Send"))}</button>
                 </form>
