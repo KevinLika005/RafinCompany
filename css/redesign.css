@@ -226,6 +226,30 @@ select:focus-visible {
   background: transparent !important;
 }
 
+/* Phase 12 Header Edge-Alignment for Large Desktop Screens */
+@media (min-width: 1200px) {
+  .page-header .rd-navbar-static.rd-navbar_boxed .rd-navbar-inner {
+    max-width: 100%;
+    padding-left: 4vw;
+    padding-right: 4vw;
+    transition: padding 0.3s ease, min-height 0.3s ease;
+  }
+}
+
+@media (min-width: 1600px) {
+  .page-header .rd-navbar-static.rd-navbar_boxed .rd-navbar-inner {
+    padding-left: 6vw;
+    padding-right: 6vw;
+  }
+}
+
+@media (min-width: 1920px) {
+  .page-header .rd-navbar-static.rd-navbar_boxed .rd-navbar-inner {
+    padding-left: 8vw;
+    padding-right: 8vw;
+  }
+}
+
 .page-header .rd-navbar-static.rd-navbar--is-stuck,
 .page-header .rd-navbar-static.rd-navbar--is-clone,
 .rd-navbar-static.rd-navbar--is-stuck,
@@ -254,6 +278,7 @@ select:focus-visible {
 }
 
 @media (max-width: 1199px) {
+
   /* Keep mobile fixed navbar in the same project blue used on desktop states */
   .page-header .rd-navbar-fixed .rd-navbar-panel,
   .page-header .rd-navbar-fixed .rd-navbar-nav-wrap,
@@ -334,6 +359,136 @@ select:focus-visible {
 .thumb-creative__front,
 .thumb-creative__back {
   min-height: 260px;
+}
+
+/* Video Hero (Eberhard-inspired) */
+.video-hero-section {
+  position: relative;
+  min-height: max(620px, 88vh);
+  display: flex;
+  align-items: flex-end;
+  background-color: #111a24;
+  overflow: hidden;
+}
+
+.video-hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.video-hero-bg video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.video-hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(104deg, rgba(8, 13, 18, 0.58) 14%, rgba(8, 13, 18, 0.34) 52%, rgba(8, 13, 18, 0.5) 100%);
+  z-index: 2;
+}
+
+.video-hero-content {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  padding-top: clamp(150px, 18vh, 220px);
+  padding-bottom: clamp(70px, 10vh, 110px);
+}
+
+.video-hero-title {
+  color: #fff;
+  font-size: clamp(2.1rem, 4.6vw, 4.6rem);
+  font-weight: 700;
+  line-height: 1.08;
+  margin-bottom: 20px;
+  text-transform: none;
+  letter-spacing: -0.01em;
+  max-width: 14ch;
+}
+
+.video-hero-text {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: clamp(1rem, 1.55vw, 1.42rem);
+  font-weight: 400;
+  line-height: 1.55;
+  margin-bottom: 30px;
+  max-width: 720px;
+}
+
+.video-hero-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.video-hero-actions .video-hero-button {
+  margin-top: 0 !important;
+}
+
+.video-hero-button {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  min-width: 164px;
+  width: 164px;
+  min-height: 48px !important;
+  height: 48px !important;
+  padding: 0 22px !important;
+  border-width: 1px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.video-hero-button--secondary {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.42);
+  background: rgba(12, 18, 26, 0.34);
+}
+
+.video-hero-button--secondary:hover,
+.video-hero-button--secondary:focus-visible {
+  color: #f9b707;
+  border-color: #f9b707;
+  background: rgba(249, 183, 7, 0.14);
+}
+
+@media (max-width: 991px) {
+  .video-hero-section {
+    min-height: 560px;
+  }
+
+  .video-hero-content {
+    padding-top: 140px;
+    padding-bottom: 54px;
+  }
+}
+
+@media (max-width: 575px) {
+  .video-hero-title,
+  .video-hero-text {
+    max-width: 100%;
+  }
+
+  .video-hero-text {
+    margin-bottom: 24px;
+  }
+
+  .video-hero-button {
+    width: 100%;
+    text-align: center;
+  }
 }
 
 .category-hero {
@@ -448,12 +603,58 @@ select:focus-visible {
 }
 
 /* Legacy responsive safeguards migrated from phase9-fixes.css */
+#projects {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+#projects .container-fluid.container-flex {
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+}
+
 #projects .row.no-gutters {
   flex-wrap: wrap;
+  justify-content: flex-start;
 }
 
 #projects .col-sm-6 {
   padding: 0;
+}
+
+#projects .thumb-creative {
+  margin-bottom: 0;
+}
+
+#projects .thumb-creative:hover .thumb-creative__image {
+  -webkit-transform: translate(-50%, -50%) scale(1.05) !important;
+  transform: translate(-50%, -50%) scale(1.05) !important;
+}
+
+#projects .thumb-creative__back .thumb-creative__content p {
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+#projects .thumb-creative__back .thumb-creative__content .button-link {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  transform: none !important;
+  color: #f9b707 !important;
+  text-decoration: underline;
+  padding: 0 !important;
+}
+
+#projects .thumb-creative__back .thumb-creative__content .button-link:hover,
+#projects .thumb-creative__back .thumb-creative__content .button-link:focus-visible {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  transform: none !important;
+  color: #f9b707 !important;
+  text-decoration: none;
 }
 
 #jobs-container {
@@ -1858,7 +2059,7 @@ img:not(.certificate-badge):not(.certificate-circle):not(.img-circle):not(.csslo
 
 /* Recovered Changes: Button Hover & Smooth Image Scrolling */
 .btn,
-.button,
+.button:not(.button-link):not(.video-hero-button),
 button,
 .filter-btn,
 .slider-btn {
@@ -1866,7 +2067,7 @@ button,
 }
 
 .btn:hover,
-.button:hover,
+.button:not(.button-link):not(.video-hero-button):hover,
 button:hover,
 .filter-btn:hover,
 .slider-btn:hover {
@@ -1917,7 +2118,7 @@ img:not(.certificate-badge):not(.certificate-circle):not(.img-circle):not(.csslo
     max-height: none;
   }
 
-  .page-header .rd-navbar-nav > li > a {
+  .page-header .rd-navbar-nav>li>a {
     font-size: 14px;
     letter-spacing: 0.09em;
   }
@@ -1966,7 +2167,7 @@ img:not(.certificate-badge):not(.certificate-circle):not(.img-circle):not(.csslo
     max-height: none;
   }
 
-  .page-header .rd-navbar-nav > li > a {
+  .page-header .rd-navbar-nav>li>a {
     font-size: 15px;
   }
 

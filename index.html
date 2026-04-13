@@ -73,52 +73,27 @@
           </nav>
         </div>
       </header>
-      <!-- Swiper-->
-      <section id="home">
-        <div class="swiper-container swiper-slider swiper-slider_fullheight bg-gray-dark" data-simulate-touch="false" data-loop="true" data-autoplay="4500">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide" data-slide-bg="images/parallax-2.jpg">
-              <div class="swiper-slide-caption text-center">
-                <div class="container">
-                  <div class="row justify-content-lg-center">
-                    <div class="col-lg-10"> 
-                      <h1 class="heading-decorated" data-caption-animate="fadeInUpSmall" data-i18n="Hero Slide 1 Title">Construction</h1>
-                      <h4 class="text-boxed" data-caption-animate="fadeInUpSmall" data-caption-delay="200" data-i18n="Hero Slide 1 Subtitle">WE Construct Respecting The Nature</h4><a class="button button-primary" data-caption-animate="fadeInUpSmall" data-caption-delay="350" href="#modal" data-toggle="modal" data-i18n="Contact Us">Contact Us</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="swiper-slide text-center" data-slide-bg="images/parallax-1.jpg"> 
-              <div class="swiper-slide-caption">
-                <div class="container">
-                  <div class="row justify-content-lg-center">
-                    <div class="col-lg-10"> 
-                      <h1 class="heading-decorated" data-caption-animate="fadeInUpSmall" data-i18n="Hero Slide 2 Title">Build</h1>
-                      <h4 data-caption-animate="fadeInUpSmall" data-caption-delay="200" data-i18n="Hero Slide 2 Subtitle">We Build the Future</h4><a class="button button-primary" data-caption-animate="fadeInUpSmall" data-caption-delay="350" href="#modal" data-toggle="modal" data-i18n="Contact Us">Contact Us</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="swiper-slide text-center" data-slide-bg="images/parallax-3.jpg">
-              <div class="swiper-slide-caption">
-                <div class="container">
-                  <div class="row justify-content-lg-center">
-                    <div class="col-lg-10">
-                      <h1 class="heading-decorated" data-caption-animate="fadeInUpSmall" data-i18n="Hero Slide 3 Title">Projects</h1>
-                      <h4 data-caption-animate="fadeInUpSmall" data-caption-delay="200" data-i18n="Hero Slide 3 Subtitle">This year we took more complex constructions than ever before...</h4><a class="button button-primary" data-caption-animate="fadeInUpSmall" data-caption-delay="350" href="#modal" data-toggle="modal" data-i18n="Contact Us">Contact Us</a>
-                    </div>
-                  </div>
+      <section id="home" class="video-hero-section" aria-label="Hero">
+        <div class="video-hero-bg" aria-hidden="true">
+          <video autoplay muted loop playsinline preload="metadata" poster="images/parallax-2.jpg">
+            <source src="images/mixkit-buildings-under-construction-aerial-view-4010-full-hd.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="video-hero-overlay" aria-hidden="true"></div>
+        <div class="video-hero-content">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-11 col-xl-9 col-xxl-8">
+                <h1 class="video-hero-title">Building Infrastructure With Precision and Responsibility</h1>
+                <p class="video-hero-text">Rafin delivers civil, road, electrical and industrial projects with technical discipline, reliable execution and long-term value.</p>
+                <div class="video-hero-actions">
+                  <a class="button button-primary video-hero-button" href="projects.html">Projects</a>
+                  <a class="button video-hero-button video-hero-button--secondary" href="#jobs">Careers</a>
+                  <a class="button video-hero-button video-hero-button--secondary" href="#contacts">Contact</a>
                 </div>
               </div>
             </div>
           </div>
-          <!-- Swiper Pagination-->
-          <div class="swiper-pagination"></div>
-          <!-- Swiper Navigation-->
-          <div class="swiper-button-prev linear-icon-chevron-left"></div>
-          <div class="swiper-button-next linear-icon-chevron-right"></div>
         </div>
       </section>
 

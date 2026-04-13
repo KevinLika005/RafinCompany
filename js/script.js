@@ -1590,7 +1590,7 @@
       }
 
       if (route === "home") {
-        return !!(document.querySelector(".page-header .rd-navbar") && document.querySelector("#home .swiper-container"));
+        return !!(document.querySelector(".page-header .rd-navbar") && document.querySelector("#home .swiper-container, #home.video-hero-section"));
       }
 
       if (route === "projects") {
