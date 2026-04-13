@@ -134,7 +134,7 @@ function mfExitWithCode($code, $logMessage = '', $publicReason = '')
         header('Content-Type: text/plain; charset=UTF-8');
         header('X-Rafin-Mail-Code: ' . $code);
         header('X-Rafin-Mail-Request-Id: ' . mfSanitizeHeaderValue(isset($GLOBALS['mfRequestId']) ? $GLOBALS['mfRequestId'] : ''));
-        if (mfDebugEnabled() && $publicReason !== '') {
+        if ($publicReason !== '') {
             header('X-Rafin-Mail-Diagnostic: ' . mfSanitizeHeaderValue($publicReason));
         }
     }
@@ -211,8 +211,11 @@ function mfConfigString($config, $envKey, $configKey, $defaultValue)
         return $value;
     }
 
-    if (isset($config[$configKey]) && is_scalar($config[$configKey])) {
-        return trim((string)$config[$configKey]);
+    $configKeys = is_array($configKey) ? $configKey : array($configKey);
+    foreach ($configKeys as $key) {
+        if (isset($config[$key]) && is_scalar($config[$key])) {
+            return trim((string)$config[$key]);
+        }
     }
 
     return $defaultValue;
@@ -232,20 +235,68 @@ function mfConfigBool($config, $envKey, $configKey, $defaultValue)
         return mfEnvBool($envKey, $defaultValue);
     }
 
-    if (!array_key_exists($configKey, $config)) {
-        return $defaultValue;
+    $configKeys = is_array($configKey) ? $configKey : array($configKey);
+    foreach ($configKeys as $key) {
+        if (!array_key_exists($key, $config)) {
+            continue;
+        }
+
+        if (is_bool($config[$key])) {
+            return $config[$key];
+        }
+
+        $normalized = strtolower(trim((string)$config[$key]));
+        if ($normalized === '1' || $normalized === 'true' || $normalized === 'yes' || $normalized === 'on') {
+            return true;
+        }
+        if ($normalized === '0' || $normalized === 'false' || $normalized === 'no' || $normalized === 'off') {
+            return false;
+        }
     }
 
-    if (is_bool($config[$configKey])) {
-        return $config[$configKey];
+    return $defaultValue;
+}
+
+function mfConfigInt($config, $envKey, $configKey, $defaultValue, $minValue = null)
+{
+    $value = mfEnvString($envKey, '__MF_UNSET__');
+    if ($value !== '__MF_UNSET__') {
+        if (preg_match('/^-?\d+$/', $value) !== 1) {
+            return $defaultValue;
+        }
+
+        $parsed = (int)$value;
+        if ($minValue !== null && $parsed < $minValue) {
+            return $defaultValue;
+        }
+
+        return $parsed;
     }
 
-    $normalized = strtolower(trim((string)$config[$configKey]));
-    if ($normalized === '1' || $normalized === 'true' || $normalized === 'yes' || $normalized === 'on') {
-        return true;
-    }
-    if ($normalized === '0' || $normalized === 'false' || $normalized === 'no' || $normalized === 'off') {
-        return false;
+    $configKeys = is_array($configKey) ? $configKey : array($configKey);
+    foreach ($configKeys as $key) {
+        if (!array_key_exists($key, $config)) {
+            continue;
+        }
+
+        $raw = $config[$key];
+        if (is_string($raw)) {
+            $raw = trim($raw);
+        }
+
+        if (is_int($raw) || is_float($raw)) {
+            $parsed = (int)$raw;
+        } elseif (is_string($raw) && preg_match('/^-?\d+$/', $raw) === 1) {
+            $parsed = (int)$raw;
+        } else {
+            continue;
+        }
+
+        if ($minValue !== null && $parsed < $minValue) {
+            return $defaultValue;
+        }
+
+        return $parsed;
     }
 
     return $defaultValue;
@@ -511,34 +562,49 @@ if (!isset($_POST['form-type'])) {
     mfExitWithCode('MF004');
 }
 
-if (!array_key_exists('company_website', $_POST)) {
-    mfExitWithCode('MF007', 'Missing honeypot field.', 'anti_spam_rejected');
-}
-
-$honeypotValue = mfSanitizeSingleLine($_POST['company_website'], 255);
-if ($honeypotValue !== '') {
-    mfExitWithCode('MF007', 'Honeypot field contained a value.', 'anti_spam_rejected');
-}
-
 $formType = strtolower(mfSanitizeSingleLine($_POST['form-type'], 20));
 $allowedFormTypes = array('contact', 'subscribe');
 if (!in_array($formType, $allowedFormTypes, true)) {
     mfExitWithCode('MF004');
 }
 
-if (!array_key_exists('form_started_at', $_POST)) {
-    mfExitWithCode('MF007', 'Missing form_started_at field.', 'anti_spam_rejected');
+$mailConfig = mfLoadMailConfig();
+
+$disableAntiSpam = mfConfigBool($mailConfig, 'MAIL_DISABLE_ANTI_SPAM', array('disableAntiSpam', 'MAIL_DISABLE_ANTI_SPAM'), false);
+$minFormAgeSeconds = mfConfigInt($mailConfig, 'MAIL_MIN_FORM_AGE_SECONDS', array('minFormAgeSeconds', 'MAIL_MIN_FORM_AGE_SECONDS'), 2, 0);
+$maxFormAgeSeconds = mfConfigInt($mailConfig, 'MAIL_MAX_FORM_AGE_SECONDS', array('maxFormAgeSeconds', 'MAIL_MAX_FORM_AGE_SECONDS'), 86400, 1);
+$rateLimitMaxPerWindow = mfConfigInt($mailConfig, 'MAIL_RATE_LIMIT_MAX_PER_WINDOW', array('rateLimitMaxPerWindow', 'MAIL_RATE_LIMIT_MAX_PER_WINDOW'), 8, 1);
+$rateLimitWindowSeconds = mfConfigInt($mailConfig, 'MAIL_RATE_LIMIT_WINDOW_SECONDS', array('rateLimitWindowSeconds', 'MAIL_RATE_LIMIT_WINDOW_SECONDS'), 3600, 1);
+$rateLimitMinSecondsBetween = mfConfigInt($mailConfig, 'MAIL_RATE_LIMIT_MIN_SECONDS_BETWEEN', array('rateLimitMinSecondsBetween', 'MAIL_RATE_LIMIT_MIN_SECONDS_BETWEEN'), 10, 0);
+
+if ($maxFormAgeSeconds < $minFormAgeSeconds) {
+    $maxFormAgeSeconds = $minFormAgeSeconds;
 }
 
-$formStartedAt = mfValidateUnixTimestamp($_POST['form_started_at']);
-if ($formStartedAt <= 0) {
-    mfExitWithCode('MF007', 'Invalid form_started_at timestamp.', 'anti_spam_rejected');
-}
+if (!$disableAntiSpam) {
+    if (!array_key_exists('company_website', $_POST)) {
+        mfExitWithCode('MF007', 'Missing honeypot field.', 'anti_spam_rejected');
+    }
 
-$now = time();
-$formAgeSeconds = $now - $formStartedAt;
-if ($formAgeSeconds < 2 || $formAgeSeconds > 86400) {
-    mfExitWithCode('MF007', 'Form age failed anti-spam validation.', 'anti_spam_rejected');
+    $honeypotValue = mfSanitizeSingleLine($_POST['company_website'], 255);
+    if ($honeypotValue !== '') {
+        mfExitWithCode('MF007', 'Honeypot field contained a value.', 'anti_spam_rejected');
+    }
+
+    if (!array_key_exists('form_started_at', $_POST)) {
+        mfExitWithCode('MF007', 'Missing form_started_at field.', 'anti_spam_rejected');
+    }
+
+    $formStartedAt = mfValidateUnixTimestamp($_POST['form_started_at']);
+    if ($formStartedAt <= 0) {
+        mfExitWithCode('MF007', 'Invalid form_started_at timestamp.', 'anti_spam_rejected');
+    }
+
+    $now = time();
+    $formAgeSeconds = $now - $formStartedAt;
+    if ($formAgeSeconds < $minFormAgeSeconds || $formAgeSeconds > $maxFormAgeSeconds) {
+        mfExitWithCode('MF007', 'Form age failed anti-spam validation.', 'anti_spam_rejected');
+    }
 }
 
 $commonAllowedFields = array('form-type', 'counter', 'email', 'company_website', 'form_started_at', 'g-recaptcha-response');
@@ -554,7 +620,7 @@ if (!isset($allowedFieldsByType[$formType]) || !mfHasOnlyAllowedFields($_POST, $
 $remoteIp = mfGetRemoteIpAddress();
 $isLocalDevelopmentRequest = mfIsLocalDevelopmentRequest($remoteIp);
 
-if (!$isLocalDevelopmentRequest && !mfRateLimitAllowsSubmission($remoteIp, 8, 3600, 10)) {
+if (!$disableAntiSpam && !$isLocalDevelopmentRequest && !mfRateLimitAllowsSubmission($remoteIp, $rateLimitMaxPerWindow, $rateLimitWindowSeconds, $rateLimitMinSecondsBetween)) {
     mfExitWithCode('MF007', 'Rate limit rejected the submission.', 'anti_spam_rejected');
 }
 
@@ -565,13 +631,19 @@ mfAppendDebugContext(array(
     'requestHost' => mfGetRequestHost(),
     'formType' => $formType,
     'isLocalDevelopmentRequest' => $isLocalDevelopmentRequest,
-    'allowLocalhostLiveDelivery' => $allowLocalhostLiveDelivery
+    'allowLocalhostLiveDelivery' => $allowLocalhostLiveDelivery,
+    'antiSpamEnabled' => !$disableAntiSpam,
+    'minFormAgeSeconds' => $minFormAgeSeconds,
+    'maxFormAgeSeconds' => $maxFormAgeSeconds,
+    'rateLimitMaxPerWindow' => $rateLimitMaxPerWindow,
+    'rateLimitWindowSeconds' => $rateLimitWindowSeconds,
+    'rateLimitMinSecondsBetween' => $rateLimitMinSecondsBetween
 ));
 
-$mailConfig = mfLoadMailConfig();
 $recipientRaw = mfConfigString($mailConfig, 'MAIL_RECIPIENT', 'recipientEmail', '');
 $fromEmail = mfValidateEmail(mfConfigString($mailConfig, 'MAIL_FROM_EMAIL', 'fromEmail', ''));
 $useSmtp = mfConfigBool($mailConfig, 'MAIL_USE_SMTP', 'useSmtp', false);
+$allowPhpMailFallback = mfConfigBool($mailConfig, 'MAIL_ALLOW_PHP_MAIL_FALLBACK', array('allowPhpMailFallback', 'MAIL_ALLOW_PHP_MAIL_FALLBACK'), false);
 $smtpHost = mfConfigString($mailConfig, 'MAIL_SMTP_HOST', 'smtpHost', '');
 $smtpPort = (int)mfConfigString($mailConfig, 'MAIL_SMTP_PORT', 'smtpPort', '587');
 $smtpUser = mfConfigString($mailConfig, 'MAIL_SMTP_USERNAME', 'smtpUsername', '');
@@ -582,7 +654,7 @@ if ($smtpSecureRaw === 'none') {
 } elseif (in_array($smtpSecureRaw, array('', 'tls', 'ssl'), true)) {
     $smtpSecure = $smtpSecureRaw;
 } else {
-    mfExitWithCode('MF006', 'MAIL_SMTP_SECURE must be one of tls, ssl, or none.');
+    mfExitWithCode('MF006', 'MAIL_SMTP_SECURE must be one of tls, ssl, or none.', 'mail_config_invalid');
 }
 
 $recipientCandidates = preg_split('/[;,]+/', $recipientRaw);
@@ -596,14 +668,23 @@ if (is_array($recipientCandidates)) {
     }
 }
 
-$usingLocalSmtpHost = $useSmtp && mfIsLocalSmtpHost($smtpHost);
 $hasSmtpUsername = $smtpUser !== '';
 $hasSmtpPassword = $smtpPassword !== '';
-$smtpUsesAuth = $hasSmtpUsername || $hasSmtpPassword;
+$smtpUsesAuth = $hasSmtpUsername && $hasSmtpPassword;
+$smtpCredentialsComplete = !($hasSmtpUsername xor $hasSmtpPassword);
+$smtpHostComplete = $smtpHost !== '';
+$smtpPortComplete = $smtpPort > 0;
+$smtpConfigComplete = $smtpHostComplete && $smtpPortComplete && $smtpCredentialsComplete;
+$shouldUseSmtp = $useSmtp && $smtpConfigComplete;
+$usingLocalSmtpHost = $shouldUseSmtp && mfIsLocalSmtpHost($smtpHost);
+$smtpFallbackReason = '';
 
 mfAppendDebugContext(array(
     'recipientCount' => count($recipients),
-    'transport' => $useSmtp ? 'smtp' : 'php-mail',
+    'requestedTransport' => $useSmtp ? 'smtp' : 'php-mail',
+    'effectiveTransport' => $shouldUseSmtp ? 'smtp' : 'php-mail',
+    'allowPhpMailFallback' => $allowPhpMailFallback,
+    'smtpConfigComplete' => $smtpConfigComplete,
     'smtpHost' => $smtpHost !== '' ? mfNormalizeHostName($smtpHost) : '',
     'smtpPort' => $smtpPort,
     'smtpSecure' => $smtpSecure === '' ? 'none' : $smtpSecure,
@@ -637,21 +718,37 @@ if ($fromEmail === '') {
 }
 
 if ($useSmtp) {
-    if ($smtpHost === '' || $smtpPort <= 0) {
-        mfExitWithCode('MF006', 'SMTP is enabled but MAIL_SMTP_HOST or MAIL_SMTP_PORT is missing/invalid.', 'mail_config_invalid');
+    $smtpConfigIssues = array();
+    if (!$smtpHostComplete) {
+        $smtpConfigIssues[] = 'MAIL_SMTP_HOST is missing';
+    }
+    if (!$smtpPortComplete) {
+        $smtpConfigIssues[] = 'MAIL_SMTP_PORT is missing or invalid';
+    }
+    if (!$smtpCredentialsComplete) {
+        $smtpConfigIssues[] = 'MAIL_SMTP_USERNAME and MAIL_SMTP_PASSWORD must both be set or both be empty';
     }
 
-    if (($hasSmtpUsername && !$hasSmtpPassword) || (!$hasSmtpUsername && $hasSmtpPassword)) {
-        mfExitWithCode('MF006', 'SMTP credentials are incomplete; username and password must both be set or both be empty.', 'mail_config_invalid');
+    if (!empty($smtpConfigIssues)) {
+        $smtpFallbackReason = implode('; ', $smtpConfigIssues);
+        if (!$allowPhpMailFallback) {
+            mfExitWithCode('MF006', 'SMTP is enabled but incomplete: ' . $smtpFallbackReason, 'mail_config_invalid');
+        }
     }
 
-    if ($smtpSecure !== '' && !extension_loaded('openssl')) {
+    if ($shouldUseSmtp && $smtpSecure !== '' && !extension_loaded('openssl')) {
         mfExitWithCode(
             'MF006',
             'SMTP TLS/SSL was requested but the PHP OpenSSL extension is not loaded.',
             'php_openssl_missing'
         );
     }
+}
+
+if ($smtpFallbackReason !== '') {
+    mfDebugLog('smtp_fallback_to_php_mail', array(
+        'fallbackReason' => $smtpFallbackReason
+    ));
 }
 
 $email = isset($_POST['email']) ? mfValidateEmail($_POST['email']) : '';
@@ -755,7 +852,7 @@ try {
 
     $mail = new PHPMailer();
 
-    if ($useSmtp) {
+    if ($shouldUseSmtp) {
         $mail->isSMTP();
         $mail->SMTPDebug = mfDebugEnabled() ? 3 : 0;
         if (mfDebugEnabled()) {

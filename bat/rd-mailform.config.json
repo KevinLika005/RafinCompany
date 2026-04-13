@@ -1,5 +1,17 @@
 {
   "useSmtp": true,
-  "recipientEmail": "kevinlika005@gmail.com",
-  "fromEmail": "kevinlika142@gmail.com"
+  "recipientEmail": "kevinlika142@gmail.com",
+  "fromEmail": "kevinlika005@gmail.com",
+  "smtpHost": "smtp.gmail.com",
+  "smtpPort": 587,
+  "smtpUsername": "kevinlika005@gmail.com",
+  "smtpPassword": "tdpp rguf flur rxmh",
+  "smtpSecure": "tls",
+  "disableAntiSpam": true,
+  "allowPhpMailFallback": false,
+  "MAIL_MIN_FORM_AGE_SECONDS": 2,
+  "MAIL_MAX_FORM_AGE_SECONDS": 86400,
+  "MAIL_RATE_LIMIT_MAX_PER_WINDOW": 8,
+  "MAIL_RATE_LIMIT_WINDOW_SECONDS": 3600,
+  "MAIL_RATE_LIMIT_MIN_SECONDS_BETWEEN": 10
 }

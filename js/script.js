@@ -1208,13 +1208,13 @@
     function getMailFormMessage(code, rawResult, fallbackMessages, diagnostic) {
       var isLocalHost = /^(localhost|127\.0\.0\.1)$/i.test(window.location.hostname || '');
       var diagnosticMessages = {
-        'php_openssl_missing': 'PHP OpenSSL is not enabled, so Gmail TLS cannot work on this server.',
-        'smtp_connect_failed': 'The server could not connect to the SMTP service.',
-        'smtp_tls_failed': 'The SMTP TLS handshake failed.',
-        'smtp_auth_failed': 'SMTP authentication failed. Check the Gmail account and App Password.',
-        'recipient_missing': 'MAIL_RECIPIENT is missing or invalid.',
+        'php_openssl_missing': 'Server OpenSSL support is missing for secure SMTP.',
+        'smtp_connect_failed': 'Could not connect to the mail server.',
+        'smtp_tls_failed': 'Secure mail connection failed (TLS).',
+        'smtp_auth_failed': 'Mail login failed. Check sender credentials.',
+        'recipient_missing': 'Mail recipient is not configured.',
         'mail_config_invalid': 'Mail server configuration is incomplete or invalid.',
-        'localhost_live_delivery_blocked': 'Live SMTP delivery from localhost is blocked by configuration.',
+        'localhost_live_delivery_blocked': 'Live mail delivery is blocked on localhost by configuration.',
         'anti_spam_rejected': 'Submission blocked by anti-spam checks. Wait and try again.'
       };
 
@@ -1222,7 +1222,7 @@
         return 'Run the site through PHP locally. A static server cannot execute bat/rd-mailform.php.';
       }
 
-      if (isLocalHost && diagnostic && diagnosticMessages[diagnostic]) {
+      if (diagnostic && diagnosticMessages[diagnostic]) {
         return diagnosticMessages[diagnostic];
       }
 
