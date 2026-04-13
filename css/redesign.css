@@ -1900,3 +1900,105 @@ img:not(.certificate-badge):not(.certificate-circle):not(.img-circle):not(.csslo
 .thumb-creative:hover img {
   transform: scale(1.05) !important;
 }
+
+/*
+  Large desktop scaling overrides.
+  Declared late so they win against baseline navbar/theme rules.
+*/
+@media (min-width: 1600px) {
+  .container {
+    max-width: min(92vw, 1560px);
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
+  .page-header .rd-navbar-brand img {
+    width: 146px;
+    max-height: none;
+  }
+
+  .page-header .rd-navbar-nav > li > a {
+    font-size: 14px;
+    letter-spacing: 0.09em;
+  }
+
+  .page-header .modern-lang-switch .lang-toggle-item {
+    min-width: 38px;
+    padding: 7px 12px;
+    font-size: 11px;
+  }
+
+  .rd-navbar-static .rd-navbar-inner {
+    min-height: 98px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
+
+  .rd-navbar-static.rd-navbar--is-stuck .rd-navbar-inner,
+  .rd-navbar-static.rd-navbar--is-clone .rd-navbar-inner {
+    min-height: 76px;
+  }
+
+  .projects-page .projects-filter-bar__inner {
+    grid-template-columns: minmax(0, 250px) minmax(0, 1fr);
+    gap: 22px;
+    padding: 18px 22px;
+  }
+
+  .projects-page .projects-filter-bar__meta {
+    padding-right: 22px;
+  }
+
+  .project-page .project-detail-nav {
+    gap: 20px;
+  }
+}
+
+@media (min-width: 1920px) {
+  .container {
+    max-width: min(90vw, 1760px);
+    padding-left: 34px;
+    padding-right: 34px;
+  }
+
+  .page-header .rd-navbar-brand img {
+    width: 168px;
+    max-height: none;
+  }
+
+  .page-header .rd-navbar-nav > li > a {
+    font-size: 15px;
+  }
+
+  .page-header .modern-lang-switch .lang-toggle-item {
+    min-width: 40px;
+    padding: 8px 13px;
+    font-size: 12px;
+  }
+
+  .rd-navbar-static .rd-navbar-inner {
+    min-height: 108px;
+  }
+
+  .rd-navbar-static.rd-navbar--is-stuck .rd-navbar-inner,
+  .rd-navbar-static.rd-navbar--is-clone .rd-navbar-inner {
+    min-height: 82px;
+  }
+
+  .materials-layout {
+    grid-template-columns: minmax(0, 400px) minmax(0, 1fr);
+    gap: 40px;
+  }
+
+  .footer-departments-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 2560px) {
+  .container {
+    max-width: min(86vw, 2400px);
+    padding-left: 38px;
+    padding-right: 38px;
+  }
+}
