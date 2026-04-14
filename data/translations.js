@@ -162,6 +162,8 @@ const translations = {
   "Hero Slide 2 Subtitle": { en: "We Build the Future", sq: "Ne ndërtojmë të ardhmen" },
   "Hero Slide 3 Title": { en: "Projects", sq: "Projektet" },
   "Hero Slide 3 Subtitle": { en: "This year we took more complex constructions than ever before...", sq: "Këtë vit kemi realizuar projekte më komplekse se kurrë më parë..." },
+  "Homepage Hero Title": { en: "Building Infrastructure With Precision and Responsibility", sq: "Ndertojme infrastrukture me precizion dhe pergjegjesi" },
+  "Homepage Hero Body": { en: "Rafin delivers civil, road, electrical and industrial projects with technical discipline, reliable execution and long-term value.", sq: "Rafin realizon projekte civile, rrugore, elektrike dhe industriale me disipline teknike, zbatim te besueshem dhe vlere afatgjate." },
 
   // Home long-form sections
   "About Company Label": { en: "\"RAFIN COMPANY\"", sq: "\"RAFIN COMPANY\"" },

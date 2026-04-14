@@ -2198,8 +2198,495 @@ img:not(.certificate-badge):not(.certificate-circle):not(.img-circle):not(.csslo
 
 @media (min-width: 2560px) {
   .container {
-    max-width: min(86vw, 2400px);
-    padding-left: 38px;
-    padding-right: 38px;
+    max-width: min(92vw, 4200px);
+    padding-left: 56px;
+    padding-right: 56px;
+  }
+
+  body {
+    font-size: 18px;
+    line-height: 1.7;
+  }
+
+  .page-header .rd-navbar-nav>li>a {
+    font-size: 22px;
+  }
+
+  .page-header .rd-navbar-nav>li>.rd-navbar-dropdown {
+    min-width: 320px;
+    padding: 22px 26px;
+  }
+
+  .page-header .rd-navbar-dropdown>li>a {
+    font-size: 18px;
+    line-height: 1.45;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+
+  .page-header .modern-lang-switch .lang-toggle-item {
+    min-width: 52px;
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+
+  /* About section: keep copy left and image right on extreme zoom-out */
+  #about .row.justify-content-md-center {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    gap: 48px;
+    align-items: center;
+  }
+
+  #about .row.justify-content-md-center>div:first-child {
+    order: 1;
+    width: 100%;
+    max-width: none;
+  }
+
+  #about .row.justify-content-md-center>div:last-child {
+    order: 2;
+    width: 100%;
+    max-width: none;
+    justify-self: end;
+  }
+
+  #about .row.justify-content-md-center>div:last-child img {
+    display: block;
+    width: 100%;
+    max-width: 980px;
+    height: auto;
+  }
+
+  /* Stats section: larger, taller and easier to read at 33% zoom-out */
+  #home-stats-container {
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
+
+  #home-stats-container .home-stat-card {
+    min-height: 250px;
+    padding: 22px 0;
+  }
+
+  #home-stats-container .counter {
+    font-size: clamp(68px, 3.4vw, 120px);
+    line-height: 1.04;
+    font-weight: 700;
+  }
+
+  #home-stats-container .box-counter__title {
+    font-size: 22px;
+    line-height: 1.5;
+    margin-top: 16px;
+    letter-spacing: 0.04em;
+  }
+
+  .rd-navbar-static .rd-navbar-inner {
+    min-height: 124px;
+  }
+
+  .rd-navbar-static.rd-navbar--is-stuck .rd-navbar-inner,
+  .rd-navbar-static.rd-navbar--is-clone .rd-navbar-inner {
+    min-height: 96px;
+  }
+
+  .video-hero-section {
+    min-height: max(900px, 86vh);
+    align-items: center;
+  }
+
+  .video-hero-content {
+    padding-top: 120px;
+    padding-bottom: 120px;
+  }
+
+  .video-hero-title {
+    font-size: clamp(4rem, 4.3vw, 7.8rem);
+    max-width: 16ch;
+  }
+
+  .video-hero-text {
+    font-size: clamp(1.45rem, 1.35vw, 2.35rem);
+    max-width: 980px;
+    margin-bottom: 42px;
+  }
+
+  .video-hero-actions {
+    gap: 18px;
+  }
+
+  .video-hero-button {
+    min-width: 228px;
+    width: 228px;
+    min-height: 62px !important;
+    height: 62px !important;
+    font-size: 16px;
+  }
+
+  .heading-decorated {
+    font-size: clamp(2.1rem, 1.65vw, 3.4rem);
+  }
+
+  .materials-eyebrow,
+  .contacts-eyebrow,
+  .jobs-filter-field label,
+  .projects-page .projects-filter-bar__label,
+  .projects-page .project-card__category,
+  .jobs-chip,
+  .jobs-apply-link {
+    font-size: 14px;
+  }
+
+  .materials-intro,
+  .materials-note,
+  #about p:not(.heading-6),
+  #services .blurb p,
+  #testimonials .quote-default__cite,
+  #news p,
+  .materials-card__body p,
+  .jobs-card p,
+  .contacts-intro,
+  .contacts-form-card p,
+  .contacts-map-copy p,
+  .footer-address-card p,
+  .footer-brand-wrap p,
+  .footer-newsletter p,
+  .redesign-footer-bottom .rights,
+  .footer-department-card a,
+  .project-page .project-detail-nav-card__meta,
+  .project-page .project-description,
+  .project-page .project-excerpt,
+  .project-page .project-info-item {
+    font-size: 24px;
+    line-height: 1.85;
+  }
+
+  .materials-card__body h6,
+  .jobs-card h6,
+  #services .blurb .heading-6 a,
+  .projects-page .project-card__title,
+  .project-page .project-detail-nav-card__title,
+  .project-page .project-info-box h5,
+  .footer-department-card h6,
+  .footer-newsletter h6,
+  .contacts-map-copy h6,
+  .contacts-form-card h5,
+  .footer-section-head h5 {
+    font-size: 32px;
+    line-height: 1.35;
+  }
+
+  .contacts-form-card .form-label,
+  .contacts-form-card .form-input,
+  .footer-inline-form .form-label,
+  .footer-inline-form .form-input,
+  .jobs-filter-control,
+  .projects-page .projects-filter-btn,
+  .projects-page .projects-filter-bar__count {
+    font-size: 21px;
+  }
+
+  .projects-page .projects-filter-bar__count strong {
+    font-size: 32px;
+  }
+
+  .contacts-layout {
+    grid-template-columns: minmax(0, 600px) minmax(0, 1fr);
+    gap: 36px;
+  }
+
+  .contacts-form-card .form-input,
+  .footer-inline-form .form-input {
+    min-height: 64px;
+  }
+
+  .contacts-form-card textarea.form-input {
+    min-height: 220px;
+  }
+
+  .contacts-form-actions .button,
+  .footer-inline-form .button {
+    min-height: 64px;
+    font-size: 21px !important;
+  }
+
+  .contacts-map-frame,
+  .contacts-map-frame iframe {
+    min-height: 360px;
+  }
+
+  .footer-department-card {
+    padding: 20px;
+  }
+
+  .footer-social-list a {
+    width: 58px;
+    height: 58px;
+    font-size: 24px;
+  }
+
+  .project-page .project-info-item {
+    margin-bottom: 14px;
+  }
+
+  .project-page .project-description {
+    margin-top: 28px;
+  }
+
+  .certificate-badge {
+    width: 220px;
+    height: 220px;
+  }
+
+  #certificates-container .col-lg-2 {
+    flex: 0 0 20%;
+    max-width: 20%;
+  }
+}
+
+@media (min-width: 3200px) {
+  .container {
+    max-width: min(94vw, 5200px);
+    padding-left: 72px;
+    padding-right: 72px;
+  }
+
+  body {
+    font-size: 20px;
+  }
+
+  .page-header .rd-navbar-nav>li>a {
+    font-size: 24px;
+  }
+
+  .page-header .rd-navbar-nav>li>.rd-navbar-dropdown {
+    min-width: 340px;
+    padding: 24px 28px;
+  }
+
+  .page-header .rd-navbar-dropdown>li>a {
+    font-size: 19px;
+    line-height: 1.45;
+    padding-top: 9px;
+    padding-bottom: 9px;
+  }
+
+  .video-hero-title {
+    font-size: clamp(4.8rem, 4vw, 9.2rem);
+  }
+
+  .video-hero-text {
+    font-size: clamp(1.7rem, 1.25vw, 2.8rem);
+  }
+
+  #about .row.justify-content-md-center {
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    gap: 56px;
+  }
+
+  #about .row.justify-content-md-center>div:last-child img {
+    max-width: 1120px;
+  }
+
+  #home-stats-container {
+    padding-top: 38px;
+    padding-bottom: 38px;
+  }
+
+  #home-stats-container .home-stat-card {
+    min-height: 290px;
+    padding: 30px 0;
+  }
+
+  #home-stats-container .counter {
+    font-size: clamp(84px, 3.6vw, 148px);
+  }
+
+  #home-stats-container .box-counter__title {
+    font-size: 26px;
+    margin-top: 18px;
+  }
+
+  .video-hero-button {
+    min-width: 250px;
+    width: 250px;
+    min-height: 68px !important;
+    height: 68px !important;
+    font-size: 18px;
+  }
+
+  .materials-card__body h6,
+  .jobs-card h6,
+  #services .blurb .heading-6 a,
+  .projects-page .project-card__title,
+  .project-page .project-detail-nav-card__title,
+  .project-page .project-info-box h5,
+  .footer-department-card h6,
+  .footer-newsletter h6,
+  .contacts-map-copy h6,
+  .contacts-form-card h5,
+  .footer-section-head h5 {
+    font-size: 36px;
+    line-height: 1.35;
+  }
+
+  .materials-intro,
+  .materials-note,
+  #about p:not(.heading-6),
+  #services .blurb p,
+  #testimonials .quote-default__cite,
+  #news p,
+  .materials-card__body p,
+  .jobs-card p,
+  .contacts-intro,
+  .contacts-form-card p,
+  .contacts-map-copy p,
+  .footer-address-card p,
+  .footer-brand-wrap p,
+  .footer-newsletter p,
+  .redesign-footer-bottom .rights,
+  .footer-department-card a,
+  .project-page .project-detail-nav-card__meta,
+  .project-page .project-description,
+  .project-page .project-excerpt,
+  .project-page .project-info-item {
+    font-size: 27px;
+    line-height: 1.9;
+  }
+
+  .contacts-form-card .form-label,
+  .contacts-form-card .form-input,
+  .footer-inline-form .form-label,
+  .footer-inline-form .form-input,
+  .jobs-filter-control,
+  .projects-page .projects-filter-btn,
+  .projects-page .projects-filter-bar__count {
+    font-size: 24px;
+  }
+
+  .projects-page .projects-filter-bar__count strong {
+    font-size: 38px;
+  }
+
+  .contacts-layout {
+    grid-template-columns: minmax(0, 700px) minmax(0, 1fr);
+  }
+
+  .contacts-form-card .form-input,
+  .footer-inline-form .form-input {
+    min-height: 72px;
+  }
+
+  .contacts-form-card textarea.form-input {
+    min-height: 260px;
+  }
+
+  .contacts-form-actions .button,
+  .footer-inline-form .button {
+    min-height: 72px;
+    font-size: 24px !important;
+  }
+
+  .contacts-map-frame,
+  .contacts-map-frame iframe {
+    min-height: 430px;
+  }
+
+  .footer-social-list a {
+    width: 64px;
+    height: 64px;
+    font-size: 28px;
+  }
+
+  .certificate-badge {
+    width: 250px;
+    height: 250px;
+  }
+
+  #certificates-container .col-lg-2 {
+    flex: 0 0 16.666667%;
+    max-width: 16.666667%;
+  }
+}
+
+@media (min-width: 3840px) {
+  .page-header .rd-navbar-nav>li>a {
+    font-size: 25px;
+  }
+
+  .page-header .rd-navbar-nav>li>.rd-navbar-dropdown {
+    min-width: 360px;
+    padding: 26px 30px;
+  }
+
+  .page-header .rd-navbar-dropdown>li>a {
+    font-size: 20px;
+    line-height: 1.5;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  #about .row.justify-content-md-center>div:last-child img {
+    max-width: 1260px;
+  }
+
+  #home-stats-container .home-stat-card {
+    min-height: 320px;
+  }
+
+  #home-stats-container .counter {
+    font-size: clamp(98px, 3.7vw, 168px);
+  }
+
+  #home-stats-container .box-counter__title {
+    font-size: 30px;
+  }
+}
+
+@media (min-width: 3840px) {
+  .materials-intro,
+  .materials-note,
+  #about p:not(.heading-6),
+  #services .blurb p,
+  #testimonials .quote-default__cite,
+  #news p,
+  .materials-card__body p,
+  .jobs-card p,
+  .contacts-intro,
+  .contacts-form-card p,
+  .contacts-map-copy p,
+  .footer-address-card p,
+  .footer-brand-wrap p,
+  .footer-newsletter p,
+  .redesign-footer-bottom .rights,
+  .footer-department-card a,
+  .project-page .project-detail-nav-card__meta,
+  .project-page .project-description,
+  .project-page .project-excerpt,
+  .project-page .project-info-item {
+    font-size: 31px;
+    line-height: 1.95;
+  }
+
+  .materials-card__body h6,
+  .jobs-card h6,
+  #services .blurb .heading-6 a,
+  .projects-page .project-card__title,
+  .project-page .project-detail-nav-card__title,
+  .project-page .project-info-box h5,
+  .footer-department-card h6,
+  .footer-newsletter h6,
+  .contacts-map-copy h6,
+  .contacts-form-card h5,
+  .footer-section-head h5 {
+    font-size: 42px;
+  }
+
+  .contacts-form-card .form-label,
+  .contacts-form-card .form-input,
+  .footer-inline-form .form-label,
+  .footer-inline-form .form-input {
+    font-size: 27px;
   }
 }
