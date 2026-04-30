@@ -1,116 +1,122 @@
 const categories = [
   {
-    id: "civil-buildings",
-    slug: "civil-buildings",
+    id: 'civil-buildings',
+    slug: 'civil-buildings',
     title: {
-      en: "Civil Buildings",
-      sq: "Ndërtime Civile"
+      en: 'Civil Buildings',
+      sq: 'Ndërtime Civile'
     },
     shortDescription: {
-      en: "Construction and reconstruction of civil facilities.",
-      sq: "Ndërtim dhe rikonstruksion i objekteve civile."
+      en: 'Construction, reconstruction, and public building delivery.',
+      sq: 'Ndërtim, rindërtim dhe realizim i objekteve civile e publike.'
     },
     fullDescription: {
-      en: "This department organizes and manages construction activities including civil buildings, residential complexes, and general reconstruction with a focus on structural integrity and modern design.",
-      sq: "Ky departament organizon dhe menaxhon aktivitetet e ndërtimit duke përfshirë ndërtesat civile, komplekset rezidenciale dhe rikonstruksionin e përgjithshëm me fokus në integritetin strukturor dhe dizajnin modern."
+      en: 'This category includes schools, public buildings, residential reconstruction, and other civil construction works delivered with complete architectural and technical systems.',
+      sq: 'Kjo kategori përfshin shkolla, godina publike, rindërtim banesash dhe punime të tjera civile, të realizuara me zgjidhje të plota arkitektonike dhe teknike.'
     },
-    thumbImage: "images/project-1-480x361.jpg",
-    heroImage: "images/project-category-healthcare.jpg",
+    thumbImage: 'images/projects/bashkia-kamez-parkim-shesh-1.jpeg',
+    heroImage: 'images/projects/bashkia-kamez-parkim-shesh-1.jpeg',
+    featuredOnHome: true,
     order: 1
   },
   {
-    id: "road-infrastructure",
-    slug: "road-infrastructure",
+    id: 'road-infrastructure',
+    slug: 'road-infrastructure',
     title: {
-      en: "Road Infrastructure",
-      sq: "Infrastrukturë Rrugore"
+      en: 'Road Infrastructure',
+      sq: 'Infrastrukturë Rrugore'
     },
     shortDescription: {
-      en: "High quality road construction and transport infrastructure.",
-      sq: "Ndërtim rrugësh me cilësi të lartë dhe infrastrukturë transporti."
+      en: 'Roads, public spaces, and urban mobility infrastructure.',
+      sq: 'Rrugë, hapësira publike dhe infrastrukturë për lëvizshmëri urbane.'
     },
     fullDescription: {
-      en: "Through our workforce we come to our clients with high quality works and high European capacities in building reliable and durable road infrastructure.",
-      sq: "Nëpërmjet fuqisë sonë punëtore ne vijmë tek klientët tanë me punime me cilësi të lartë dhe kapacitete të larta Evropiane në ndërtimin e infrastrukturës rrugore të besueshme dhe të qëndrueshme."
+      en: 'This category includes road construction, rehabilitation, public realm upgrades, and supporting infrastructure such as sidewalks, bicycle lanes, lighting, and safety elements.',
+      sq: 'Kjo kategori përfshin ndërtim dhe rehabilitim rrugësh, përmirësim të hapësirave publike dhe elementë mbështetës si trotuare, korsi biçikletash, ndriçim dhe sisteme sigurie.'
     },
-    thumbImage: "images/project-2-480x361.jpg",
-    heroImage: "images/slider-slide-1-1920x1080.jpg",
+    thumbImage: 'images/projects/liqeni-farkes-pedonale-piste-vrapimi-1.png',
+    heroImage: 'images/projects/liqeni-farkes-pedonale-piste-vrapimi-1.png',
+    featuredOnHome: true,
     order: 2
   },
   {
-    id: "electrical-infrastructure",
-    slug: "electrical-infrastructure",
+    id: 'electrical-infrastructure',
+    slug: 'electrical-infrastructure',
     title: {
-      en: "Electrical Infrastructure",
-      sq: "Infrastrukturë Elektrike"
+      en: 'Electrical Infrastructure',
+      sq: 'Infrastrukturë Elektrike'
     },
     shortDescription: {
-      en: "Implementation of electro-mechanical networks and equipment.",
-      sq: "Zbatimi i rrjeteve dhe pajisjeve elektromekanike."
+      en: 'Medium and low voltage networks, substations, and electrical cabins.',
+      sq: 'Rrjete të tensionit të mesëm e të ulët, nënstacione dhe kabina elektrike.'
     },
     fullDescription: {
-      en: "We trade and assist with high-capacity electromechanical equipment and build sophisticated electrical infrastructure, providing innovative and quality services to every customer.",
-      sq: "Ne tregtojmë dhe asistojmë me pajisje elektromekanike të kapaciteteve të larta dhe ndërtojmë infrastrukturë elektrike të sofistikuar, duke ofruar shërbime inovative dhe cilësore për çdo klient."
+      en: 'This category covers the reconstruction of electrical cabins, substations, and distribution networks to improve safety, reduce losses, and support future urban growth.',
+      sq: 'Kjo kategori mbulon rikonstruksionin e kabinave elektrike, nënstacioneve dhe rrjeteve të shpërndarjes për të rritur sigurinë, ulur humbjet dhe mbështetur zhvillimin e ardhshëm urban.'
     },
-    thumbImage: "images/project-4-480x361.jpg",
-    heroImage: "images/parallax-2.jpg",
+    thumbImage: 'images/projects/electrical-infrastructure-home.jpg',
+    heroImage: 'images/projects/electrical-infrastructure-home.jpg',
+    featuredOnHome: true,
     order: 3
   },
   {
-    id: "industrial-projects",
-    slug: "industrial-projects-oil",
+    id: 'technology',
+    slug: 'technology',
     title: {
-      en: "Industrial Projects (Oil)",
-      sq: "Projekte Industriale (Naftë)"
+      en: 'Technology',
+      sq: 'Teknologji'
     },
     shortDescription: {
-      en: "Heavy industry construction and specialized oil infrastructure.",
-      sq: "Ndërtim i industrisë së rëndë dhe infrastrukturë e specializuar e naftës."
+      en: 'Industrial and transmission infrastructure with advanced operational systems.',
+      sq: 'Infrastrukturë industriale dhe transmetimi me sisteme të avancuara operimi.'
     },
     fullDescription: {
-      en: "Specialized in delivering robust industrial projects, including facilities for the oil sector, ensuring strict compliance with safety, health, and environmental standards.",
-      sq: "Të specializuar në ofrimin e projekteve të fuqishme industriale, duke përfshirë objektet për sektorin e naftës, duke siguruar pajtueshmëri të plotë me standardet e sigurisë, shëndetit dhe mjedisit."
+      en: 'This category includes technologically intensive projects such as digital control systems, transmission infrastructure upgrades, safety systems, and industrial modernization.',
+      sq: 'Kjo kategori përfshin projekte me intensitet të lartë teknologjik, si sisteme kontrolli digjital, përmirësim të infrastrukturës së transmetimit, sisteme sigurie dhe modernizim industrial.'
     },
-    thumbImage: "images/home-post-2-418x315.jpg",
-    heroImage: "images/parallax-1.jpg",
+    thumbImage: 'images/projects/stacioni-naftes-zharrez-1.jpeg',
+    heroImage: 'images/projects/stacioni-naftes-zharrez-1.jpeg',
+    featuredOnHome: true,
     order: 4
   },
   {
-    id: "technology",
-    slug: "technology",
+    id: 'water-infrastructure',
+    slug: 'water-infrastructure',
     title: {
-      en: "Technology",
-      sq: "Teknologji"
+      en: 'Water Infrastructure',
+      sq: 'Infrastrukturë Ujore'
     },
     shortDescription: {
-      en: "Implementation of the latest technologies in construction.",
-      sq: "Zbatimi i teknologjive më të fundit në ndërtim."
+      en: 'Irrigation, intake works, and river protection infrastructure.',
+      sq: 'Infrastrukturë ujitjeje, vepra marrjeje dhe mbrojtje lumore.'
     },
     fullDescription: {
-      en: "We are coherent with the implementation of the latest technology for the realization of all disciplines in construction, materials, machinery, and smart systems.",
-      sq: "Ne jemi koherent me zbatimin e teknologjisë më të fundit për realizimin e të gjitha disiplinave në ndërtim, materiale, makineri dhe sisteme inteligjente."
+      en: 'This category includes irrigation canals, hydraulic rehabilitation works, intake structures, and river protection interventions that improve water management and protect agricultural land.',
+      sq: 'Kjo kategori përfshin kanale ujitëse, rehabilitim hidroteknik, vepra marrjeje dhe ndërhyrje mbrojtëse lumore që rrisin efikasitetin e menaxhimit të ujit dhe mbrojnë tokat bujqësore.'
     },
-    thumbImage: "images/project-5-480x361.jpg",
-    heroImage: "images/parallax-3.jpg",
+    thumbImage: 'images/projects/kanalet-ujitese-shelqet-pistull-u13-u14-1.jpeg',
+    heroImage: 'images/projects/kanalet-ujitese-shelqet-pistull-u13-u14-1.jpeg',
+    featuredOnHome: true,
     order: 5
   },
   {
-    id: "water-infrastructure",
-    slug: "water-infrastructure",
+    id: 'cultural-monuments',
+    slug: 'cultural-monuments',
     title: {
-      en: "Water Infrastructure",
-      sq: "Infrastrukturë Ujësjellësi"
+      en: 'Cultural Monuments',
+      sq: 'Monumente Kulturore'
     },
     shortDescription: {
-      en: "High standard water supply and sewerage construction.",
-      sq: "Ndërtim ujësjellësi dhe kanalizimesh me standarde të larta."
+      en: 'Restoration and reconstruction of historically significant cultural sites.',
+      sq: 'Restaurim dhe rikonstruksion i objekteve me vlerë të lartë historike dhe kulturore.'
     },
     fullDescription: {
-      en: "We apply the highest standards regarding water supply and sewerage construction. We complete all capacities with a specialized workforce dedicated to sustainable water management.",
-      sq: "Ne aplikojmë standardet më të larta në lidhje me ndërtimin e ujësjellës-kanalizimeve. Ne i plotësojmë të gjitha kapacitetet me një fuqi punëtore të specializuar, të dedikuar ndaj menaxhimit të qëndrueshëm të ujit."
+      en: 'This category includes restoration, reconstruction, and adaptive renewal projects for cultural monuments and heritage buildings, with careful attention to historic identity and contemporary use.',
+      sq: 'Kjo kategori përfshin projekte restaurimi, rikonstruksioni dhe rigjallërimi funksional të monumenteve kulturore dhe objekteve të trashëgimisë, me kujdes ndaj identitetit historik dhe përdorimit bashkëkohor.'
     },
-    thumbImage: "images/project-3-480x361.jpg",
-    heroImage: "images/project-category-healthcare.jpg",
+    thumbImage: 'images/fotot_kryesore_mesonjetorja/01_pamje_jashte_porta_001s.jpg',
+    heroImage: 'images/fotot_kryesore_mesonjetorja/01_pamje_jashte_porta_001s.jpg',
+    featuredOnHome: true,
     order: 6
   }
 ];

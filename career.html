@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html class="wide wow-animation" lang="en">
+
+<head>
+  <!-- WWW.RAFINCOMPANY.COM -->
+  <title data-i18n="Careers Page Title">Careers | Rafin Company</title>
+  <meta name="description" data-i18n-content="Careers Meta Description" content="Explore open positions at Rafin Company across engineering, transport, construction, and machinery maintenance.">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta charset="utf-8">
+  <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;1,300&family=Montserrat:wght@400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;1,300&family=Montserrat:wght@400;700&display=swap"></noscript>
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/redesign.css">
+  <!--[if lt IE 10]>
+    <div class="legacy-browser-warning"><a href="http://windows.microsoft.com/en-US/internet-explorer/"><img src="images/ie8-panel/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."></a></div>
+    <script src="js/html5shiv.min.js"></script>
+		<![endif]-->
+</head>
+
+<body class="careers-page">
+  <div id="page-loader">
+    <div class="cssload-container">
+      <div class="cssload-speeding-wheel"></div>
+    </div>
+  </div>
+
+  <div class="page">
+    <header class="page-header">
+      <div class="rd-navbar-wrap">
+        <nav class="rd-navbar rd-navbar_transparent rd-navbar_boxed" data-layout="rd-navbar-fixed"
+          data-sm-layout="rd-navbar-fixed" data-sm-device-layout="rd-navbar-fixed" data-md-layout="rd-navbar-fixed"
+          data-md-device-layout="rd-navbar-fixed" data-lg-device-layout="rd-navbar-static"
+          data-lg-layout="rd-navbar-static" data-xl-device-layout="rd-navbar-static" data-xl-layout="rd-navbar-static"
+          data-xxl-device-layout="rd-navbar-static" data-xxl-layout="rd-navbar-static" data-stick-up-clone="false"
+          data-sm-stick-up="true" data-md-stick-up="true" data-lg-stick-up="true" data-md-stick-up-offset="56px"
+          data-lg-stick-up-offset="20px" data-body-class="rd-navbar-absolute">
+          <div class="rd-navbar-inner rd-navbar-search-wrap">
+            <div class="rd-navbar-panel rd-navbar-search-lg_collapsable">
+              <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-nav-wrap"><span></span></button>
+              <div class="rd-navbar-brand"><a class="brand-name" href="index.html"><img
+                    class="brand-logo brand-logo--default" src="rafin-logo-gold-white-transparent.png" alt="Rafin Company" width="120" height="120" decoding="async" /><img
+                    class="brand-logo brand-logo--blue" src="rafin-logo-gold-white-transparent.png" alt="" width="120" height="120" decoding="async" aria-hidden="true" /></a></div>
+            </div>
+            <div class="rd-navbar-nav-wrap rd-navbar-search_not-collapsable">
+              <div class="rd-navbar-search_collapsable">
+                <ul class="rd-navbar-nav">
+                  <li><a href="index.html#about" data-i18n="About">About</a></li>
+                  <li><a href="index.html#services" data-i18n="Services">Services</a></li>
+                  <li><a href="index.html#materials" data-i18n="materials">Materials</a></li>
+                  <li><a href="projects.html" id="nav-projects-link" data-i18n="projects">Projects</a>
+                    <ul class="rd-navbar-dropdown" id="nav-projects-dropdown"></ul>
+                  </li>
+                  <li class="active"><a href="career.html" data-i18n="Careers">Careers</a></li>
+                  <li><a href="index.html#contacts" data-i18n="Contacts">Contacts</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="rd-navbar-aside-right">
+              <div class="modern-lang-switch">
+                <a href="#" class="lang-toggle-item" data-lang="en">EN</a>
+                <a href="#" class="lang-toggle-item" data-lang="sq">SQ</a>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <section class="section careers-hero careers-hero--plain">
+      <div class="section-lg text-center">
+        <div class="container">
+          <h2 class="heading-decorated" data-i18n="Careers Hero Title">Build your next role with Rafin</h2>
+          <p class="careers-hero__text" data-i18n="Careers Hero Body">Explore current openings across construction management, vehicle operations, specialist trades, and machinery maintenance.</p>
+          <a class="button button-primary careers-hero__button" href="#jobs" data-i18n="View Open Positions">View Open Positions</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-lg bg-default text-center careers-page-section" id="jobs">
+      <div class="container">
+        <h4 class="heading-decorated" data-i18n="Jobs / Careers">Jobs / Careers</h4>
+        <p class="careers-page-section__lead" data-i18n="Join our dynamic team">Join our dynamic team and build the future with us</p>
+        <div id="jobs-filters-container"></div>
+        <div class="row row-50 text-left" id="jobs-container">
+          <!-- Dynamic jobs injected by js/jobs-section.js -->
+        </div>
+        <div id="jobs-pagination"></div>
+      </div>
+    </section>
+
+    <section class="section-lg bg-gray-lighter redesign-contacts-section career-application-section" id="career-application">
+      <div id="career-application-container"></div>
+    </section>
+
+    <div id="footer-company-container"></div>
+  </div>
+
+  <div class="snackbars" id="form-output-global"></div>
+
+  <script src="data/categories.js" defer></script>
+  <script src="data/site.js" defer></script>
+  <script src="data/departments.js" defer></script>
+  <script src="data/jobs.js" defer></script>
+  <script src="data/contacts.js" defer></script>
+  <script src="data/translations.js" defer></script>
+  <script src="js/content-store.js" defer></script>
+  <script src="js/i18n.js" defer></script>
+  <script src="js/nav-projects.js" defer></script>
+  <script src="js/jobs-section.js" defer></script>
+  <script src="js/career-application-section.js" defer></script>
+  <script src="js/footer-company.js" defer></script>
+  <script src="js/seo-head.js" defer></script>
+
+  <script src="js/core.min.js" defer></script>
+  <script src="js/script.js" defer></script>
+</body>
+
+</html>

@@ -25,16 +25,18 @@
       : [];
 
     const cardsHtml = items
-      .map((item) => {
+      .map((item, index) => {
         const title = escapeHtml(getLocalizedValue(item.title));
         const summary = escapeHtml(getLocalizedValue(item.summary));
         const image = escapeHtml(item.image || "images/project-1-480x361.jpg");
         const imageAlt = escapeHtml(getLocalizedValue(item.imageAlt) || title);
+        const loading = index === 0 ? "eager" : "auto";
+        const fetchPriority = index === 0 ? "high" : "auto";
 
         return `
           <article class="materials-card">
             <figure class="materials-card__media">
-              <img src="${image}" alt="${imageAlt}" width="480" height="360" loading="lazy" decoding="async" fetchpriority="low" />
+              <img src="${image}" alt="${imageAlt}" width="480" height="360" loading="${loading}" decoding="async" fetchpriority="${fetchPriority}" />
             </figure>
             <div class="materials-card__body">
               <h6>${title}</h6>

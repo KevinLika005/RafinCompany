@@ -3,14 +3,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const titleContainer = document.getElementById('project-title');
   const heroContainer = document.getElementById('project-hero');
+  const heroMediaContainer = heroContainer ? heroContainer.querySelector('.project-hero__media') : null;
+  const heroCategoryContainer = document.getElementById('project-category-hero');
+  const heroSelectorsContainer = document.getElementById('project-hero-selectors');
+  const heroPrimaryLayer = document.getElementById('project-hero-image-primary');
+  const heroSecondaryLayer = document.getElementById('project-hero-image-secondary');
   const descriptionContainer = document.getElementById('project-description');
   const excerptContainer = document.getElementById('project-excerpt');
   const projectNav = document.getElementById('project-navigation');
   const prevBtn = document.getElementById('prev-project');
   const nextBtn = document.getElementById('next-project');
   const allProjectsLink = document.getElementById('all-projects-link');
-  const sliderPrevBtn = document.getElementById('slider-prev');
-  const sliderNextBtn = document.getElementById('slider-next');
 
   if (!titleContainer || !heroContainer || !descriptionContainer) return;
 
@@ -21,9 +24,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const defaultMissingDesc = window.I18n.translate('Please go back and select a valid project.') || 'Please go back and select a valid project.';
   const infoBox = document.querySelector('.project-info-box');
 
+  let activeHeroLayer = heroPrimaryLayer;
+  let inactiveHeroLayer = heroSecondaryLayer;
+  let currentImageIdx = 0;
+  let heroVideoElement = null;
+
   const toggleClassState = (element, className, shouldEnable) => {
     if (!element) return;
     element.classList.toggle(className, Boolean(shouldEnable));
+  };
+
+  const toggleHiddenState = (element, shouldHide) => {
+    if (!element) return;
+    element.hidden = Boolean(shouldHide);
   };
 
   const toCssUrlValue = (url) => {
@@ -31,11 +44,65 @@ document.addEventListener('DOMContentLoaded', () => {
     return `url("${escapedUrl}")`;
   };
 
-  const preloadHeroImages = (images) => {
-    if (!document.head || !Array.isArray(images)) return;
+  const getHeroMediaFallbackValue = (mediaItem) => {
+    if (!mediaItem) return '#212121';
+    if (mediaItem.type === 'video') return mediaItem.poster || '#212121';
+    if (mediaItem.type === 'color') return mediaItem.value || '#212121';
+    return mediaItem.src || '#212121';
+  };
 
-    images.forEach((imagePath, index) => {
-      const safePath = String(imagePath || '');
+  const normalizeHeroMediaItem = (item, fallbackPoster = '') => {
+    if (!item) return null;
+
+    if (typeof item === 'string') {
+      return item.startsWith('#')
+        ? { type: 'color', value: item, thumb: item }
+        : { type: 'image', src: item, thumb: item };
+    }
+
+    if (typeof item !== 'object') return null;
+
+    const itemType = String(item.type || 'image').toLowerCase();
+
+    if (itemType === 'video' && item.src) {
+      const poster = item.poster || fallbackPoster || '';
+      return {
+        type: 'video',
+        src: item.src,
+        poster,
+        thumb: poster || '#212121'
+      };
+    }
+
+    if (itemType === 'color' && item.value) {
+      return {
+        type: 'color',
+        value: item.value,
+        thumb: item.value
+      };
+    }
+
+    if (!item.src) return null;
+
+    return {
+      type: 'image',
+      src: item.src,
+      thumb: item.thumb || item.src
+    };
+  };
+
+  const preloadHeroMedia = (mediaItems) => {
+    if (!document.head || !Array.isArray(mediaItems)) return;
+
+    mediaItems.forEach((mediaItem, index) => {
+      const preloadTarget =
+        mediaItem.type === 'image'
+          ? mediaItem.src
+          : mediaItem.type === 'video'
+            ? mediaItem.poster
+            : '';
+
+      const safePath = String(preloadTarget || '');
       if (!safePath || safePath.startsWith('#')) return;
 
       const preloadKey = encodeURIComponent(safePath);
@@ -51,26 +118,138 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
-  const setHeroBackgroundState = (value) => {
-    if (value && value.startsWith('#')) {
-      heroContainer.style.removeProperty('--project-hero-image');
-      heroContainer.style.setProperty('--project-hero-color', value);
-      heroContainer.classList.add('project-hero--has-color');
-      heroContainer.classList.remove('project-hero--has-image');
+  const ensureHeroVideoElement = () => {
+    if (heroVideoElement || !heroMediaContainer) return heroVideoElement;
+
+    heroVideoElement = document.createElement('video');
+    heroVideoElement.className = 'project-hero__video';
+    heroVideoElement.autoplay = true;
+    heroVideoElement.muted = true;
+    heroVideoElement.loop = true;
+    heroVideoElement.playsInline = true;
+    heroVideoElement.preload = 'metadata';
+    heroVideoElement.setAttribute('aria-hidden', 'true');
+    heroMediaContainer.appendChild(heroVideoElement);
+
+    return heroVideoElement;
+  };
+
+  const deactivateHeroVideo = (options = {}) => {
+    const { clearSource = false } = options;
+    if (!heroVideoElement) return;
+
+    heroVideoElement.classList.remove('project-hero__video--active');
+    heroVideoElement.pause();
+
+    if (!clearSource) return;
+
+    heroVideoElement.removeAttribute('src');
+    heroVideoElement.removeAttribute('poster');
+    heroVideoElement.load();
+  };
+
+  const activateHeroVideo = (mediaItem) => {
+    const videoElement = ensureHeroVideoElement();
+    if (!videoElement || !mediaItem || !mediaItem.src) return;
+
+    const currentSrc = videoElement.getAttribute('src') || '';
+    const shouldReload = currentSrc !== mediaItem.src;
+
+    if (shouldReload) {
+      videoElement.setAttribute('src', mediaItem.src);
+    }
+
+    if (mediaItem.poster) {
+      videoElement.setAttribute('poster', mediaItem.poster);
+    } else {
+      videoElement.removeAttribute('poster');
+    }
+
+    if (shouldReload) {
+      videoElement.load();
+    }
+
+    heroVideoElement.classList.add('project-hero__video--active');
+    const playPromise = videoElement.play();
+    if (playPromise && typeof playPromise.catch === 'function') {
+      playPromise.catch(() => {});
+    }
+  };
+
+  const setHeroLayerState = (layer, value) => {
+    if (!layer) return;
+
+    const surfaceValue = value || '#212121';
+    if (surfaceValue.startsWith('#')) {
+      layer.style.backgroundImage = 'none';
+      layer.style.backgroundColor = surfaceValue;
       return;
     }
 
-    heroContainer.style.setProperty('--project-hero-image', toCssUrlValue(value));
-    heroContainer.style.removeProperty('--project-hero-color');
-    heroContainer.classList.add('project-hero--has-image');
-    heroContainer.classList.remove('project-hero--has-color');
+    layer.style.backgroundImage = toCssUrlValue(surfaceValue);
+    layer.style.backgroundColor = 'transparent';
+  };
+
+  const setHeroBackgroundState = (mediaItem, options = {}) => {
+    const { animate = false } = options;
+    const surfaceValue = getHeroMediaFallbackValue(mediaItem);
+    const isColorSurface = surfaceValue.startsWith('#');
+    const isVideoSurface = mediaItem && mediaItem.type === 'video';
+
+    heroContainer.classList.toggle('project-hero--has-color', isColorSurface && !isVideoSurface);
+    heroContainer.classList.toggle('project-hero--has-image', !isColorSurface && !isVideoSurface);
+    heroContainer.classList.toggle('project-hero--has-video', isVideoSurface);
+
+    if (isVideoSurface) {
+      activateHeroVideo(mediaItem);
+    } else {
+      deactivateHeroVideo();
+    }
+
+    if (!activeHeroLayer || !inactiveHeroLayer) return;
+
+    if (!animate) {
+      setHeroLayerState(activeHeroLayer, surfaceValue);
+      setHeroLayerState(inactiveHeroLayer, surfaceValue);
+      activeHeroLayer.classList.add('project-hero__image-layer--active');
+      inactiveHeroLayer.classList.remove('project-hero__image-layer--active');
+      return;
+    }
+
+    setHeroLayerState(inactiveHeroLayer, surfaceValue);
+    inactiveHeroLayer.classList.add('project-hero__image-layer--active');
+    activeHeroLayer.classList.remove('project-hero__image-layer--active');
+
+    const previousActiveLayer = activeHeroLayer;
+    activeHeroLayer = inactiveHeroLayer;
+    inactiveHeroLayer = previousActiveLayer;
+  };
+
+  const setActiveHeroSelector = (nextIndex) => {
+    if (!heroSelectorsContainer) return;
+
+    const selectorButtons = heroSelectorsContainer.querySelectorAll('.project-hero__selector');
+    selectorButtons.forEach((button, buttonIndex) => {
+      const isActive = buttonIndex === nextIndex;
+      button.classList.toggle('project-hero__selector--active', isActive);
+      button.setAttribute('aria-pressed', String(isActive));
+    });
   };
 
   const showMissingState = () => {
     titleContainer.textContent = defaultMissingTitle;
     descriptionContainer.textContent = defaultMissingDesc;
     toggleClassState(excerptContainer, 'project-excerpt--visible', false);
-    setHeroBackgroundState('#212121');
+    deactivateHeroVideo({ clearSource: true });
+    setHeroBackgroundState({ type: 'color', value: '#212121', thumb: '#212121' });
+    toggleHiddenState(heroCategoryContainer, true);
+
+    if (heroSelectorsContainer) {
+      heroSelectorsContainer.innerHTML = '';
+      toggleClassState(heroSelectorsContainer, 'project-hero__selectors--active', false);
+      toggleHiddenState(heroSelectorsContainer, true);
+    }
+
     toggleClassState(infoBox, 'project-info-box--hidden', true);
     toggleClassState(projectNav, 'project-detail-nav--active', false);
   };
@@ -108,6 +287,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const title = window.I18n.getLocalizedValue(project.title) || 'Project';
   const description = window.I18n.getLocalizedValue(project.description) || '';
+  const detailsHtml = window.I18n.getLocalizedValue(project.detailsHtml) || '';
   const excerpt = window.I18n.getLocalizedValue(project.excerpt) || '';
   const location = project.location ? window.I18n.getLocalizedValue(project.location) : '';
 
@@ -127,7 +307,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  descriptionContainer.innerHTML = description || '';
+  descriptionContainer.innerHTML = detailsHtml || description || '';
 
   const infoHeading = document.getElementById('project-info-heading');
   if (infoHeading) {
@@ -160,63 +340,98 @@ document.addEventListener('DOMContentLoaded', () => {
   const categoryName = category ? window.I18n.getLocalizedValue(category.title) : '';
   populateField('info-category', '.lbl-category', '.val-category', categoryName, 'Category');
 
-  const navContainer = document.getElementById('project-slider-nav');
-  let currentImageIdx = 0;
-  const heroImages =
+  if (heroCategoryContainer) {
+    if (categoryName) {
+      heroCategoryContainer.textContent = categoryName;
+      toggleHiddenState(heroCategoryContainer, false);
+    } else {
+      heroCategoryContainer.textContent = '';
+      toggleHiddenState(heroCategoryContainer, true);
+    }
+  }
+
+  const heroImagesSource =
     project.heroImages && project.heroImages.length > 0
       ? project.heroImages
       : project.coverImage
         ? [project.coverImage]
         : ['#212121'];
+  const heroImages = heroImagesSource
+    .map((item) => normalizeHeroMediaItem(item, project.coverImage || ''))
+    .filter(Boolean);
 
-  preloadHeroImages(heroImages);
+  if (heroImages.length === 0) {
+    heroImages.push({ type: 'color', value: '#212121', thumb: '#212121' });
+  }
 
-  const setHeroBackground = (idx) => {
-    const val = heroImages[idx];
-    setHeroBackgroundState(val);
+  preloadHeroMedia(heroImages);
+
+  const setHeroBackground = (idx, options = {}) => {
+    const safeIndex = Math.max(0, Math.min(idx, heroImages.length - 1));
+    currentImageIdx = safeIndex;
+    setHeroBackgroundState(heroImages[safeIndex], options);
+  };
+
+  const buildHeroSelectors = () => {
+    if (!heroSelectorsContainer) return;
+
+    heroSelectorsContainer.innerHTML = '';
+    heroSelectorsContainer.setAttribute('aria-label', getUiText('Project images', 'Project images'));
+
+    if (heroImages.length <= 1) {
+      toggleClassState(heroSelectorsContainer, 'project-hero__selectors--active', false);
+      toggleHiddenState(heroSelectorsContainer, true);
+      return;
+    }
+
+    const heroImageLabel = getUiText('Project image', 'Project image');
+    const heroVideoLabel = getUiText('Project video', 'Project video');
+    const videoBadgeLabel = window.I18n.getCurrentLanguage() === 'sq' ? 'Video' : 'Video';
+    const selectorsFragment = document.createDocumentFragment();
+
+    heroImages.forEach((mediaItem, index) => {
+      const selector = document.createElement('button');
+      const isVideoItem = mediaItem.type === 'video';
+      const thumbValue = mediaItem.thumb || getHeroMediaFallbackValue(mediaItem);
+      selector.type = 'button';
+      selector.className = 'project-hero__selector';
+      selector.setAttribute('aria-label', `${isVideoItem ? heroVideoLabel : heroImageLabel} ${index + 1}`);
+      selector.setAttribute('aria-pressed', String(index === currentImageIdx));
+
+      const selectorThumb = document.createElement('span');
+      selectorThumb.className = 'project-hero__selector-thumb';
+      setHeroLayerState(selectorThumb, thumbValue);
+
+      const selectorIndex = document.createElement('span');
+      selectorIndex.className = 'project-hero__selector-index';
+      selectorIndex.textContent = String(index + 1).padStart(2, '0');
+
+      selector.appendChild(selectorThumb);
+      if (isVideoItem) {
+        const selectorBadge = document.createElement('span');
+        selectorBadge.className = 'project-hero__selector-badge';
+        selectorBadge.textContent = videoBadgeLabel;
+        selector.appendChild(selectorBadge);
+      }
+      selector.appendChild(selectorIndex);
+
+      selector.addEventListener('click', () => {
+        if (index === currentImageIdx) return;
+        setHeroBackground(index, { animate: true });
+        setActiveHeroSelector(index);
+      });
+
+      selectorsFragment.appendChild(selector);
+    });
+
+    heroSelectorsContainer.appendChild(selectorsFragment);
+    toggleHiddenState(heroSelectorsContainer, false);
+    toggleClassState(heroSelectorsContainer, 'project-hero__selectors--active', true);
+    setActiveHeroSelector(currentImageIdx);
   };
 
   setHeroBackground(0);
-
-  if (sliderPrevBtn) {
-    sliderPrevBtn.setAttribute('aria-label', getUiText('Previous Project', 'Previous Project'));
-    sliderPrevBtn.setAttribute('title', getUiText('Previous Project', 'Previous Project'));
-  }
-  if (sliderNextBtn) {
-    sliderNextBtn.setAttribute('aria-label', getUiText('Next Project', 'Next Project'));
-    sliderNextBtn.setAttribute('title', getUiText('Next Project', 'Next Project'));
-  }
-
-  if (heroImages.length > 1 && navContainer) {
-    toggleClassState(navContainer, 'slider-nav--active', true);
-
-    if (sliderPrevBtn && sliderPrevBtn.dataset.bound !== 'true') {
-      sliderPrevBtn.addEventListener('click', () => {
-        currentImageIdx = (currentImageIdx - 1 + heroImages.length) % heroImages.length;
-        setHeroBackground(currentImageIdx);
-      });
-      sliderPrevBtn.dataset.bound = 'true';
-    }
-
-    if (sliderNextBtn && sliderNextBtn.dataset.bound !== 'true') {
-      sliderNextBtn.addEventListener('click', () => {
-        currentImageIdx = (currentImageIdx + 1) % heroImages.length;
-        setHeroBackground(currentImageIdx);
-      });
-      sliderNextBtn.dataset.bound = 'true';
-    }
-
-    if (heroContainer.dataset.intervalId) {
-      clearInterval(parseInt(heroContainer.dataset.intervalId, 10));
-    }
-    const intervalId = setInterval(() => {
-      currentImageIdx = (currentImageIdx + 1) % heroImages.length;
-      setHeroBackground(currentImageIdx);
-    }, 4500);
-    heroContainer.dataset.intervalId = intervalId.toString();
-  } else if (navContainer) {
-    toggleClassState(navContainer, 'slider-nav--active', false);
-  }
+  buildHeroSelectors();
 
   const allProjects = window.ContentStore.getProjects();
   const categoryProjects = allProjects

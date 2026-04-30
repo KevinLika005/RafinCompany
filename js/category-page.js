@@ -47,12 +47,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (heroImage) {
       preloadHeroImage(heroImage);
+      heroContainer.style.backgroundImage = toCssUrlValue(heroImage);
       heroContainer.style.setProperty('--category-hero-image', toCssUrlValue(heroImage));
       heroContainer.classList.add('category-hero--has-media');
       heroContainer.classList.remove('category-hero--fallback');
       return;
     }
 
+    heroContainer.style.removeProperty('background-image');
     heroContainer.style.removeProperty('--category-hero-image');
     heroContainer.classList.remove('category-hero--has-media');
     heroContainer.classList.add('category-hero--fallback');
@@ -121,13 +123,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const projectTitle = window.I18n.getLocalizedValue(project.title) || 'Project';
     const projectExcerpt = window.I18n.getLocalizedValue(project.excerpt) || '';
     const slugUrl = project.slug ? `project.html?slug=${encodeURIComponent(project.slug)}` : '#';
-    const coverImage = project.coverImage || 'images/default-thumb.jpg';
+    const coverImage = project.coverImage || '';
+    const mediaHtml = coverImage
+      ? `<img src="${escapeHtml(coverImage)}" alt="${escapeHtml(projectTitle)}" width="418" height="315" loading="lazy" decoding="async" fetchpriority="low">`
+      : `<span class="project-card__media-placeholder" aria-hidden="true"></span>`;
 
     return `
       <div class="col-sm-6 col-lg-4 project-card-item">
         <article class="project-card">
-          <a class="project-card__media" href="${slugUrl}">
-            <img src="${escapeHtml(coverImage)}" alt="${escapeHtml(projectTitle)}" width="418" height="315" loading="lazy" decoding="async" fetchpriority="low">
+          <a class="project-card__media ${coverImage ? '' : 'project-card__media--empty'}" href="${slugUrl}" aria-label="${escapeHtml(projectTitle)}">
+            ${mediaHtml}
           </a>
           <div class="project-card__content">
             <p class="project-card__category">${escapeHtml(categoryTitle)}</p>

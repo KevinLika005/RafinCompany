@@ -12,6 +12,10 @@ const contacts = {
     intro: {
       en: "Share your project needs and our team will get back to you quickly with the right department.",
       sq: "Ndani nevojat e projektit dhe ekipi yne do tju ktheje pergjigje shpejt me departamentin e duhur."
+    },
+    openLocationLabel: {
+      en: "Open Location",
+      sq: "Hap Vendndodhjen"
     }
   },
   locations: [
@@ -25,8 +29,10 @@ const contacts = {
         en: "Rruga Haxhi Kika, Administrative Unit No. 5, Property No. 6/538 H 1, Apartment 4, Tirane.",
         sq: "Rruga Haxhi Kika, Njesia Administrative Nr. 5, Prona Nr. 6/538 H 1, Apartamenti 4, Tirane."
       },
+      googleMapsUrl:
+        "https://maps.app.goo.gl/sSJKcZmiTMZPzwa77?g_st=com.apple.sharing.quick-note",
       mapEmbedUrl:
-        "https://www.openstreetmap.org/export/embed.html?bbox=19.7930%2C41.3120%2C19.8440%2C41.3425&layer=mapnik&marker=41.3275%2C19.8187",
+        "https://www.openstreetmap.org/export/embed.html?bbox=19.7949295%2C41.3080490%2C19.8149295%2C41.3280490&layer=mapnik&marker=41.3180490%2C19.8049295",
       mapTitle: {
         en: "Rafin Head Office map",
         sq: "Harta e zyres qendrore Rafin"
@@ -42,8 +48,10 @@ const contacts = {
         en: "Durres, Albania.",
         sq: "Durres, Shqiperi."
       },
+      googleMapsUrl:
+        "https://maps.app.goo.gl/Up7AUjJq8FXWLLUg6?g_st=aw",
       mapEmbedUrl:
-        "https://www.openstreetmap.org/export/embed.html?bbox=19.4110%2C41.2920%2C19.4850%2C41.3490&layer=mapnik&marker=41.3231%2C19.4414",
+        "https://www.openstreetmap.org/export/embed.html?bbox=19.7042718%2C41.2689567%2C19.7242718%2C41.2889567&layer=mapnik&marker=41.2789567%2C19.7142718",
       mapTitle: {
         en: "Rafin Operations Hub map",
         sq: "Harta e qendres operacionale Rafin"
@@ -69,6 +77,10 @@ const contacts = {
       email: {
         en: "E-Mail",
         sq: "E-Mail"
+      },
+      cv: {
+        en: "Ngarko CV / Dokument",
+        sq: "Ngarko CV / Dokument"
       },
       message: {
         en: "Message",

@@ -45,7 +45,7 @@
               <div class="rd-navbar-panel rd-navbar-search-lg_collapsable">
                 <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-nav-wrap"><span></span></button>
                 <!-- RD Navbar Brand-->
-                <div class="rd-navbar-brand"><a class="brand-name" href="index.html"><img src="images/logo-inverse-304x39.png" alt="Rafin Company" width="120" height="120" decoding="async"/></a></div>
+                <div class="rd-navbar-brand"><a class="brand-name" href="index.html"><img class="brand-logo brand-logo--default" src="rafin-logo-gold-white-transparent.png" alt="Rafin Company" width="120" height="120" decoding="async"/><img class="brand-logo brand-logo--blue" src="rafin-logo-gold-white-transparent.png" alt="" width="120" height="120" decoding="async" aria-hidden="true"/></a></div>
               </div>
               <!-- RD Navbar Nav-->
               <div class="rd-navbar-nav-wrap rd-navbar-search_not-collapsable">
@@ -57,8 +57,7 @@
                     <li><a href="projects.html" id="nav-projects-link" data-i18n="projects">Projects</a>
                       <ul class="rd-navbar-dropdown" id="nav-projects-dropdown"></ul>
                     </li>
-                    <li><a href="#jobs" data-i18n="Careers">Careers</a></li>
-                    <li><a href="#testimonials" data-i18n="Staff">Staff</a></li>
+                    <li><a href="career.html" data-i18n="Careers">Careers</a></li>
                     <li><a href="#contacts" data-i18n="Contacts">Contacts</a></li>
                   </ul>
                 </div>
@@ -75,8 +74,8 @@
       </header>
       <section id="home" class="video-hero-section" aria-label="Hero">
         <div class="video-hero-bg" aria-hidden="true">
-          <video autoplay muted loop playsinline preload="metadata" poster="images/parallax-2.jpg">
-            <source src="images/mixkit-buildings-under-construction-aerial-view-4010-full-hd.mp4" type="video/mp4">
+          <video autoplay muted loop playsinline preload="metadata" >
+            <source src="images/Rafin-final-video.mp4" type="video/mp4">
           </video>
         </div>
         <div class="video-hero-overlay" aria-hidden="true"></div>
@@ -88,7 +87,7 @@
                 <p class="video-hero-text" data-i18n="Homepage Hero Body">Rafin delivers civil, road, electrical and industrial projects with technical discipline, reliable execution and long-term value.</p>
                 <div class="video-hero-actions">
                   <a class="button button-primary video-hero-button" href="projects.html" data-i18n="projects">Projects</a>
-                  <a class="button video-hero-button video-hero-button--secondary" href="#jobs" data-i18n="Careers">Careers</a>
+                  <a class="button video-hero-button video-hero-button--secondary" href="career.html" data-i18n="Careers">Careers</a>
                   <a class="button video-hero-button video-hero-button--secondary" href="#contacts" data-i18n="contact">Contact</a>
                 </div>
               </div>
@@ -98,7 +97,7 @@
       </section>
 
       <!-- Our History-->
-      <section class="section-md bg-gray-lighter" id="about">
+      <section class="section-md home-section-tint home-section-tint--topo" id="about">
         <div class="container">
           <div class="row justify-content-md-center row-30 row-md-50">
             <div class="col-md-11 col-lg-10 col-xl-6">
@@ -122,7 +121,7 @@
       </section>
 
       <!-- Our Services-->
-      <section class="section-md bg-default text-center" id="services">
+      <section class="section-md home-section-tint home-section-tint--plain text-center" id="services">
         <div class="container">
           <div class="row">
             <div class="col-sm-12">
@@ -229,21 +228,21 @@
       </section>
 
       <!-- Building Materials -->
-      <section class="section-lg bg-default redesign-materials-section" id="materials">
+      <section class="section-lg home-section-tint home-section-tint--plain redesign-materials-section" id="materials">
         <div id="materials-section-container"></div>
       </section>
 
       <!-- Projects-->
-      <section class="bg-default" id="projects">
-        <div class="container-fluid container-flex">
-          <div class="row no-gutters">
-            <!-- Dynamic categories will be injected here by js/home-categories.js -->
+      <section class="bg-default home-projects-section" id="projects">
+        <div class="container">
+          <div id="home-categories-showcase">
+            <!-- Dynamic project categories showcase will be injected here by js/home-categories.js -->
           </div>
         </div>
       </section>
 
       <!-- Certificates -->
-      <section class="section-lg bg-gray-lighter text-center">
+      <section class="section-lg home-section-tint home-section-tint--topo text-center">
         <div class="container">
           <h4 class="heading-decorated" data-i18n="Certifications">Certifications</h4>
           <div class="offset-top-1 px-4" id="certificates-container">
@@ -253,99 +252,62 @@
       </section>
 
       <!-- Jobs / Careers -->
-      <section class="section-lg bg-gray-dark text-center" id="jobs">
+      <section class="section-lg text-center homepage-careers-cta" id="jobs">
         <div class="container">
-          <h4 class="heading-decorated" data-i18n="Jobs / Careers">Jobs / Careers</h4>
-          <p class="text-white opacity-50 mb-5" data-i18n="Join our dynamic team">Join our dynamic team and build the future with us</p>
-          <div id="jobs-filters-container"></div>
-          <div class="row row-50 text-left" id="jobs-container">
-            <!-- Dynamic jobs injected by js/jobs-section.js -->
+          <div class="homepage-careers-cta__panel">
+            <div class="homepage-careers-cta__copy">
+              <h4 class="heading-decorated" data-i18n="Homepage Careers CTA Title">Eksploroni pozicionet e hapura ne Rafin</h4>
+              <p data-i18n="Homepage Careers CTA Body">Shikoni mundesite aktuale te karrieres dhe hapni cdo rol per detaje te plota perpara aplikimit.</p>
+            </div>
+            <a class="button button-primary homepage-careers-cta__button" href="career.html" data-i18n="View Open Positions">Shiko Pozicionet e Lira</a>
           </div>
         </div>
       </section>
 
-      <!-- Testimonials-->
-      <section class="section parallax-container" data-parallax-img="images/project-category-healthcare.jpg" id="testimonials">
-        <div class="parallax-content">
-          <section class="section-lg context-dark">
-            <div class="container">
-              <div class="row row-50">
-                <div class="col-md-6">
-				 
-                  <!-- Quote default-->
-                  <div class="quote-default quote-default_left">
-                    <div class="quote-default__text">
-                      <p class="q" data-i18n="Our Staff">OUR STAFF</p>
-                    </div>
-	                    <p class="quote-default__cite text-primary" data-i18n="Staff Section Body">Our staff works with professionalism, cooperating with integrity, reliability, and a common purpose to fulfill all customer requirements. We see our success in our team and the principles that have characterized us from the very beginning. Our commitment to responsibility and work ethics has been our key to success.<br>We have qualified specialists such as: Civil Engineers, Electrical Engineers, Mechanical Engineers, Environmental Engineers, and Topographic Engineers. Rafin Company is committed to ensuring health and safety for our workforce and the communities where we work. In all our projects, we operate with high standards in accordance with European certifications. Our dedication has always been focused on quality and minimizing any negative environmental impact.</p>
-                  </div>
-                </div>
-                <div class="col-md-6">
-				</div>
-                </div>
+      <section class="section-lg home-section-tint home-section-tint--plain homepage-news" id="news">
+        <div class="container">
+          <div class="homepage-news__shell">
+            <div class="homepage-news__header">
+              <div class="homepage-news__heading">
+                <h4 class="heading-decorated" data-i18n="Recent News">Recent News</h4>
               </div>
+              <a class="homepage-news__archive" href="projects.html" data-i18n="projects">Projects</a>
             </div>
-          </section>
-        </div>
-      </section>
-
-      <!-- Posts-->
-      <section class="section-md bg-gray-lighter">
-        <div class="container">
-          <div class="row">
-            <div class="col-sm-12 text-center">
-              <h4 class="heading-decorated" data-i18n="Recent News">Recent News</h4>
-            </div>
-          </div>
-          <div class="row row-60">
-            <div class="col-md-6 col-xl-4">
-              <!-- Post classic-->
-              <article class="post-classic post-minimal">
-                <img src="images/home-post-1-418x315.jpg" alt="Construction Development" width="418" height="315" loading="lazy" decoding="async" fetchpriority="low"/>
-                <div class="post-classic-title">
-                  <h6><a href="projects.html" data-i18n="News1Title">Quality Infrastructure Development</a></h6>
-                </div>
-                <div class="post-meta">
-                  <div class="group">
+            <div class="homepage-news__grid">
+              <article class="homepage-news-card homepage-news-card--featured">
+                <a class="homepage-news-card__media" href="projects.html" aria-label="Quality Infrastructure Development">
+                  <img src="images/home-post-1-418x315.jpg" alt="Construction Development" width="418" height="315" loading="lazy" decoding="async" fetchpriority="low"/>
+                </a>
+                <div class="homepage-news-card__body">
+                  <div class="homepage-news-card__meta">
                     <time datetime="2024">2024</time>
                   </div>
-                </div>
-                <div class="post-classic-body">
+                  <h5 class="homepage-news-card__title"><a href="projects.html" data-i18n="News1Title">Quality Infrastructure Development</a></h5>
                   <p data-i18n="News1Body">We are expanding our reach in public works across Albania, bringing innovation and high standards.</p>
                 </div>
               </article>
-            </div>
-            <div class="col-md-6 col-xl-4">
-              <!-- Post classic-->
-              <article class="post-classic post-minimal">
-                <img src="images/home-post-2-418x315.jpg" alt="Sustainable Building" width="418" height="315" loading="lazy" decoding="async" fetchpriority="low"/>
-                <div class="post-classic-title">
-                  <h6><a href="projects.html" data-i18n="News2Title">Sustainable Building Practices</a></h6>
-                </div>
-                <div class="post-meta">
-                  <div class="group">
+              <article class="homepage-news-card homepage-news-card--compact">
+                <a class="homepage-news-card__media" href="projects.html" aria-label="Sustainable Building Practices">
+                  <img src="images/home-post-2-418x315.jpg" alt="Sustainable Building" width="418" height="315" loading="lazy" decoding="async" fetchpriority="low"/>
+                </a>
+                <div class="homepage-news-card__body">
+                  <div class="homepage-news-card__meta">
                     <time datetime="2024">2024</time>
                   </div>
-                </div>
-                <div class="post-classic-body">
+                  <h5 class="homepage-news-card__title"><a href="projects.html" data-i18n="News2Title">Sustainable Building Practices</a></h5>
                   <p data-i18n="News2Body">Integrating eco-friendly materials and energy-efficient solutions in our latest projects.</p>
                 </div>
               </article>
-            </div>
-            <div class="col-md-6 col-xl-4">
-              <!-- Post classic-->
-              <article class="post-classic post-minimal">
-                <img src="images/home-post-3-418x315.jpg" alt="Engineering Excellence" width="418" height="315" loading="lazy" decoding="async" fetchpriority="low"/>
-                <div class="post-classic-title">
-                  <h6><a href="projects.html" data-i18n="News3Title">Engineering Excellence</a></h6>
-                </div>
-                <div class="post-meta">
-                  <div class="group">
+              <article class="homepage-news-card homepage-news-card--compact">
+                <a class="homepage-news-card__media" href="projects.html" aria-label="Engineering Excellence">
+                  <img src="images/home-post-3-418x315.jpg" alt="Engineering Excellence" width="418" height="315" loading="lazy" decoding="async" fetchpriority="low"/>
+                </a>
+                <div class="homepage-news-card__body">
+                  <div class="homepage-news-card__meta">
                     <time datetime="2024">2024</time>
                   </div>
-                </div>
-                <div class="post-classic-body">
-                  <p data-i18n="News3Body">Our team continues to deliver complex engineering solutions with precision and safety. </p>
+                  <h5 class="homepage-news-card__title"><a href="projects.html" data-i18n="News3Title">Engineering Excellence</a></h5>
+                  <p data-i18n="News3Body">Our team continues to deliver complex engineering solutions with precision and safety.</p>
                 </div>
               </article>
             </div>
@@ -354,7 +316,7 @@
       </section>
 
       <!-- Dedicated Contacts -->
-      <section class="section-lg bg-gray-lighter redesign-contacts-section" id="contacts">
+      <section class="section-lg home-section-tint home-section-tint--topo redesign-contacts-section" id="contacts">
         <div id="contacts-section-container"></div>
       </section>
 

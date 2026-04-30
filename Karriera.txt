@@ -1,0 +1,73 @@
+Karriera:
++Menaxhim Ndertimi:
+-Inxhinier Ndertimi
+-Inxhinier Hidroteknik
+-Ing. Elektrik
+-Ing. Elektroteknik
+-Ing. Mekanik
+-ing Mekatronik
+
++Drejtues Mjetesh:
+-Shofer Kamioni :
+*Shofer Kamioncine
+*Shofer fugoni
+-Manovrator:
+*Eskavatorist
+*Buldozer
+*Grejder
+*Rrul
+*Asfaltshtrues
+*Fadrom
+
++Specialist Ndertimi:
+-Puntor ndertimi
+-Elektricist
+-Hidroteknik
+-Murator/Suvaxhi
+-Pllaka shtrues
+-Hekur thyes
+-Karpentier
+-Marangoz
+-Saldator
+
++Mirmbajtje makinerish:
+-Elektroaut
+-Mekanik
+
+Te kontaktet:
+Nje buton per ngarkim dokumenti,pra ngarkim CV ku merret nga filet locale.
+
+Kontaktet e departamenteve:
+Dep Teknik: 0688080606
+Dep finance: 0684085505
+Dep juridic: 0684085510
+Kontaktet e emaileve te footeri te jen te klikueshme dhe kur te klikohen te cojn te seksioni i kontakteve.
+
+Sektori i materialeve:
+Vetem 3:Prodhim betoni
+Prodhim inertesh
+Prodhim asfalti
+Per te treja te kene dhe nga nje foto te shkarkuar dhe te zevendsohen fotot aktuale.Fotot te ngjajne reale pra jo te mosbesueshme,dhe te pershtaten me ngjyrat.
+
+
+Projektet:
+Ndrysho emrin ne shqip te Infrastrukture Ujesjellsi ne Infrastrukture Ujore.
+Shto dy kategori projektesh:
+-Monumente kulturore
+-Rezidenca Banuese
+Per faqen project.html hero banneri duhet te jet ne formatin e dhene ne foto.Te hiqen butonat anesor me shigjeta majtas dhe djathtas,bashk me animimin automatic ku kalon fotoja.Duhet te ket vetem transicion kur klikohet nga fotoja te fotoja tjeter.
+
+Mapet te kontaktet:
+Lokacioni i pare ne tirane te jet :https://maps.app.goo.gl/sSJKcZmiTMZPzwa77?g_st=com.apple.sharing.quick-note.Te shfaqet te mapi ky lokacion.
+Lokacioni tjeter do te jepet me vone.
+
+Konfigurimi ideal për faqen tënde do ishte:
+Ndryshim ngjyrash te websitet.
+Header: white background me tekst #14213D
+Hero overlay / dark sections: #14213D
+Primary buttons: #FCA311 me tekst #000000
+Secondary buttons: transparent ose white me border #FFFFFF në hero
+Cards: white me tituj #14213D
+Footer: #14213D me tekst të bardhë
+Hover states: pak më i errët se #FCA311
+

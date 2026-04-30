@@ -76,6 +76,7 @@
     const fileName = pathname.split('/').pop().toLowerCase();
     if (!fileName || fileName === 'index.html') return 'home';
     if (fileName === 'projects.html') return 'projects';
+    if (fileName === 'career.html') return 'career';
     if (fileName === 'category.html') return 'category';
     if (fileName === 'project.html') return 'project';
     return 'generic';
@@ -106,6 +107,7 @@
   function buildRoutePath(pageType, slugValue) {
     if (pageType === 'home') return 'index.html';
     if (pageType === 'projects') return 'projects.html';
+    if (pageType === 'career') return 'career.html';
     if (pageType === 'category') {
       if (!slugValue) return 'category.html';
       return 'category.html?slug=' + encodeURIComponent(slugValue);
@@ -224,6 +226,19 @@
       ogTitle = translate('Home OG Title', title);
       ogDescription = translate('Home OG Description', description);
       pageSchemaType = 'WebSite';
+    } else if (pageType === 'career') {
+      title = translate('Careers Page Title', 'Careers | ' + companyName);
+      description = translate(
+        'Careers Meta Description',
+        'Explore open positions at ' + companyName + ' across engineering, transport, construction, and machinery maintenance.'
+      );
+      ogTitle = title;
+      ogDescription = description;
+      pageSchemaType = 'CollectionPage';
+      mainEntity = {
+        '@type': 'ItemList',
+        name: translate('Careers', 'Careers')
+      };
     } else if (pageType === 'projects') {
       title = translate('Projects Page Title', 'Projects | ' + companyName);
       description = translate(

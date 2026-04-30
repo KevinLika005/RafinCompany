@@ -105,6 +105,18 @@ const translations = {
     en: "Jobs / Careers",
     sq: "Punë / Karriera"
   },
+  "View Open Positions": {
+    en: "View Open Positions",
+    sq: "Shiko Pozicionet e Lira"
+  },
+  "Homepage Careers CTA Title": {
+    en: "Explore open roles at Rafin",
+    sq: "Eksploroni pozicionet e hapura ne Rafin"
+  },
+  "Homepage Careers CTA Body": {
+    en: "See current career opportunities and open each role for full details before applying.",
+    sq: "Shikoni mundesite aktuale te karrieres dhe hapni cdo rol per detaje te plota perpara aplikimit."
+  },
   "Join our dynamic team": {
     en: "Join our dynamic team and build the future with us",
     sq: "Bashkohuni me ekipin tonë dinamik dhe ndërtoni të ardhmen me ne"
@@ -150,6 +162,8 @@ const translations = {
   "Home OG Description": { en: "Excellence in construction and infrastructure development in Albania.", sq: "Ekselencë në ndërtim dhe zhvillim të infrastrukturës në Shqipëri." },
   "Projects Page Title": { en: "Projects | Rafin Company", sq: "Projektet | Rafin Company" },
   "Projects Meta Description": { en: "Browse the diverse portfolio of construction and infrastructure projects by Rafin Company, including civil engineering, public works, and more.", sq: "Shfletoni portofolin e larmishëm të projekteve të ndërtimit dhe infrastrukturës nga Rafin Company, duke përfshirë inxhinieri civile, vepra publike dhe më shumë." },
+  "Careers Page Title": { en: "Careers | Rafin Company", sq: "Karriera | Rafin Company" },
+  "Careers Meta Description": { en: "Explore open positions at Rafin Company across engineering, transport, construction, and machinery maintenance.", sq: "Eksploroni pozicionet e hapura ne Rafin Company ne inxhinieri, transport, ndertim dhe mirembajtje makinerish." },
   "Category Page Title": { en: "Category | Rafin Company", sq: "Kategoria | Rafin Company" },
   "Category Meta Description": { en: "Explore construction projects by category. Rafin Company delivers excellence across various sectors of infrastructure and building.", sq: "Eksploroni projektet e ndërtimit sipas kategorive. Rafin Company ofron ekselencë në sektorë të ndryshëm të infrastrukturës dhe ndërtimit." },
   "Project Page Title": { en: "Project Details | Rafin Company", sq: "Detajet e Projektit | Rafin Company" },
@@ -165,9 +179,19 @@ const translations = {
   "Homepage Hero Title": { en: "Building Infrastructure With Precision and Responsibility", sq: "Ndertojme infrastrukture me precizion dhe pergjegjesi" },
   "Homepage Hero Body": { en: "Rafin delivers civil, road, electrical and industrial projects with technical discipline, reliable execution and long-term value.", sq: "Rafin realizon projekte civile, rrugore, elektrike dhe industriale me disipline teknike, zbatim te besueshem dhe vlere afatgjate." },
 
+  "Careers Hero Title": { en: "Build your next role with Rafin", sq: "Ndertoni rolin tuaj te ardhshem me Rafin" },
+  "Careers Hero Body": { en: "Explore current openings across construction management, vehicle operations, specialist trades, and machinery maintenance.", sq: "Eksploroni pozicionet aktuale ne menaxhim ndertimi, drejtim mjetesh, profesione ndertimi dhe mirembajtje makinerish." },
+  "Career Application Eyebrow": { en: "Careers Contact", sq: "Kontakt Karriere" },
+  "Career Application Title": { en: "Apply for a Role", sq: "Apliko per nje Pozicion" },
+  "Career Application Intro": { en: "Send your application directly from this page and choose the position you want to apply for.", sq: "Dergo aplikimin direkt nga kjo faqe dhe zgjidh pozicionin per te cilin deshiron te aplikosh." },
+  "Career Application Form Title": { en: "Application Form", sq: "Formular Aplikimi" },
+  "Job Position": { en: "Job Position", sq: "Pozicioni i Punes" },
+  "Select Job Position": { en: "Select Job Position", sq: "Zgjidh Pozicionin e Punes" },
+  "Career Application Message Template": { en: "I am applying for: {{title}}", sq: "Po aplikoj per: {{title}}" },
+
   // Home long-form sections
   "About Company Label": { en: "\"RAFIN COMPANY\"", sq: "\"RAFIN COMPANY\"" },
-  "About Intro Body": { en: "Was founded with the mission to develop a new standard in the Albanian market. Our desire and passion for professionalism made it possible to achieve our goals. We have established long-standing relationships with international partners in different areas of construction and create complex infrastructure projects with sophisticated technical and quality standards.<br>Established in Tirana, \"Rafin Company\" has created a development strategy focused on meeting market requirements and offering high-quality solutions to clients. We specialize in projects such as: civil construction, public construction, machinery trade, technology, water supply infrastructure, and high-quality materials from leading brands, etc.", sq: "U themelua me misionin për të vendosur një standard të ri në tregun shqiptar. Dëshira dhe pasioni ynë për profesionalizëm na kanë bërë të mundur arritjen e objektivave tona. Ne kemi krijuar marrëdhënie afatgjata me partnerë ndërkombëtarë në fusha të ndryshme të ndërtimit dhe realizojmë projekte komplekse infrastrukturore me standarde të larta teknike dhe cilësore.<br>E themeluar në Tiranë, \"Rafin Company\" ka ndërtuar një strategji zhvillimi të fokusuar në përmbushjen e kërkesave të tregut dhe ofrimin e zgjidhjeve cilësore për klientët. Ne specializohemi në projekte si: ndërtim civil, ndërtim publik, tregti makinerish, teknologji, infrastrukturë ujësjellësi dhe materiale cilësore nga marka lider, etj." },
+  "About Intro Body": { en: "RAFIN COMPANY is an Albanian limited liability company, established on September 23, 2015 and headquartered in Tirana, operating actively in Albania. The company works mainly in the field of construction and infrastructure services, including civil, agricultural, and tourism-related construction, reconstruction, carpentry works, hydraulic and hydrotechnical works, water supply systems, sewage systems, irrigation plants, wells, and special engineering works.<br>Its activity also extends to the construction and maintenance of roads of different categories, highways, bridges, tunnels, railway works, road signage, basins, drainage works, and interventions in urban and green spaces. In addition to construction and infrastructure projects, RAFIN COMPANY carries out restoration works, technical services, transport, recycling and processing of construction materials, as well as the production and processing of asphalt, concrete, and inert materials. With a broad range of services and experience in civil, industrial, and public projects, the company aims to provide sustainable, high-quality, and professional solutions, contributing to the development of infrastructure and the built environment in Albania.", sq: "RAFIN COMPANY është një shoqëri shqiptare me përgjegjësi të kufizuar, e themeluar më 23 shtator 2015 dhe me seli në Tiranë, e cila ushtron aktivitetin e saj në Shqipëri me status aktiv. Kompania operon kryesisht në fushën e ndërtimeve të ndryshme dhe shërbimeve infrastrukturore, duke përfshirë ndërtime civile, bujqësore dhe turistike, rikonstruksione, punime karpenterie, ndërtime hidraulike dhe hidroteknike, ujësjellës, kanalizime, impiante vaditjeje, puse dhe vepra të veçanta inxhinierike.<br>Aktiviteti i saj shtrihet gjithashtu në ndërtimin dhe mirëmbajtjen e rrugëve të kategorive të ndryshme, autostradave, urave, tuneleve, veprave hekurudhore, sinjalistikës rrugore, baseneve, punimeve të drenimit dhe ndërhyrjeve në hapësira urbane e të gjelbra. Përveç projekteve të ndërtimit dhe infrastrukturës, RAFIN COMPANY zhvillon edhe punime restaurimi, shërbime teknike, transport, riciklim dhe përpunim të materialeve të ndërtimit, si dhe prodhim e përpunim të asfaltit, betonit dhe materialeve inerte. Me një gamë të gjerë shërbimesh dhe eksperiencë në projekte civile, industriale dhe publike, kompania synon të ofrojë zgjidhje të qëndrueshme, cilësore dhe profesionale, duke kontribuar në zhvillimin e infrastrukturës dhe mjedisit të ndërtuar në Shqipëri." },
   "Service 1 Title": { en: "Pre-construction Services", sq: "Shërbime Para-Ndërtimi" },
   "Service 1 Body": { en: "We take our time on initial planning before any construction begins, to balance all the financial and efficiency issues beforehand...", sq: "I kushtojmë kohën e duhur planifikimit fillestar përpara nisjes së çdo ndërtimi, për të balancuar paraprakisht çështjet financiare dhe të efiçiencës..." },
   "Service 2 Title": { en: "General Contracting", sq: "Kontraktim i Përgjithshëm" },

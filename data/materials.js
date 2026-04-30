@@ -1,5 +1,5 @@
 const materials = {
-  status: "phase-3-seeded-awaiting-client-final-list",
+  status: "phase-3-materials-finalized",
   section: {
     eyebrow: {
       en: "Material Strategy",
@@ -27,70 +27,53 @@ const materials = {
     {
       id: "materials-1",
       title: {
-        en: "Concrete and Structural Systems",
-        sq: "Sisteme Betoni dhe Strukturore"
+        en: "Concrete Production",
+        sq: "Prodhim Betoni"
       },
       summary: {
-        en: "High-strength concrete mixes and steel-reinforced solutions for public and industrial assets.",
-        sq: "Perzierje betoni me rezistence te larte dhe zgjidhje te armuara me celik per vepra publike dhe industriale."
+        en: "Concrete production for civil, infrastructure, and industrial projects with technical quality control.",
+        sq: "Prodhim betoni për projekte civile, infrastrukturore dhe industriale me kontroll teknik të cilësisë."
       },
-      image: "images/home-1-652x491.jpg",
+      image: "images/materials/concrete-production.jpg",
       imageAlt: {
-        en: "Concrete and structural works",
-        sq: "Punime betoni dhe strukturore"
+        en: "Concrete mixer truck and production materials at a construction site",
+        sq: "Autobetonierë dhe materiale për prodhim betoni në një kantier ndërtimi"
       },
       order: 1
     },
     {
       id: "materials-2",
       title: {
-        en: "Road Infrastructure Layers",
-        sq: "Shtresa te Infrastruktures Rrugore"
+        en: "Aggregates Production",
+        sq: "Prodhim Inertesh"
       },
       summary: {
-        en: "Aggregates, base layers, and compaction-ready materials for long-life transport corridors.",
-        sq: "Agregate, shtresa baze dhe materiale te gatshme per kompaktesim per korridore transporti me jete te gjate."
+        en: "Processing and supply of aggregates for construction, roads, and infrastructure base layers.",
+        sq: "Përpunim dhe furnizim inertesh për ndërtim, rrugë dhe shtresa infrastrukturore."
       },
-      image: "images/infrastucture/mo2.jpg",
+      image: "images/materials/aggregates-production.jpg",
       imageAlt: {
-        en: "Road infrastructure materials",
-        sq: "Materiale per infrastrukture rrugore"
+        en: "Aggregate processing conveyors and gravel stockpiles at an industrial quarry",
+        sq: "Rripa transportues inertesh dhe grumbuj zhavorri në një gurore industriale"
       },
       order: 2
     },
     {
       id: "materials-3",
       title: {
-        en: "Water Supply Components",
-        sq: "Komponente per Furnizim me Uje"
+        en: "Asphalt Production",
+        sq: "Prodhim Asfalti"
       },
       summary: {
-        en: "Pressure-rated PE pipes and fittings selected for municipal and utility-grade performance.",
-        sq: "Tuba PE dhe aksesore me klase presioni te zgjedhur per performance komunale dhe utility."
+        en: "Asphalt production for roads, industrial yards, and public projects with high implementation standards.",
+        sq: "Prodhim asfalti për rrugë, sheshe industriale dhe projekte publike me standarde të larta zbatimi."
       },
-      image: "images/materials/PE-Water-Supply-Pipes.jpg",
+      image: "images/materials/asphalt-production.jpg",
       imageAlt: {
-        en: "Water supply pipes and components",
-        sq: "Tuba dhe komponente te furnizimit me uje"
+        en: "Road roller compacting fresh asphalt on a construction project",
+        sq: "Rul kompaktues mbi asfalt të freskët në një projekt rrugor"
       },
       order: 3
-    },
-    {
-      id: "materials-4",
-      title: {
-        en: "Electro-Mechanical Equipment",
-        sq: "Pajisje Elektro-Mekanike"
-      },
-      summary: {
-        en: "Transformers, pumps, and control hardware for power and utility infrastructure.",
-        sq: "Transformatore, pompa dhe hardware kontrolli per infrastrukture energjie dhe sherbimesh."
-      },
-      image: "images/equipement/transformator.jpg",
-      imageAlt: {
-        en: "Electro-mechanical equipment",
-        sq: "Pajisje elektro-mekanike"
-      },
-      order: 4
     }
   ]
 };

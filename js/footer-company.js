@@ -89,6 +89,7 @@
     if (!footerContainer) return;
 
     const formStartedAt = Math.floor(Date.now() / 1000);
+    const contactHref = document.getElementById("contacts") ? "#contacts" : "index.html#contacts";
     const depsHtml = departments
       .map((dep) => {
         const email = typeof dep.email === "string" ? dep.email.trim() : "";
@@ -101,7 +102,7 @@
         if (showEmail) {
           rows.push(`
               <li>
-                <a href="mailto:${escapeHtml(email)}">
+                <a href="${contactHref}">
                   <span class="icon linear-icon-envelope"></span>
                   <span>${escapeHtml(email)}</span>
                 </a>

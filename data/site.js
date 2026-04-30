@@ -2,7 +2,7 @@ const site = {
   stats: {
     completedProjects: 570,
     staff: 300,
-    certifications: 11
+    certifications: 10
   },
   address: {
     street: "Rruga \"Haxhi Kika\", Administrative Unit No. 5",

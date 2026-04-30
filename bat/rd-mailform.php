@@ -554,16 +554,12 @@ if (!isset($_SERVER['REQUEST_METHOD']) || strtoupper($_SERVER['REQUEST_METHOD'])
     mfExitWithCode('MF255');
 }
 
-if (!empty($_FILES)) {
-    mfExitWithCode('MF255');
-}
-
 if (!isset($_POST['form-type'])) {
     mfExitWithCode('MF004');
 }
 
 $formType = strtolower(mfSanitizeSingleLine($_POST['form-type'], 20));
-$allowedFormTypes = array('contact', 'subscribe');
+$allowedFormTypes = array('contact', 'subscribe', 'job-application');
 if (!in_array($formType, $allowedFormTypes, true)) {
     mfExitWithCode('MF004');
 }
@@ -610,11 +606,25 @@ if (!$disableAntiSpam) {
 $commonAllowedFields = array('form-type', 'counter', 'email', 'company_website', 'form_started_at', 'g-recaptcha-response');
 $allowedFieldsByType = array(
     'contact' => array_merge($commonAllowedFields, array('name', 'phone', 'message')),
+    'job-application' => array_merge($commonAllowedFields, array('name', 'phone', 'message', 'job_position')),
     'subscribe' => $commonAllowedFields
 );
 
 if (!isset($allowedFieldsByType[$formType]) || !mfHasOnlyAllowedFields($_POST, $allowedFieldsByType[$formType])) {
     mfExitWithCode('MF255');
+}
+
+if (!empty($_FILES)) {
+    if ($formType !== 'job-application') {
+        mfExitWithCode('MF255');
+    }
+
+    $allowedFileFields = array('cv');
+    foreach ($_FILES as $fieldName => $fileInfo) {
+        if (!in_array($fieldName, $allowedFileFields, true)) {
+            mfExitWithCode('MF255');
+        }
+    }
 }
 
 $remoteIp = mfGetRemoteIpAddress();
@@ -760,6 +770,10 @@ $name = '';
 $phone = '';
 $message = '';
 $subject = '';
+$jobPosition = '';
+$attachmentPath = '';
+$attachmentName = '';
+$attachmentDisplayName = '';
 
 if ($formType === 'contact') {
     $name = isset($_POST['name']) ? mfSanitizeSingleLine($_POST['name'], 100) : '';
@@ -779,6 +793,79 @@ if ($formType === 'contact') {
     }
 
     $subject = 'Website contact request';
+} elseif ($formType === 'job-application') {
+    $name = isset($_POST['name']) ? mfSanitizeSingleLine($_POST['name'], 100) : '';
+    $phone = isset($_POST['phone']) ? mfValidatePhone($_POST['phone']) : '';
+    $message = isset($_POST['message']) ? mfSanitizeMultiLine($_POST['message'], 2000) : '';
+    $jobPosition = isset($_POST['job_position']) ? mfSanitizeSingleLine($_POST['job_position'], 140) : '';
+
+    if ($name === '' || $phone === '' || $message === '' || $jobPosition === '') {
+        mfExitWithCode('MF005', 'One or more job application fields are missing or invalid.', 'validation_failed');
+    }
+
+    if (strlen($name) < 2) {
+        mfExitWithCode('MF005', 'Applicant name is too short.', 'validation_failed');
+    }
+
+    if (strlen(preg_replace('/\s+/', '', $message)) < 5) {
+        mfExitWithCode('MF005', 'Application message is too short.', 'validation_failed');
+    }
+
+    if (isset($_FILES['cv']) && is_array($_FILES['cv'])) {
+        $cvFile = $_FILES['cv'];
+        $uploadError = isset($cvFile['error']) ? (int)$cvFile['error'] : UPLOAD_ERR_NO_FILE;
+
+        if ($uploadError !== UPLOAD_ERR_NO_FILE) {
+            if ($uploadError !== UPLOAD_ERR_OK) {
+                mfExitWithCode('MF005', 'CV upload failed with PHP upload error code ' . $uploadError . '.', 'validation_failed');
+            }
+
+            $tmpName = isset($cvFile['tmp_name']) ? (string)$cvFile['tmp_name'] : '';
+            $originalName = isset($cvFile['name']) ? mfSanitizeSingleLine($cvFile['name'], 180) : '';
+            $fileSize = isset($cvFile['size']) ? (int)$cvFile['size'] : 0;
+            $extension = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
+            $allowedExtensions = array('pdf', 'doc', 'docx');
+            $allowedMimeTypes = array(
+                'application/pdf',
+                'application/msword',
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+            );
+
+            if ($tmpName === '' || !is_uploaded_file($tmpName)) {
+                mfExitWithCode('MF005', 'Uploaded CV file is not a valid HTTP upload.', 'validation_failed');
+            }
+
+            if ($fileSize <= 0 || $fileSize > 5 * 1024 * 1024) {
+                mfExitWithCode('MF005', 'Uploaded CV file exceeds size limits.', 'validation_failed');
+            }
+
+            if (!in_array($extension, $allowedExtensions, true)) {
+                mfExitWithCode('MF005', 'Uploaded CV file type is not allowed.', 'validation_failed');
+            }
+
+            $detectedMimeType = '';
+            if (function_exists('finfo_open')) {
+                $finfo = @finfo_open(FILEINFO_MIME_TYPE);
+                if ($finfo !== false) {
+                    $mime = @finfo_file($finfo, $tmpName);
+                    if (is_string($mime)) {
+                        $detectedMimeType = $mime;
+                    }
+                    finfo_close($finfo);
+                }
+            }
+
+            if ($detectedMimeType !== '' && !in_array($detectedMimeType, $allowedMimeTypes, true)) {
+                mfExitWithCode('MF005', 'Uploaded CV MIME type is not allowed.', 'validation_failed');
+            }
+
+            $attachmentPath = $tmpName;
+            $attachmentName = $originalName !== '' ? $originalName : ('cv.' . $extension);
+            $attachmentDisplayName = $attachmentName;
+        }
+    }
+
+    $subject = 'Website job application';
 } else {
     $subject = 'Website email contact request';
     $message = 'Submitted through the footer email contact form.';
@@ -835,6 +922,24 @@ if (preg_match('/(<!-- #\{BeginInfo\} -->)(.|\s)*?(<!-- #\{EndInfo\} -->)/', $te
             $infoBlock
         );
         $infoRows .= $phoneRow;
+    }
+
+    if ($jobPosition !== '') {
+        $jobPositionRow = str_replace(
+            array('<!-- #{BeginInfo} -->', '<!-- #{InfoState} -->', '<!-- #{InfoDescription} -->', '<!-- #{EndInfo} -->'),
+            array('', 'Job Position:', mfEscapeHtml($jobPosition), ''),
+            $infoBlock
+        );
+        $infoRows .= $jobPositionRow;
+    }
+
+    if ($attachmentDisplayName !== '') {
+        $attachmentRow = str_replace(
+            array('<!-- #{BeginInfo} -->', '<!-- #{InfoState} -->', '<!-- #{InfoDescription} -->', '<!-- #{EndInfo} -->'),
+            array('', 'CV Attachment:', mfEscapeHtml($attachmentDisplayName), ''),
+            $infoBlock
+        );
+        $infoRows .= $attachmentRow;
     }
 
     $template = str_replace($infoBlock, $infoRows, $template);
@@ -894,8 +999,14 @@ try {
     $mail->AltBody = "Subject: " . $subject . "\n"
         . "Name: " . $name . "\n"
         . "Phone: " . $phone . "\n"
+        . ($jobPosition !== '' ? "Job Position: " . $jobPosition . "\n" : '')
         . "Email: " . $email . "\n\n"
-        . $message;
+        . $message
+        . ($attachmentDisplayName !== '' ? "\n\nCV Attachment: " . $attachmentDisplayName : '');
+
+    if ($attachmentPath !== '' && $attachmentName !== '') {
+        $mail->addAttachment($attachmentPath, $attachmentName);
+    }
 
     mfDebugLog('send_attempt');
 

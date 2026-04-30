@@ -51,7 +51,8 @@
               <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-nav-wrap"><span></span></button>
               <!-- RD Navbar Brand-->
               <div class="rd-navbar-brand"><a class="brand-name" href="index.html"><img
-                    src="images/logo-inverse-304x39.png" alt="Rafin Company" width="120" height="120" decoding="async" /></a></div>
+                    class="brand-logo brand-logo--default" src="rafin-logo-gold-white-transparent.png" alt="Rafin Company" width="120" height="120" decoding="async" /><img
+                    class="brand-logo brand-logo--blue" src="rafin-logo-gold-white-transparent.png" alt="" width="120" height="120" decoding="async" aria-hidden="true" /></a></div>
             </div>
             <!-- RD Navbar Nav-->
             <div class="rd-navbar-nav-wrap rd-navbar-search_not-collapsable">
@@ -63,8 +64,7 @@
                   <li class="active"><a href="projects.html" id="nav-projects-link" data-i18n="projects">Projects</a>
                     <ul class="rd-navbar-dropdown" id="nav-projects-dropdown"></ul>
                   </li>
-                  <li><a href="index.html#jobs" data-i18n="Careers">Careers</a></li>
-                  <li><a href="index.html#testimonials" data-i18n="Staff">Staff</a></li>
+                  <li><a href="career.html" data-i18n="Careers">Careers</a></li>
                   <li><a href="index.html#contacts" data-i18n="Contacts">Contacts</a></li>
                 </ul>
               </div>
@@ -81,18 +81,18 @@
     </header>
 
     <!-- Page Title-->
-    <section class="section parallax-container bg-black" data-parallax-img="images/parallax-3.jpg">
-      <div class="parallax-content">
-        <div class="section-lg text-center">
-          <div class="container">
-            <h2 class="heading-decorated i18n-projects-title" data-i18n="projects">Projects</h2>
-          </div>
+    <section class="section category-hero bg-black projects-page-hero" id="projects-page-hero">
+      <div class="category-hero-overlay"></div>
+      <div class="section-lg text-center category-hero__inner">
+        <div class="container">
+          <p class="category-hero__eyebrow" id="projects-page-hero-eyebrow" data-i18n="projects">Projects</p>
+          <h2 class="heading-decorated i18n-projects-title" id="projects-page-hero-title" data-i18n="projects">Projects</h2>
         </div>
       </div>
     </section>
 
     <!-- Projects Section -->
-    <section class="section-md bg-default projects-overview-section">
+    <section class="section-md bg-default projects-overview-section" id="projects-section">
       <div class="container">
         <div class="projects-filter-shell">
           <div class="projects-filter-bar" id="project-filters">
@@ -102,6 +102,7 @@
         <div class="row row-50 justify-content-md-center justify-content-lg-start projects-grid" id="projects-grid">
           <!-- Projects injected here -->
         </div>
+        <div id="projects-pagination"></div>
       </div>
     </section>
 

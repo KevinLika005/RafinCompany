@@ -6,7 +6,7 @@ const departments = [
       sq: "Departamenti Teknik"
     },
     email: "technical@rafincompany.com",
-    phone: "(+355) 683111222"
+    phone: "0688080606"
   },
   {
     id: "legal",
@@ -15,7 +15,7 @@ const departments = [
       sq: "Departamenti Ligjor"
     },
     email: "legal@rafincompany.com",
-    phone: "(+355) 682044447"
+    phone: "0684085510"
   },
   {
     id: "finance",
@@ -24,7 +24,7 @@ const departments = [
       sq: "Departamenti i Financës"
     },
     email: "finance@rafincompany.com",
-    phone: "(+355) 682044447"
+    phone: "0684085505"
   }
 ];
 

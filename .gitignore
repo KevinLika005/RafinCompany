@@ -1,5 +1,6 @@
 # Local environment noise
 .tmp-edge/
+homepage-*.png
 
 # Local mail/debug captures (generated at runtime)
 data/*.jsonl

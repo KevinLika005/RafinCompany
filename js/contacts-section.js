@@ -19,15 +19,25 @@
     const address = escapeHtml(getLocalizedValue(location.address));
     const mapTitle = escapeHtml(getLocalizedValue(location.mapTitle) || name);
     const mapUrl = escapeHtml(location.mapEmbedUrl || "about:blank");
+    const mapLinkUrl = escapeHtml(location.googleMapsUrl || "");
+    const mapLinkLabel = escapeHtml(
+      getLocalizedValue(window.siteData?.contacts?.section?.openLocationLabel) || "Open Location"
+    );
+    const mapAction = mapLinkUrl
+      ? `<div class="contacts-map-actions">
+          <a class="button button-primary contacts-map-button" href="${mapLinkUrl}" target="_blank" rel="noopener noreferrer">${mapLinkLabel}</a>
+        </div>`
+      : "";
 
     return `
       <article class="contacts-map-card">
         <div class="contacts-map-frame">
-          <iframe src="${mapUrl}" title="${mapTitle}" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <iframe src="${mapUrl}" title="${mapTitle}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" tabindex="-1"></iframe>
         </div>
         <div class="contacts-map-copy">
           <h6>${name}</h6>
           <p>${address}</p>
+          ${mapAction}
         </div>
       </article>
     `;
@@ -46,6 +56,7 @@
     const formAction = "bat/rd-mailform.php";
 
     const mapCards = locations.map((location) => renderMapCard(location)).join("");
+    // TODO: Backend attachment handling is required before uploaded CV files can be emailed or stored.
 
     mount.innerHTML = `
       <div class="container">
@@ -69,6 +80,10 @@
               <div class="form-wrap">
                 <label class="form-label" for="contacts-email">${escapeHtml(getLocalizedValue(fields.email))}</label>
                 <input class="form-input" id="contacts-email" type="email" name="email" data-constraints="@Email @Required" />
+              </div>
+              <div class="form-wrap form-wrap--file">
+                <label class="form-label-outside" for="contacts-cv">${escapeHtml(getLocalizedValue(fields.cv) || "Ngarko CV / Dokument")}</label>
+                <input class="form-input" id="contacts-cv" type="file" name="cv" accept=".pdf,.doc,.docx" />
               </div>
               <div class="form-wrap">
                 <label class="form-label" for="contacts-message">${escapeHtml(getLocalizedValue(fields.message))}</label>
