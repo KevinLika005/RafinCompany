@@ -87,6 +87,8 @@ jobs:
           open -p "${DEPLOY_FTP_PORT}" "${HOSTINGER_FTP_HOST}"
           user "${HOSTINGER_FTP_USERNAME}" "${HOSTINGER_FTP_PASSWORD}"
           mirror -R --delete --verbose \
+            --transfer-all \
+            --overwrite \
             --exclude-glob .git* \
             --exclude-glob .github \
             --exclude-glob .tools \
