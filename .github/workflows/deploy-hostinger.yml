@@ -64,31 +64,41 @@ jobs:
         run: |
           set -euo pipefail
 
-          LFTP_SSL_SETTINGS=""
           if [ "$DEPLOY_FTP_PROTOCOL" = "ftps" ]; then
-            LFTP_SSL_SETTINGS="set ftp:ssl-force true; set ftp:ssl-protect-data true;"
+            SSL_FORCE=true
+            SSL_ALLOW=true
+            SSL_PROTECT=true
           else
-            LFTP_SSL_SETTINGS="set ftp:ssl-allow false;"
+            SSL_FORCE=false
+            SSL_ALLOW=false
+            SSL_PROTECT=false
           fi
 
-          lftp -u "$HOSTINGER_FTP_USERNAME","$HOSTINGER_FTP_PASSWORD" -p "$DEPLOY_FTP_PORT" "$HOSTINGER_FTP_HOST" -e "
-            set net:max-retries 2;
-            set net:timeout 20;
-            set xfer:clobber true;
-            ${LFTP_SSL_SETTINGS}
-            mirror -R --delete --verbose \
-              --exclude-glob .git* \
-              --exclude-glob .github \
-              --exclude-glob .tools \
-              --exclude-glob .tmp-edge \
-              --exclude-glob .vendor \
-              --exclude-glob .vscode \
-              --exclude-glob Thumbs.db \
-              --exclude-glob '*.docx' \
-              --exclude-glob '*.log' \
-              --exclude-glob '*.md' \
-              --exclude-glob .gitattributes \
-              --exclude-glob .gitignore \
-              ./ \"$DEPLOY_FTP_SERVER_DIR\";
-            bye
-          "
+          export HOSTINGER_FTP_USERNAME HOSTINGER_FTP_PASSWORD HOSTINGER_FTP_HOST DEPLOY_FTP_PORT DEPLOY_FTP_SERVER_DIR
+
+          lftp <<EOF
+          set cmd:fail-exit true
+          set net:max-retries 2
+          set net:timeout 20
+          set xfer:clobber true
+          set ftp:ssl-force ${SSL_FORCE}
+          set ftp:ssl-allow ${SSL_ALLOW}
+          set ftp:ssl-protect-data ${SSL_PROTECT}
+          open -p "${DEPLOY_FTP_PORT}" "${HOSTINGER_FTP_HOST}"
+          user "${HOSTINGER_FTP_USERNAME}" "${HOSTINGER_FTP_PASSWORD}"
+          mirror -R --delete --verbose \
+            --exclude-glob .git* \
+            --exclude-glob .github \
+            --exclude-glob .tools \
+            --exclude-glob .tmp-edge \
+            --exclude-glob .vendor \
+            --exclude-glob .vscode \
+            --exclude-glob Thumbs.db \
+            --exclude-glob '*.docx' \
+            --exclude-glob '*.log' \
+            --exclude-glob '*.md' \
+            --exclude-glob .gitattributes \
+            --exclude-glob .gitignore \
+            ./ "${DEPLOY_FTP_SERVER_DIR}"
+          bye
+          EOF
