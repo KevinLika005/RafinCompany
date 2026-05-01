@@ -15,6 +15,8 @@ jobs:
     name: Upload site to Hostinger
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    permissions:
+      contents: read
     environment:
       name: production
     env:
@@ -23,9 +25,10 @@ jobs:
       HOSTINGER_FTP_PASSWORD: ${{ secrets.HOSTINGER_FTP_PASSWORD }}
       HOSTINGER_FTP_PORT: ${{ secrets.HOSTINGER_FTP_PORT }}
       HOSTINGER_FTP_SERVER_DIR: ${{ secrets.HOSTINGER_FTP_SERVER_DIR }}
+      HOSTINGER_FTP_PROTOCOL: ${{ secrets.HOSTINGER_FTP_PROTOCOL }}
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Validate deployment settings
         shell: bash
@@ -36,35 +39,56 @@ jobs:
           test -n "$HOSTINGER_FTP_USERNAME" || { echo "Missing secret: HOSTINGER_FTP_USERNAME"; exit 1; }
           test -n "$HOSTINGER_FTP_PASSWORD" || { echo "Missing secret: HOSTINGER_FTP_PASSWORD"; exit 1; }
 
+          case "$HOSTINGER_FTP_HOST" in
+            ftp://*|ftps://*|http://*|https://*)
+              echo "HOSTINGER_FTP_HOST must be only the FTP hostname or IP, without ftp:// or https://"
+              exit 1
+              ;;
+          esac
+
       - name: Normalize FTP settings
         shell: bash
         run: |
           echo "DEPLOY_FTP_PORT=${HOSTINGER_FTP_PORT:-21}" >> "$GITHUB_ENV"
           echo "DEPLOY_FTP_SERVER_DIR=${HOSTINGER_FTP_SERVER_DIR:-public_html/}" >> "$GITHUB_ENV"
+          echo "DEPLOY_FTP_PROTOCOL=${HOSTINGER_FTP_PROTOCOL:-ftp}" >> "$GITHUB_ENV"
 
-      - name: Deploy files with FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
-        with:
-          server: ${{ env.HOSTINGER_FTP_HOST }}
-          username: ${{ env.HOSTINGER_FTP_USERNAME }}
-          password: ${{ env.HOSTINGER_FTP_PASSWORD }}
-          port: ${{ env.DEPLOY_FTP_PORT }}
-          protocol: ftp
-          local-dir: ./
-          server-dir: ${{ env.DEPLOY_FTP_SERVER_DIR }}
-          state-name: .github/.ftp-deploy-sync-state.json
-          log-level: standard
-          exclude: |
-            **/.git*
-            **/.git*/**
-            **/.github/**
-            **/.tools/**
-            **/.tmp-edge/**
-            **/.vendor/**
-            **/.vscode/**
-            **/Thumbs.db
-            **/*.docx
-            **/*.log
-            **/*.md
-            .gitattributes
-            .gitignore
+      - name: Install lftp
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y lftp
+
+      - name: Deploy files with lftp
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          LFTP_SSL_SETTINGS=""
+          if [ "$DEPLOY_FTP_PROTOCOL" = "ftps" ]; then
+            LFTP_SSL_SETTINGS="set ftp:ssl-force true; set ftp:ssl-protect-data true;"
+          else
+            LFTP_SSL_SETTINGS="set ftp:ssl-allow false;"
+          fi
+
+          lftp -u "$HOSTINGER_FTP_USERNAME","$HOSTINGER_FTP_PASSWORD" -p "$DEPLOY_FTP_PORT" "$HOSTINGER_FTP_HOST" -e "
+            set net:max-retries 2;
+            set net:timeout 20;
+            set xfer:clobber true;
+            ${LFTP_SSL_SETTINGS}
+            mirror -R --delete --verbose \
+              --exclude-glob .git* \
+              --exclude-glob .github \
+              --exclude-glob .tools \
+              --exclude-glob .tmp-edge \
+              --exclude-glob .vendor \
+              --exclude-glob .vscode \
+              --exclude-glob Thumbs.db \
+              --exclude-glob '*.docx' \
+              --exclude-glob '*.log' \
+              --exclude-glob '*.md' \
+              --exclude-glob .gitattributes \
+              --exclude-glob .gitignore \
+              ./ \"$DEPLOY_FTP_SERVER_DIR\";
+            bye
+          "

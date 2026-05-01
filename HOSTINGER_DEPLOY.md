@@ -13,7 +13,7 @@ The workflow uploads this repository to Hostinger using FTP and targets `public_
 Add these repository secrets in GitHub:
 
 - `HOSTINGER_FTP_HOST`
-  Your Hostinger FTP host or FTP IP.
+  Your Hostinger FTP host or FTP IP. Use only the hostname or IP, not `ftp://` or `https://`.
 - `HOSTINGER_FTP_USERNAME`
   Your Hostinger FTP username.
 - `HOSTINGER_FTP_PASSWORD`
@@ -22,12 +22,16 @@ Add these repository secrets in GitHub:
   Optional. Defaults to `21`.
 - `HOSTINGER_FTP_SERVER_DIR`
   Optional. Defaults to `public_html/`.
+- `HOSTINGER_FTP_PROTOCOL`
+  Optional. Defaults to `ftp`. Set to `ftps` only if Hostinger explicitly gave you FTPS settings.
 
 ## Recommended Hostinger setup
 
 1. In Hostinger hPanel, open the website's FTP details.
 2. Confirm the host/IP, FTP username, and password.
 3. If your site should upload somewhere other than the default root, set `HOSTINGER_FTP_SERVER_DIR`.
+
+If the workflow shows `getaddrinfo ENOTFOUND`, the FTP host secret is wrong. On Hostinger this should usually be the FTP IP or FTP hostname from hPanel, with no `ftp://` prefix.
 
 ## Before your first push
 
