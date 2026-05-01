@@ -615,7 +615,7 @@ if (!isset($allowedFieldsByType[$formType]) || !mfHasOnlyAllowedFields($_POST, $
 }
 
 if (!empty($_FILES)) {
-    if ($formType !== 'job-application') {
+    if ($formType !== 'job-application' && $formType !== 'contact') {
         mfExitWithCode('MF255');
     }
 
@@ -790,6 +790,60 @@ if ($formType === 'contact') {
 
     if (strlen(preg_replace('/\s+/', '', $message)) < 5) {
         mfExitWithCode('MF005', 'Contact message is too short.', 'validation_failed');
+    }
+
+    if (isset($_FILES['cv']) && is_array($_FILES['cv'])) {
+        $cvFile = $_FILES['cv'];
+        $uploadError = isset($cvFile['error']) ? (int)$cvFile['error'] : UPLOAD_ERR_NO_FILE;
+
+        if ($uploadError !== UPLOAD_ERR_NO_FILE) {
+            if ($uploadError !== UPLOAD_ERR_OK) {
+                mfExitWithCode('MF005', 'Contact attachment upload failed with PHP upload error code ' . $uploadError . '.', 'validation_failed');
+            }
+
+            $tmpName = isset($cvFile['tmp_name']) ? (string)$cvFile['tmp_name'] : '';
+            $originalName = isset($cvFile['name']) ? mfSanitizeSingleLine($cvFile['name'], 180) : '';
+            $fileSize = isset($cvFile['size']) ? (int)$cvFile['size'] : 0;
+            $extension = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
+            $allowedExtensions = array('pdf', 'doc', 'docx');
+            $allowedMimeTypes = array(
+                'application/pdf',
+                'application/msword',
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+            );
+
+            if ($tmpName === '' || !is_uploaded_file($tmpName)) {
+                mfExitWithCode('MF005', 'Uploaded contact attachment is not a valid HTTP upload.', 'validation_failed');
+            }
+
+            if ($fileSize <= 0 || $fileSize > 5 * 1024 * 1024) {
+                mfExitWithCode('MF005', 'Uploaded contact attachment exceeds size limits.', 'validation_failed');
+            }
+
+            if (!in_array($extension, $allowedExtensions, true)) {
+                mfExitWithCode('MF005', 'Uploaded contact attachment type is not allowed.', 'validation_failed');
+            }
+
+            $detectedMimeType = '';
+            if (function_exists('finfo_open')) {
+                $finfo = @finfo_open(FILEINFO_MIME_TYPE);
+                if ($finfo !== false) {
+                    $mime = @finfo_file($finfo, $tmpName);
+                    if (is_string($mime)) {
+                        $detectedMimeType = $mime;
+                    }
+                    finfo_close($finfo);
+                }
+            }
+
+            if ($detectedMimeType !== '' && !in_array($detectedMimeType, $allowedMimeTypes, true)) {
+                mfExitWithCode('MF005', 'Uploaded contact attachment MIME type is not allowed.', 'validation_failed');
+            }
+
+            $attachmentPath = $tmpName;
+            $attachmentName = $originalName !== '' ? $originalName : ('attachment.' . $extension);
+            $attachmentDisplayName = $attachmentName;
+        }
     }
 
     $subject = 'Website contact request';

@@ -1,9 +1,15 @@
 Options -Indexes
+DirectoryIndex index.html
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
   # Keep ACME/LetsEncrypt challenges accessible while protecting hidden paths.
   RewriteRule "(^|/)\.(?!well-known/)" - [F,L]
+  # Block public access to local-only tooling folders if they are ever uploaded.
+  RewriteRule "^(?:\.tmp-edge|\.tools|\.vendor|\.vscode)(?:/|$)" - [F,L,NC]
+  # Only the active mail endpoints should be web-accessible under /bat.
+  RewriteRule "^bat/(?:phpmailer|ReCaptcha)(?:/|$)" - [F,L,NC]
+  RewriteRule "^bat/(?:index\.html|rd-search\.php)$" - [F,L,NC]
 </IfModule>
 
 <IfModule mod_headers.c>
@@ -11,6 +17,8 @@ Options -Indexes
   Header always set X-Frame-Options "SAMEORIGIN"
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
   Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+  Header always unset X-Powered-By
+  Header merge Vary "Accept-Encoding"
 
   <FilesMatch "\.(?:html?|php)$">
     Header set Cache-Control "no-cache, no-store, must-revalidate"
@@ -23,6 +31,10 @@ Options -Indexes
   </FilesMatch>
 
   <FilesMatch "\.(?:png|jpe?g|gif|svg|webp|ico|woff2?|ttf|eot)$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+
+  <FilesMatch "\.(?:mp4)$">
     Header set Cache-Control "public, max-age=2592000"
   </FilesMatch>
 </IfModule>
@@ -40,6 +52,7 @@ Options -Indexes
   ExpiresByType image/webp "access plus 30 days"
   ExpiresByType image/svg+xml "access plus 30 days"
   ExpiresByType image/x-icon "access plus 30 days"
+  ExpiresByType video/mp4 "access plus 30 days"
   ExpiresByType font/woff2 "access plus 30 days"
   ExpiresByType font/woff "access plus 30 days"
   ExpiresByType application/font-woff "access plus 30 days"

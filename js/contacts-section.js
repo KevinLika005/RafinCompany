@@ -56,8 +56,6 @@
     const formAction = "bat/rd-mailform.php";
 
     const mapCards = locations.map((location) => renderMapCard(location)).join("");
-    // TODO: Backend attachment handling is required before uploaded CV files can be emailed or stored.
-
     mount.innerHTML = `
       <div class="container">
         <div class="contacts-section-header text-center">
