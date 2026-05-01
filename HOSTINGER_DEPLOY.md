@@ -6,7 +6,7 @@ This repository now includes a GitHub Actions workflow at `.github/workflows/dep
 
 Every push to `main` triggers a deployment to your Hostinger website root. You can also run it manually from the **Actions** tab with `workflow_dispatch`.
 
-The workflow uploads this repository to Hostinger using FTP and targets `public_html/` by default.
+The workflow uploads this repository to Hostinger using FTP and targets the FTP account root directory `./`.
 
 ## GitHub secrets required
 
@@ -20,8 +20,6 @@ Add these repository secrets in GitHub:
   Your Hostinger FTP password.
 - `HOSTINGER_FTP_PORT`
   Optional. Defaults to `21`.
-- `HOSTINGER_FTP_SERVER_DIR`
-  Optional. Defaults to `public_html/`.
 - `HOSTINGER_FTP_PROTOCOL`
   Optional. Defaults to `ftp`. Set to `ftps` only if Hostinger explicitly gave you FTPS settings.
 
@@ -29,9 +27,11 @@ Add these repository secrets in GitHub:
 
 1. In Hostinger hPanel, open the website's FTP details.
 2. Confirm the host/IP, FTP username, and password.
-3. If your site should upload somewhere other than the default root, set `HOSTINGER_FTP_SERVER_DIR`.
+3. Use the default website FTP account that is already rooted at `/public_html`.
 
 If the workflow shows `getaddrinfo ENOTFOUND`, the FTP host secret is wrong. On Hostinger this should usually be the FTP IP or FTP hostname from hPanel, with no `ftp://` prefix.
+
+This workflow assumes your FTP account is already rooted at the website directory. For the Hostinger account shown in your screenshot, that is the correct setup.
 
 ## Before your first push
 
