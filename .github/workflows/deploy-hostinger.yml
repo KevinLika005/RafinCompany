@@ -1,31 +1,45 @@
 name: Deploy to Hostinger
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
+    inputs:
+      confirm_live_deploy:
+        description: 'Type DEPLOY to confirm live deployment'
+        required: true
+        default: 'NO'
 
 concurrency:
   group: hostinger-production
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   deploy:
     name: Upload site to Hostinger
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
+
     permissions:
       contents: read
-    environment:
-      name: production
+
     env:
       HOSTINGER_FTP_HOST: ${{ secrets.HOSTINGER_FTP_HOST }}
       HOSTINGER_FTP_USERNAME: ${{ secrets.HOSTINGER_FTP_USERNAME }}
       HOSTINGER_FTP_PASSWORD: ${{ secrets.HOSTINGER_FTP_PASSWORD }}
       HOSTINGER_FTP_PORT: ${{ secrets.HOSTINGER_FTP_PORT }}
       HOSTINGER_FTP_PROTOCOL: ${{ secrets.HOSTINGER_FTP_PROTOCOL }}
+      HOSTINGER_FTP_SERVER_DIR: ${{ secrets.HOSTINGER_FTP_SERVER_DIR }}
+
     steps:
+      - name: Confirm live deployment
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [ "${{ github.event.inputs.confirm_live_deploy }}" != "DEPLOY" ]; then
+            echo "Live deployment cancelled. Type DEPLOY to continue."
+            exit 1
+          fi
+
       - name: Check out repository
         uses: actions/checkout@v5
 
@@ -37,6 +51,7 @@ jobs:
           test -n "$HOSTINGER_FTP_HOST" || { echo "Missing secret: HOSTINGER_FTP_HOST"; exit 1; }
           test -n "$HOSTINGER_FTP_USERNAME" || { echo "Missing secret: HOSTINGER_FTP_USERNAME"; exit 1; }
           test -n "$HOSTINGER_FTP_PASSWORD" || { echo "Missing secret: HOSTINGER_FTP_PASSWORD"; exit 1; }
+          test -n "$HOSTINGER_FTP_SERVER_DIR" || { echo "Missing secret: HOSTINGER_FTP_SERVER_DIR"; exit 1; }
 
           case "$HOSTINGER_FTP_HOST" in
             ftp://*|ftps://*|http://*|https://*)
@@ -45,12 +60,40 @@ jobs:
               ;;
           esac
 
-      - name: Normalize FTP settings
+          case "$HOSTINGER_FTP_SERVER_DIR" in
+            ./|.|/)
+              echo "HOSTINGER_FTP_SERVER_DIR is unsafe. Use public_html/ or domains/rafincompany.com/public_html/"
+              exit 1
+              ;;
+          esac
+
+      - name: Prepare clean deploy folder
         shell: bash
         run: |
-          echo "DEPLOY_FTP_PORT=${HOSTINGER_FTP_PORT:-21}" >> "$GITHUB_ENV"
-          echo "DEPLOY_FTP_SERVER_DIR=./" >> "$GITHUB_ENV"
-          echo "DEPLOY_FTP_PROTOCOL=${HOSTINGER_FTP_PROTOCOL:-ftp}" >> "$GITHUB_ENV"
+          set -euo pipefail
+
+          rm -rf deploy
+          mkdir deploy
+
+          rsync -av ./ deploy/ \
+            --exclude deploy/ \
+            --exclude .git/ \
+            --exclude .github/ \
+            --exclude .vscode/ \
+            --exclude .tools/ \
+            --exclude .tmp-edge/ \
+            --exclude .vendor/ \
+            --exclude Thumbs.db \
+            --exclude '*.docx' \
+            --exclude '*.log' \
+            --exclude '*.md' \
+            --exclude '.gitattributes' \
+            --exclude '.gitignore'
+
+          test -f deploy/index.html
+          test -f deploy/css/style.css
+          test -f deploy/css/redesign.css
+          test -f deploy/js/script.js
 
       - name: Install lftp
         shell: bash
@@ -63,6 +106,9 @@ jobs:
         run: |
           set -euo pipefail
 
+          DEPLOY_FTP_PORT="${HOSTINGER_FTP_PORT:-21}"
+          DEPLOY_FTP_PROTOCOL="${HOSTINGER_FTP_PROTOCOL:-ftp}"
+
           if [ "$DEPLOY_FTP_PROTOCOL" = "ftps" ]; then
             SSL_FORCE=true
             SSL_ALLOW=true
@@ -73,33 +119,21 @@ jobs:
             SSL_PROTECT=false
           fi
 
-          export HOSTINGER_FTP_USERNAME HOSTINGER_FTP_PASSWORD HOSTINGER_FTP_HOST DEPLOY_FTP_PORT DEPLOY_FTP_SERVER_DIR
-
           lftp <<EOF
           set cmd:fail-exit true
-          set net:max-retries 2
-          set net:timeout 20
+          set net:max-retries 5
+          set net:timeout 30
+          set net:reconnect-interval-base 10
           set xfer:clobber true
+          set ftp:passive-mode true
           set ftp:ssl-force ${SSL_FORCE}
           set ftp:ssl-allow ${SSL_ALLOW}
           set ftp:ssl-protect-data ${SSL_PROTECT}
           open -p "${DEPLOY_FTP_PORT}" "${HOSTINGER_FTP_HOST}"
           user "${HOSTINGER_FTP_USERNAME}" "${HOSTINGER_FTP_PASSWORD}"
-          mirror -R --delete --verbose \
+          mirror -R --verbose \
             --transfer-all \
             --overwrite \
-            --exclude-glob .git* \
-            --exclude-glob .github \
-            --exclude-glob .tools \
-            --exclude-glob .tmp-edge \
-            --exclude-glob .vendor \
-            --exclude-glob .vscode \
-            --exclude-glob Thumbs.db \
-            --exclude-glob '*.docx' \
-            --exclude-glob '*.log' \
-            --exclude-glob '*.md' \
-            --exclude-glob .gitattributes \
-            --exclude-glob .gitignore \
-            ./ "${DEPLOY_FTP_SERVER_DIR}"
+            deploy/ "${HOSTINGER_FTP_SERVER_DIR}"
           bye
           EOF
