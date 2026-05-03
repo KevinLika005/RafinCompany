@@ -30,7 +30,6 @@ jobs:
       HOSTINGER_FTP_PASSWORD: ${{ secrets.HOSTINGER_FTP_PASSWORD }}
       HOSTINGER_FTP_PORT: ${{ secrets.HOSTINGER_FTP_PORT }}
       HOSTINGER_FTP_PROTOCOL: ${{ secrets.HOSTINGER_FTP_PROTOCOL }}
-      HOSTINGER_FTP_SERVER_DIR: ${{ secrets.HOSTINGER_FTP_SERVER_DIR }}
       LIVE_SITE_URL: https://www.rafincompany.com
 
     steps:
@@ -64,12 +63,10 @@ jobs:
               ;;
           esac
 
-          DEPLOY_TARGET_DIR="${HOSTINGER_FTP_SERVER_DIR:-./}"
-
           echo "FTP host is set."
           echo "FTP port: ${HOSTINGER_FTP_PORT:-21}"
           echo "FTP protocol: ${HOSTINGER_FTP_PROTOCOL:-ftp}"
-          echo "Remote deploy folder: $DEPLOY_TARGET_DIR"
+          echo "Remote deploy folder: FTP account root"
 
       - name: Validate required site files and referenced assets
         shell: bash
@@ -178,8 +175,6 @@ jobs:
 
           DEPLOY_FTP_PORT="${HOSTINGER_FTP_PORT:-21}"
           DEPLOY_FTP_PROTOCOL="${HOSTINGER_FTP_PROTOCOL:-ftp}"
-          DEPLOY_TARGET_DIR="${HOSTINGER_FTP_SERVER_DIR:-./}"
-
           if [ "$DEPLOY_FTP_PROTOCOL" = "ftps" ]; then
             SSL_FORCE=true
             SSL_ALLOW=true
@@ -208,16 +203,7 @@ jobs:
           pwd
           cls -la
 
-          cd "${DEPLOY_TARGET_DIR}"
-
-          echo "Remote deploy folder after cd:"
-          pwd
-          cls -la
-
-          mirror -R --verbose \
-            --transfer-all \
-            --overwrite \
-            deploy/ .
+          mirror -R --verbose --transfer-all --overwrite deploy/ .
 
           echo "Remote folder after upload:"
           cls -la
