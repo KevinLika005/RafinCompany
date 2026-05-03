@@ -111,13 +111,41 @@ jobs:
           done
 
           mapfile -t referenced_assets < <(
-            grep -RhoE '(images|fonts|css|js|data|rafin_transparent_logos_png)/[^"'"'"'()<>[:space:]]+' \
-              . \
-              --include='*.html' \
-              --include='*.css' \
-              --include='*.js' \
-            | sed 's/[?#].*$//' \
-            | sort -u
+            python - <<'PY'
+from pathlib import Path
+import re
+
+roots = ["images/", "fonts/", "css/", "js/", "data/", "rafin_transparent_logos_png/", "rafin-logo"]
+patterns = [
+    re.compile(r'''(?:src|href)\s*=\s*["']([^"']+)["']''', re.IGNORECASE),
+    re.compile(r'''url\(\s*["']?([^)"']+)["']?\s*\)''', re.IGNORECASE),
+]
+
+def is_local_asset(value: str) -> bool:
+    value = value.strip()
+    if not value:
+        return False
+    lowered = value.lower()
+    if lowered.startswith(("http://", "https://", "//", "mailto:", "tel:", "javascript:", "#", "data:")):
+        return False
+    return any(value.startswith(root) for root in roots)
+
+assets = set()
+for pattern in ("*.html", "*.css", "*.js"):
+    for path in Path(".").rglob(pattern):
+        try:
+            text = path.read_text(encoding="utf-8", errors="ignore")
+        except Exception:
+            continue
+        for regex in patterns:
+            for match in regex.findall(text):
+                asset = match.split("?", 1)[0].split("#", 1)[0].strip()
+                if is_local_asset(asset):
+                    assets.add(asset)
+
+for asset in sorted(assets):
+    print(asset)
+PY
           )
 
           missing_assets=0
