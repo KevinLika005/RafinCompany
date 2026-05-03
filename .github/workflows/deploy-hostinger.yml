@@ -56,7 +56,6 @@ jobs:
           test -n "$HOSTINGER_FTP_HOST" || { echo "Missing secret: HOSTINGER_FTP_HOST"; exit 1; }
           test -n "$HOSTINGER_FTP_USERNAME" || { echo "Missing secret: HOSTINGER_FTP_USERNAME"; exit 1; }
           test -n "$HOSTINGER_FTP_PASSWORD" || { echo "Missing secret: HOSTINGER_FTP_PASSWORD"; exit 1; }
-          test -n "$HOSTINGER_FTP_SERVER_DIR" || { echo "Missing secret: HOSTINGER_FTP_SERVER_DIR"; exit 1; }
 
           case "$HOSTINGER_FTP_HOST" in
             ftp://*|ftps://*|http://*|https://*)
@@ -65,17 +64,12 @@ jobs:
               ;;
           esac
 
-          case "$HOSTINGER_FTP_SERVER_DIR" in
-            ./|.|/)
-              echo "HOSTINGER_FTP_SERVER_DIR is unsafe. Use public_html/ or domains/rafincompany.com/public_html/"
-              exit 1
-              ;;
-          esac
+          DEPLOY_TARGET_DIR="${HOSTINGER_FTP_SERVER_DIR:-./}"
 
           echo "FTP host is set."
           echo "FTP port: ${HOSTINGER_FTP_PORT:-21}"
           echo "FTP protocol: ${HOSTINGER_FTP_PROTOCOL:-ftp}"
-          echo "Remote deploy folder: $HOSTINGER_FTP_SERVER_DIR"
+          echo "Remote deploy folder: $DEPLOY_TARGET_DIR"
 
       - name: Validate required site files and referenced assets
         shell: bash
@@ -184,6 +178,7 @@ jobs:
 
           DEPLOY_FTP_PORT="${HOSTINGER_FTP_PORT:-21}"
           DEPLOY_FTP_PROTOCOL="${HOSTINGER_FTP_PROTOCOL:-ftp}"
+          DEPLOY_TARGET_DIR="${HOSTINGER_FTP_SERVER_DIR:-./}"
 
           if [ "$DEPLOY_FTP_PROTOCOL" = "ftps" ]; then
             SSL_FORCE=true
@@ -213,7 +208,7 @@ jobs:
           pwd
           cls -la
 
-          cd "${HOSTINGER_FTP_SERVER_DIR}"
+          cd "${DEPLOY_TARGET_DIR}"
 
           echo "Remote deploy folder after cd:"
           pwd
