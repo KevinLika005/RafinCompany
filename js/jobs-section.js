@@ -8,8 +8,7 @@
   const MODAL_TRANSITION_MS = 220;
   const APPLICATION_PARAM_KEY = "applyJob";
   const APPLICATION_STORAGE_KEY = "rafin-apply-job-id";
-  const JOBS_PER_PAGE = 8;
-  const JOBS_SHARED_IMAGE = "rafin_transparent_logos_png/rafin-logo-original-transparent.png";
+  const JOBS_PER_PAGE = 6;
   const DESKTOP_MODAL_BREAKPOINT = 992;
   const FOCUSABLE_SELECTOR = [
     "a[href]",
@@ -313,17 +312,17 @@
       return;
     }
 
-    const naturalWidth = image.naturalWidth || image.width || 1100;
-    const naturalHeight = image.naturalHeight || image.height || 760;
+    const naturalWidth = image.naturalWidth || image.width || 720;
+    const naturalHeight = image.naturalHeight || image.height || 900;
     const aspectRatio = naturalWidth / naturalHeight;
     const viewportWidth = Math.max(window.innerWidth - 92, 760);
     const viewportHeight = Math.max(window.innerHeight - 92, 420);
 
-    let contentWidth = Math.round(viewportWidth * 0.43);
-    contentWidth = Math.max(460, Math.min(720, contentWidth));
+    let contentWidth = Math.round(viewportWidth * 0.31);
+    contentWidth = Math.max(360, Math.min(500, contentWidth));
 
-    let mediaWidth = Math.min(540, viewportWidth - contentWidth);
-    mediaWidth = Math.max(280, mediaWidth);
+    let mediaWidth = Math.min(980, viewportWidth - contentWidth);
+    mediaWidth = Math.max(360, mediaWidth);
 
     let mediaHeight = Math.round(mediaWidth / aspectRatio);
     if (mediaHeight > viewportHeight) {
@@ -333,7 +332,7 @@
 
     let dialogWidth = mediaWidth + contentWidth;
     if (dialogWidth > viewportWidth) {
-      mediaWidth = Math.max(260, viewportWidth - contentWidth);
+      mediaWidth = Math.max(320, viewportWidth - contentWidth);
       mediaHeight = Math.round(mediaWidth / aspectRatio);
 
       if (mediaHeight > viewportHeight) {
@@ -368,8 +367,8 @@
     const title = escapeHtml(getLocalizedValue(job.title));
     const category = escapeHtml(getLocalizedValue(job.category));
     const level = escapeHtml(getLocalizedValue(job.careerLevel));
-    const image = escapeHtml(config.imageSrc || JOBS_SHARED_IMAGE);
-    const imageAlt = escapeHtml(config.imageAlt || "Rafin Company logo");
+    const image = escapeHtml(config.imageSrc || job.cardImage || "images/project-1-480x361.jpg");
+    const imageAlt = escapeHtml(config.imageAlt || getLocalizedValue(job.cardImageAlt) || getLocalizedValue(job.title));
     const imageStyle = buildInlineStyle([
       job.modalImagePosition ? `--jobs-modal-image-position: ${escapeHtml(job.modalImagePosition)}` : "",
       typeof job.modalImageScale === "number" && Number.isFinite(job.modalImageScale)
@@ -701,33 +700,34 @@
     const category = escapeHtml(getLocalizedValue(job.category));
     const level = escapeHtml(getLocalizedValue(job.careerLevel));
     const summary = escapeHtml(getLocalizedValue(job.summary));
-    const cardImage = JOBS_SHARED_IMAGE;
-    const cardImageAlt = escapeHtml(`Rafin Company logo for ${getLocalizedValue(job.title) || "job position"}`);
-    const modalImage = escapeHtml(JOBS_SHARED_IMAGE);
-    const modalImageAlt = escapeHtml("Rafin Company logo");
+    const image = escapeHtml(job.cardImage || job.image || "images/project-1-480x361.jpg");
+    const imageAlt = escapeHtml(getLocalizedValue(job.cardImageAlt || job.imageAlt) || title);
     const imageStyle = buildInlineStyle([
-      "--jobs-card-image-position: center 68%",
-      "--jobs-card-image-fit: contain",
-      "--jobs-card-image-scale: 0.84",
-      "--jobs-card-image-hover-scale: 0.88"
+      job.cardImagePosition ? `--jobs-card-image-position: ${escapeHtml(job.cardImagePosition)}` : "",
+      typeof job.cardImageScale === "number" && Number.isFinite(job.cardImageScale)
+        ? `--jobs-card-image-scale: ${job.cardImageScale}`
+        : "",
+      typeof job.cardImageHoverScale === "number" && Number.isFinite(job.cardImageHoverScale)
+        ? `--jobs-card-image-hover-scale: ${job.cardImageHoverScale}`
+        : ""
     ]);
     const imageStyleAttribute = imageStyle ? ` style="${imageStyle}"` : "";
     const viewDetailsLabel = getLabel("viewDetails", "View Details");
 
     return `
-      <div class="col-md-3">
+      <div class="col-md-6 col-xl-4">
         <article class="jobs-card">
           <button
             type="button"
             class="jobs-card__trigger"
             data-job-trigger="${escapeHtml(job.id)}"
-            data-job-image="${modalImage}"
-            data-job-image-alt="${modalImageAlt}"
+            data-job-image="${image}"
+            data-job-image-alt="${imageAlt}"
             aria-haspopup="dialog"
             aria-controls="${MODAL_ID}"
           >
             <figure class="jobs-card__media">
-              <img src="${cardImage}" alt="${cardImageAlt}" width="480" height="360" decoding="async" fetchpriority="auto"${imageStyleAttribute} />
+              <img src="${image}" alt="${imageAlt}" width="480" height="360" decoding="async" fetchpriority="auto"${imageStyleAttribute} />
             </figure>
             <div class="jobs-card__content">
               <p class="jobs-card__meta">
@@ -858,4 +858,6 @@
   });
   window.addEventListener("resize", handleViewportChange);
 })();
+
+
 

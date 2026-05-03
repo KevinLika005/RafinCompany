@@ -277,7 +277,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!statusValue) return '';
     const statusMap = {
       completed: { en: 'Completed', sq: 'Përfunduar' },
-      'in progress': { en: 'In Progress', sq: 'Në proces' }
+      'in progress': { en: 'In Progress', sq: 'Në Proces' }
     };
     const normalizedStatus = String(statusValue).trim().toLowerCase();
     const localized = statusMap[normalizedStatus];

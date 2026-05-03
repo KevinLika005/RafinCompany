@@ -5,7 +5,7 @@
     sq: 'sq_AL'
   };
   const DEFAULT_CANONICAL_HOST = 'https://www.rafincompany.com';
-  const DEFAULT_OG_IMAGE = '/rafin_transparent_logos_png/rafin-logo-original-transparent.png';
+  const DEFAULT_OG_IMAGE = '/images/logo-inverse-304x39.png';
   const ORG_SCHEMA_ID = 'seo-organization-schema';
   const PAGE_SCHEMA_ID = 'seo-page-schema';
 
@@ -76,8 +76,6 @@
     const fileName = pathname.split('/').pop().toLowerCase();
     if (!fileName || fileName === 'index.html') return 'home';
     if (fileName === 'projects.html') return 'projects';
-    if (fileName === 'services.html') return 'services';
-    if (fileName === 'siguria.html') return 'safety';
     if (fileName === 'career.html') return 'career';
     if (fileName === 'category.html') return 'category';
     if (fileName === 'project.html') return 'project';
@@ -109,8 +107,6 @@
   function buildRoutePath(pageType, slugValue) {
     if (pageType === 'home') return 'index.html';
     if (pageType === 'projects') return 'projects.html';
-    if (pageType === 'services') return 'services.html';
-    if (pageType === 'safety') return 'siguria.html';
     if (pageType === 'career') return 'career.html';
     if (pageType === 'category') {
       if (!slugValue) return 'category.html';
@@ -255,32 +251,6 @@
       mainEntity = {
         '@type': 'ItemList',
         name: translate('projects', 'Projects')
-      };
-    } else if (pageType === 'services') {
-      title = translate('Services Page Title', 'Services | ' + companyName);
-      description = translate(
-        'Services Meta Description',
-        'Explore ' + companyName + ' services across planning, contracting, construction delivery, management, digital coordination, and design-build execution.'
-      );
-      ogTitle = title;
-      ogDescription = description;
-      pageSchemaType = 'CollectionPage';
-      mainEntity = {
-        '@type': 'ItemList',
-        name: translate('Services', 'Services')
-      };
-    } else if (pageType === 'safety') {
-      title = translate('Safety Page Title', 'Safety | ' + companyName);
-      description = translate(
-        'Safety Meta Description',
-        'Learn how ' + companyName + ' approaches site safety, employee protection, machinery safety, and risk prevention in construction work.'
-      );
-      ogTitle = title;
-      ogDescription = description;
-      pageSchemaType = 'WebPage';
-      mainEntity = {
-        '@type': 'Thing',
-        name: translate('Safety', 'Safety')
       };
     } else if (pageType === 'category') {
       const category = context.category || resolveCategoryBySlug(slug);

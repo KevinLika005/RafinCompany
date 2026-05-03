@@ -1093,53 +1093,53 @@ const jobs = [
     id: "job-19",
     slug: "hydrotechnician",
     profileKey: "specialists",
-    title: { en: "Hydraulic Technician", sq: "Hidraulik" },
+    title: { en: "Hydrotechnician", sq: "Hidroteknik" },
     category: { en: "Construction Specialists", sq: "Specialist Ndertimi" },
     careerLevel: { en: "Mid", sq: "Mesatar" },
     summary: {
       en: "Execute piping, fittings, and water network installation with technical precision.",
-      sq: "Realizon punime në rrjete ujore dhe instalime hidraulike me saktësi teknike."
+      sq: "Zbaton instalimin e tubacioneve dhe nyjeve te rrjeteve ujore me saktesi."
     },
     shortDescription: {
       en: "This role supports utility crews through practical pipework, fittings, and network installation tasks in the field.",
-      sq: "Ky rol mbështet ekipet në terren në montimin, lidhjen dhe kontrollin e elementeve të rrjeteve hidraulike dhe ujore."
+      sq: "Ky rol mbeshtet ekipet utilitare me punime praktike tubacionesh, nyjesh dhe instalime rrjetesh ne terren."
     },
     experience: {
       en: "2+ years in pipe installation, utility works, or water-system support.",
-      sq: "2+ vite eksperiencë në instalime hidraulike, rrjete ujore ose punime utilitare të ngjashme."
+      sq: "2+ vite eksperience ne instalim tubacionesh, punime utilitare ose mbeshtetje te sistemeve ujore."
     },
     responsibilities: [
       {
         en: "Install pipes, fittings, and accessories for water, drainage, or related utility networks.",
-        sq: "Instalon tubacione, rakorderi dhe aksesorë për rrjete uji, drenazhimi dhe sisteme të ngjashme hidraulike."
+        sq: "Instalon tubacione, nyje dhe aksesore per rrjete uji, drenazhimi ose utilitete te ngjashme."
       },
       {
         en: "Prepare trenches, supports, and joint areas in coordination with operators and supervisors.",
-        sq: "Përgatit trasetë, mbështetjet dhe zonat e lidhjes në koordinim me operatorët dhe drejtuesit e punimeve."
+        sq: "Pergatit kanalet, mbeshtetjet dhe zonat e lidhjeve ne koordinim me operatoret dhe drejtuesit."
       },
       {
         en: "Assist with pressure tests, flushing, and defect correction before handover.",
-        sq: "Ndihmon në prova presioni, shpëlarje teknike dhe korrigjimin e problematikave para dorëzimit të punës."
+        sq: "Ndihmon ne testet e presionit, shplarjet dhe korrigjimin e defekteve para dorezimit."
       }
     ],
     requirements: [
       {
         en: "Hands-on experience with pipework and field installation routines.",
-        sq: "Eksperiencë praktike me tubacione, lidhje hidraulike dhe procese montimi në terren."
+        sq: "Eksperience praktike me tubacione dhe rutinat e instalimit ne terren."
       },
       {
         en: "Ability to follow line, level, and connection instructions accurately.",
-        sq: "Aftësi për të ndjekur me saktësi udhëzimet për aksin, kuotat dhe lidhjet teknike."
+        sq: "Aftesi per te ndjekur sakte udhezimet per aksin, kuotat dhe lidhjet."
       },
       {
         en: "Steady teamwork and attention to leak prevention and finish quality.",
-        sq: "Përgjegjshmëri në punë në ekip dhe vëmendje ndaj parandalimit të rrjedhjeve dhe cilësisë së përfundimit."
+        sq: "Pune e qendrueshme ne ekip dhe vemendje ndaj parandalimit te rrjedhjeve dhe cilesise se perfundimit."
       }
     ],
     cardImage: "images/jobs/pipe-repair.jpg",
-    cardImageAlt: { en: "Hydraulic technician", sq: "Hidraulik në punë" },
+    cardImageAlt: { en: "Hydrotechnician", sq: "Hidroteknik ne pune" },
     image: "images/jobs/pipe-repair.jpg",
-    imageAlt: { en: "Hydraulic technician working on pipeline installation", sq: "Hidraulik duke punuar në instalimin e tubacioneve" },
+    imageAlt: { en: "Hydrotechnician working on pipeline installation", sq: "Hidroteknik duke punuar ne instalimin e tubacioneve" },
     order: 19
   }),
   createJob({

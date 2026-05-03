@@ -50,25 +50,19 @@
               <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-nav-wrap"><span></span></button>
               <!-- RD Navbar Brand-->
               <div class="rd-navbar-brand"><a class="brand-name" href="index.html"><img
-                    class="brand-logo brand-logo--default" src="rafin-logo-white-transparent.png" alt="Rafin Company" width="120" height="120" decoding="async" /><img
-                    class="brand-logo brand-logo--blue" src="rafin-logo-white-transparent.png" alt="" width="120" height="120" decoding="async" aria-hidden="true" /></a></div>
+                    class="brand-logo brand-logo--default" src="rafin_transparent_logos_png/rafin-logo-gold-transparent.png" alt="Rafin Company" width="120" height="120" decoding="async" /><img
+                    class="brand-logo brand-logo--blue" src="rafin_transparent_logos_png/rafin-logo-gold-transparent.png" alt="" width="120" height="120" decoding="async" aria-hidden="true" /></a></div>
             </div>
             <!-- RD Navbar Nav-->
             <div class="rd-navbar-nav-wrap rd-navbar-search_not-collapsable">
               <div class="rd-navbar-search_collapsable">
                 <ul class="rd-navbar-nav">
                   <li><a href="index.html#about" data-i18n="About">About</a></li>
-                  <li class="rd-navbar--has-dropdown"><a href="services.html" data-i18n="Services">Services</a>
-                    <ul class="rd-navbar-dropdown">
-                      <li><a href="index.html#services" data-i18n="Homepage Services">Homepage Services</a></li>
-                      <li><a href="services.html" data-i18n="Services Overview">Services Overview</a></li>
-                    </ul>
-                  </li>
+                  <li><a href="index.html#services" data-i18n="Services">Services</a></li>
                   <li><a href="index.html#materials" data-i18n="materials">Materials</a></li>
                   <li class="active"><a href="projects.html" id="nav-projects-link" data-i18n="projects">Projects</a>
                     <ul class="rd-navbar-dropdown" id="nav-projects-dropdown"></ul>
                   </li>
-                  <li><a href="siguria.html" data-i18n="Safety">Siguria</a></li>
                   <li><a href="career.html" data-i18n="Careers">Careers</a></li>
                   <li><a href="index.html#contacts" data-i18n="Contacts">Contacts</a></li>
                 </ul>
@@ -85,38 +79,46 @@
       </div>
     </header>
 
+    <!-- Project Hero Section -->
     <section class="section project-hero bg-black" id="project-hero">
+      <div class="project-hero__media" aria-hidden="true">
+        <div class="project-hero__image-layer project-hero__image-layer--active" id="project-hero-image-primary"></div>
+        <div class="project-hero__image-layer" id="project-hero-image-secondary"></div>
+      </div>
+      <div class="project-hero-overlay"></div>
       <div class="section-lg project-hero__content">
         <div class="container">
-          <div class="project-hero__shell">
-            <div class="project-hero__copy">
-              <p class="project-hero__eyebrow" id="project-category-hero"></p>
-              <h1 class="project-hero__title" id="project-title" data-i18n="Loading">Loading...</h1>
-              <p class="lead project-excerpt" id="project-excerpt"></p>
-              <div class="project-description" id="project-description"></div>
-              <div class="project-info-box">
-                <h5 id="project-info-heading" data-i18n="Project Information">Project Information</h5>
-                <hr />
-                <ul class="list-xs project-info-list">
-                  <li id="info-category" class="project-info-item"><strong><span
-                        class="lbl-category" data-i18n="Category">Category</span>:</strong> <span class="val-category"></span></li>
-                  <li id="info-location" class="project-info-item"><strong><span
-                        class="lbl-location" data-i18n="Location">Location</span>:</strong> <span class="val-location"></span></li>
-                  <li id="info-year" class="project-info-item"><strong><span class="lbl-year" data-i18n="Year">Year</span>:</strong> <span
-                      class="val-year"></span></li>
-                  <li id="info-status" class="project-info-item"><strong><span class="lbl-status" data-i18n="Status">Status</span>:</strong>
-                    <span class="val-status"></span></li>
-                </ul>
-              </div>
-            </div>
-            <div class="project-hero__visual">
-              <div class="project-hero__media-frame">
-                <div class="project-hero__media" aria-hidden="true">
-                  <div class="project-hero__image-layer project-hero__image-layer--active" id="project-hero-image-primary"></div>
-                  <div class="project-hero__image-layer" id="project-hero-image-secondary"></div>
-                </div>
-              </div>
-              <div class="project-hero__selectors" id="project-hero-selectors" role="group" aria-label="Project images"></div>
+          <div class="project-hero__inner">
+            <p class="project-hero__eyebrow" id="project-category-hero"></p>
+            <h2 class="heading-decorated project-hero__title" id="project-title" data-i18n="Loading">Loading...</h2>
+            <div class="project-hero__selectors" id="project-hero-selectors" role="group" aria-label="Project images"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Project Content Section -->
+    <section class="section-md bg-default text-left">
+      <div class="container">
+        <div class="row row-50">
+          <div class="col-md-8">
+            <p class="lead project-excerpt" id="project-excerpt"></p>
+            <div class="project-description" id="project-description"></div>
+          </div>
+          <div class="col-md-4">
+            <div class="project-info-box">
+              <h5 id="project-info-heading" data-i18n="Project Information">Project Information</h5>
+              <hr />
+              <ul class="list-xs project-info-list">
+                <li id="info-category" class="project-info-item"><strong><span
+                      class="lbl-category" data-i18n="Category">Category</span>:</strong> <span class="val-category"></span></li>
+                <li id="info-location" class="project-info-item"><strong><span
+                      class="lbl-location" data-i18n="Location">Location</span>:</strong> <span class="val-location"></span></li>
+                <li id="info-year" class="project-info-item"><strong><span class="lbl-year" data-i18n="Year">Year</span>:</strong> <span
+                    class="val-year"></span></li>
+                <li id="info-status" class="project-info-item"><strong><span class="lbl-status" data-i18n="Status">Status</span>:</strong>
+                  <span class="val-status"></span></li>
+              </ul>
             </div>
           </div>
         </div>

@@ -25,9 +25,7 @@
     const placeholders = new Set([
       "https://www.linkedin.com/",
       "https://www.instagram.com/",
-      "https://www.facebook.com/",
-      "https://www.youtube.com/",
-      "https://x.com/"
+      "https://www.facebook.com/"
     ]);
     return !placeholders.has(trimmed.toLowerCase());
   }
@@ -135,19 +133,14 @@
     const socialConfig = [
       { key: "linkedin", label: "LinkedIn", iconClass: "fa fa-linkedin" },
       { key: "instagram", label: "Instagram", iconClass: "fa fa-instagram" },
-      { key: "facebook", label: "Facebook", iconClass: "fa fa-facebook" },
-      { key: "youtube", label: "YouTube", iconClass: "fa fa-youtube-play" },
-      { key: "x", label: "X", iconClass: "fa fa-twitter" }
+      { key: "facebook", label: "Facebook", iconClass: "fa fa-facebook" }
     ];
     const socialLinksHtml = socialConfig
-      .map((item) => {
-        const url = socialLinks[item.key];
-        if (isRenderableSocialUrl(url)) {
-          return `<li><a aria-label="${item.label}" class="${item.iconClass}" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer"></a></li>`;
-        }
-
-        return `<li><span aria-label="${item.label}" class="${item.iconClass} footer-social-list__placeholder" role="img"></span></li>`;
-      })
+      .filter((item) => isRenderableSocialUrl(socialLinks[item.key]))
+      .map(
+        (item) =>
+          `<li><a aria-label="${item.label}" class="${item.iconClass}" href="${escapeHtml(socialLinks[item.key])}" target="_blank" rel="noopener noreferrer"></a></li>`
+      )
       .join("");
 
     const showAddress = isRenderableAddress(site);
@@ -160,7 +153,7 @@
             <div class="col-lg-4">
               <div class="footer-brand-wrap">
                 <a href="index.html" class="brand-name">
-                  <img src="rafin-logo-white-transparent.png" alt="${escapeHtml(site.companyName)}" width="180" height="23" />
+                  <img src="images/logo-inverse-304x39.png" alt="${escapeHtml(site.companyName)}" width="180" height="23" />
                 </a>
                 <p>${escapeHtml(site.companyName)} est. ${escapeHtml(site.established)}</p>
               </div>
@@ -168,7 +161,7 @@
                 <h6>${escapeHtml(t("Address", "Address"))}</h6>
                 <p>${escapeHtml(addressLine)}</p>
               </div>` : ""}
-              <ul class="footer-social-list">${socialLinksHtml}</ul>
+              ${socialLinksHtml ? `<ul class="footer-social-list">${socialLinksHtml}</ul>` : ""}
             </div>
             <div class="col-lg-8">
               <div class="footer-section-head">

@@ -12,16 +12,14 @@ const site = {
   },
   socialLinks: {
     linkedin: "",
-    instagram: "https://www.instagram.com/rafin_company_sh.p.k/",
-    facebook: "",
-    youtube: "",
-    x: ""
+    instagram: "",
+    facebook: ""
   },
   companyName: "Rafin Company",
   established: 2018,
   seo: {
     canonicalHost: "https://www.rafincompany.com",
-    defaultOgImage: "/rafin_transparent_logos_png/rafin-logo-original-transparent.png"
+    defaultOgImage: "/images/logo-inverse-304x39.png"
   }
 };
 
