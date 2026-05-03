@@ -111,41 +111,7 @@ jobs:
           done
 
           mapfile -t referenced_assets < <(
-            python - <<'PY'
-            from pathlib import Path
-            import re
-
-            roots = ["images/", "fonts/", "css/", "js/", "data/", "rafin_transparent_logos_png/", "rafin-logo"]
-            patterns = [
-                re.compile(r'''(?:src|href)\s*=\s*["']([^"']+)["']''', re.IGNORECASE),
-                re.compile(r'''url\(\s*["']?([^)"']+)["']?\s*\)''', re.IGNORECASE),
-            ]
-
-            def is_local_asset(value: str) -> bool:
-                value = value.strip()
-                if not value:
-                    return False
-                lowered = value.lower()
-                if lowered.startswith(("http://", "https://", "//", "mailto:", "tel:", "javascript:", "#", "data:")):
-                    return False
-                return any(value.startswith(root) for root in roots)
-
-            assets = set()
-            for pattern in ("*.html", "*.css", "*.js"):
-                for path in Path(".").rglob(pattern):
-                    try:
-                        text = path.read_text(encoding="utf-8", errors="ignore")
-                    except Exception:
-                        continue
-                    for regex in patterns:
-                        for match in regex.findall(text):
-                            asset = match.split("?", 1)[0].split("#", 1)[0].strip()
-                            if is_local_asset(asset):
-                                assets.add(asset)
-
-            for asset in sorted(assets):
-                print(asset)
-            PY
+            python -c "from pathlib import Path; import re; roots=('images/','fonts/','css/','js/','data/','rafin_transparent_logos_png/','rafin-logo'); patterns=(re.compile(r'''(?:src|href)\s*=\s*[\\\"\\']([^\\\"\\']+)[\\\"\\']''', re.IGNORECASE), re.compile(r'''url\\(\\s*[\\\"\\']?([^)\\\"\\']+)[\\\"\\']?\\s*\\)''', re.IGNORECASE)); is_local=lambda value: value and not value.lower().startswith(('http://','https://','//','mailto:','tel:','javascript:','#','data:')) and any(value.startswith(root) for root in roots); assets=set(); [assets.add(asset) for pattern in ('*.html','*.css','*.js') for path in Path('.').rglob(pattern) for regex in patterns for asset in [m.split('?',1)[0].split('#',1)[0].strip() for m in regex.findall(path.read_text(encoding='utf-8', errors='ignore'))] if is_local(asset)]; print('\\n'.join(sorted(assets)))"
           )
 
           missing_assets=0
