@@ -2,10 +2,16 @@
 <html class="wide wow-animation" lang="en">
   <head>
     <!-- WWW.RAFINCOMPANY.COM -->
-    <title data-i18n="Home Page Title">Rafin Company | Construction & Infrastructure</title>
+    <title data-i18n="Home Page Title">Rafin Company</title>
     <meta name="description" data-i18n-content="Home Meta Description" content="Rafin Company is a leading construction firm in Albania, specializing in civil engineering, public infrastructure, and high-quality building projects.">
-    <meta property="og:title" data-i18n-content="Home OG Title" content="Rafin Company | Construction & Infrastructure">
+    <meta property="og:title" data-i18n-content="Home OG Title" content="Rafin Company">
     <meta property="og:description" data-i18n-content="Home OG Description" content="Excellence in construction and infrastructure development in Albania.">
+    <meta property="og:image" content="https://www.rafincompany.com/rafin_transparent_logos_png/rafin-logo-original-transparent.png">
+    <meta property="og:site_name" content="Rafin Company">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Rafin Company">
+    <meta name="twitter:description" content="Rafin Company is a leading construction firm in Albania, specializing in civil engineering, public infrastructure, and high-quality building projects.">
+    <meta name="twitter:image" content="https://www.rafincompany.com/rafin_transparent_logos_png/rafin-logo-original-transparent.png">
     <meta property="og:type" content="website">
     <meta name="format-detection" content="telephone=no">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -45,18 +51,24 @@
               <div class="rd-navbar-panel rd-navbar-search-lg_collapsable">
                 <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-nav-wrap"><span></span></button>
                 <!-- RD Navbar Brand-->
-                <div class="rd-navbar-brand"><a class="brand-name" href="index.html"><img class="brand-logo brand-logo--default" src="rafin_transparent_logos_png/rafin-logo-original-transparent.png" alt="Rafin Company" width="120" height="120" decoding="async"/><img class="brand-logo brand-logo--blue" src="rafin_transparent_logos_png/rafin-logo-gold-transparent.png" alt="" width="120" height="120" decoding="async" aria-hidden="true"/></a></div>
+                <div class="rd-navbar-brand"><a class="brand-name" href="index.html"><img class="brand-logo brand-logo--default" src="rafin-logo-white-transparent.png" alt="Rafin Company" width="120" height="120" decoding="async"/><img class="brand-logo brand-logo--blue" src="rafin-logo-white-transparent.png" alt="" width="120" height="120" decoding="async" aria-hidden="true"/></a></div>
               </div>
               <!-- RD Navbar Nav-->
               <div class="rd-navbar-nav-wrap rd-navbar-search_not-collapsable">
                 <div class="rd-navbar-search_collapsable">
                   <ul class="rd-navbar-nav">
                     <li><a href="#about" data-i18n="About">About</a></li>
-                    <li><a href="#services" data-i18n="Services">Services</a></li>
+                    <li class="rd-navbar--has-dropdown"><a href="services.html" data-i18n="Services">Services</a>
+                      <ul class="rd-navbar-dropdown">
+                        <li><a href="#services" data-i18n="Homepage Services">Homepage Services</a></li>
+                        <li><a href="services.html" data-i18n="Services Overview">Services Overview</a></li>
+                      </ul>
+                    </li>
                     <li><a href="#materials" data-i18n="materials">Materials</a></li>
                     <li><a href="projects.html" id="nav-projects-link" data-i18n="projects">Projects</a>
                       <ul class="rd-navbar-dropdown" id="nav-projects-dropdown"></ul>
                     </li>
+                    <li><a href="siguria.html" data-i18n="Safety">Siguria</a></li>
                     <li><a href="career.html" data-i18n="Careers">Careers</a></li>
                     <li><a href="#contacts" data-i18n="Contacts">Contacts</a></li>
                   </ul>
@@ -123,96 +135,54 @@
       <!-- Our Services-->
       <section class="section-md home-section-tint home-section-tint--plain text-center" id="services">
         <div class="container">
-          <div class="row">
-            <div class="col-sm-12">
-              <h4 class="heading-decorated" data-i18n="Our Services">Our Services</h4>
-            </div>
+          <div class="services-section-intro">
+            <p class="services-section-intro__eyebrow" data-i18n="Services Intro Eyebrow">Integrated expertise</p>
+            <h4 class="heading-decorated" data-i18n="Our Services">Our Services</h4>
+            <p class="services-section-intro__lead" data-i18n="Services Intro Lead">We support infrastructure delivery from planning through execution with disciplined engineering, coordinated field operations, and dependable project control.</p>
           </div>
-          <div class="row row-50 justify-content-md-center justify-content-lg-start">
-            <div class="col-md-6 col-xl-4">
-              <!-- Blurb circle-->
-              <article class="blurb blurb-circle">
-                <div class="unit flex-sm-row unit-spacing-md">
-                  <div class="unit__left">
-                    <div class="blurb-circle__icon"><span class="icon linear-icon-pencil-ruler"></span></div>
-                  </div>
-                  <div class="unit__body">
-                    <p class="heading-6 blurb__title"><a href="#" data-i18n="Service 1 Title">Pre-construction Services</a></p>
-                    <p data-i18n="Service 1 Body">We take our time on initial planning before any construction begins, to balance all the financial and efficiency issues beforehand...</p>
-                  </div>
-                </div>
-              </article>
-            </div>
-            <div class="col-md-6 col-xl-4">
-              <!-- Blurb circle-->
-              <article class="blurb blurb-circle">
-                <div class="unit flex-sm-row unit-spacing-md">
-                  <div class="unit__left">
-                    <div class="blurb-circle__icon"><span class="icon linear-icon-users"></span></div>
-                  </div>
-                  <div class="unit__body">
-                    <p class="heading-6 blurb__title"><a href="#" data-i18n="Service 2 Title">General Contracting</a></p>
-                    <p data-i18n="Service 2 Body">We have a long list of professional contractors, whom our engineers and architects enjoy to work with on a majority of our projects!</p>
-                  </div>
-                </div>
-              </article>
-            </div>
-            <div class="col-md-6 col-xl-4">
-              <!-- Blurb circle-->
-              <article class="blurb blurb-circle">
-                <div class="unit flex-sm-row unit-spacing-md">
-                  <div class="unit__left">
-                    <div class="blurb-circle__icon"><span class="icon linear-icon-wall"></span></div>
-                  </div>
-                  <div class="unit__body">
-                    <p class="heading-6 blurb__title"><a href="#" data-i18n="Service 3 Title">Construction Services</a></p>
-                    <p data-i18n="Service 3 Body">Our customers love the pace/quality tempo that we show during each of the principal construction processes!</p>
-                  </div>
-                </div>
-              </article>
-            </div>
-            <div class="col-md-6 col-xl-4">
-              <!-- Blurb circle-->
-              <article class="blurb blurb-circle">
-                <div class="unit flex-sm-row unit-spacing-md">
-                  <div class="unit__left">
-                    <div class="blurb-circle__icon"><span class="icon linear-icon-apartment"></span></div>
-                  </div>
-                  <div class="unit__body">
-                    <p class="heading-6 blurb__title"><a href="#" data-i18n="Service 4 Title">Construction Management</a></p>
-                    <p data-i18n="Service 4 Body">Construction project management is essential. We're using the most time and iterations efficient life cycles methods for that.</p>
-                  </div>
-                </div>
-              </article>
-            </div>
-            <div class="col-md-6 col-xl-4">
-              <!-- Blurb circle-->
-              <article class="blurb blurb-circle">
-                <div class="unit flex-sm-row unit-spacing-md">
-                  <div class="unit__left">
-                    <div class="blurb-circle__icon"><span class="icon linear-icon-home4"></span></div>
-                  </div>
-                  <div class="unit__body">
-                    <p class="heading-6 blurb__title"><a href="#" data-i18n="Service 5 Title">Building Information</a></p>
-                    <p data-i18n="Service 5 Body">Oftentimes physical and functional essence of any construction project needs to be represented digitally, in a 3D model format.</p>
-                  </div>
-                </div>
-              </article>
-            </div>
-            <div class="col-md-6 col-xl-4">
-              <!-- Blurb circle -->
-              <article class="blurb blurb-circle">
-                <div class="unit flex-sm-row unit-spacing-md">
-                  <div class="unit__left">
-                    <div class="blurb-circle__icon"><span class="icon linear-icon-pencil-ruler2"></span></div>
-                  </div>
-                  <div class="unit__body">
-                    <p class="heading-6 blurb__title"><a href="#" data-i18n="Service 6 Title">Design-Build</a></p>
-                    <p data-i18n="Service 6 Body">If a project is not too complex, we may hire a designer-builder type of contractor, to make the longevity of the construction shorter.</p>
-                  </div>
-                </div>
-              </article>
-            </div>
+          <div class="services-feature-grid">
+            <a class="service-feature-card" href="services.html#pre-construction">
+              <span class="service-feature-card__index">01</span>
+              <span class="service-feature-card__icon icon linear-icon-pencil-ruler" aria-hidden="true"></span>
+              <h5 class="service-feature-card__title" data-i18n="Service 1 Title">Pre-construction Services</h5>
+              <p class="service-feature-card__text" data-i18n="Service 1 Body">We take our time on initial planning before any construction begins, to balance all the financial and efficiency issues beforehand...</p>
+              <span class="service-feature-card__link" data-i18n="Explore Service">Explore service</span>
+            </a>
+            <a class="service-feature-card" href="services.html#general-contracting">
+              <span class="service-feature-card__index">02</span>
+              <span class="service-feature-card__icon icon linear-icon-users" aria-hidden="true"></span>
+              <h5 class="service-feature-card__title" data-i18n="Service 2 Title">General Contracting</h5>
+              <p class="service-feature-card__text" data-i18n="Service 2 Body">We have a long list of professional contractors, whom our engineers and architects enjoy to work with on a majority of our projects!</p>
+              <span class="service-feature-card__link" data-i18n="Explore Service">Explore service</span>
+            </a>
+            <a class="service-feature-card" href="services.html#construction-services">
+              <span class="service-feature-card__index">03</span>
+              <span class="service-feature-card__icon icon linear-icon-wall" aria-hidden="true"></span>
+              <h5 class="service-feature-card__title" data-i18n="Service 3 Title">Construction Services</h5>
+              <p class="service-feature-card__text" data-i18n="Service 3 Body">Our customers love the pace/quality tempo that we show during each of the principal construction processes!</p>
+              <span class="service-feature-card__link" data-i18n="Explore Service">Explore service</span>
+            </a>
+            <a class="service-feature-card" href="services.html#construction-management">
+              <span class="service-feature-card__index">04</span>
+              <span class="service-feature-card__icon icon linear-icon-apartment" aria-hidden="true"></span>
+              <h5 class="service-feature-card__title" data-i18n="Service 4 Title">Construction Management</h5>
+              <p class="service-feature-card__text" data-i18n="Service 4 Body">Construction project management is essential. We're using the most time and iterations efficient life cycles methods for that.</p>
+              <span class="service-feature-card__link" data-i18n="Explore Service">Explore service</span>
+            </a>
+            <a class="service-feature-card" href="services.html#building-information">
+              <span class="service-feature-card__index">05</span>
+              <span class="service-feature-card__icon icon linear-icon-home4" aria-hidden="true"></span>
+              <h5 class="service-feature-card__title" data-i18n="Service 5 Title">Building Information</h5>
+              <p class="service-feature-card__text" data-i18n="Service 5 Body">Oftentimes physical and functional essence of any construction project needs to be represented digitally, in a 3D model format.</p>
+              <span class="service-feature-card__link" data-i18n="Explore Service">Explore service</span>
+            </a>
+            <a class="service-feature-card" href="services.html#design-build">
+              <span class="service-feature-card__index">06</span>
+              <span class="service-feature-card__icon icon linear-icon-pencil-ruler2" aria-hidden="true"></span>
+              <h5 class="service-feature-card__title" data-i18n="Service 6 Title">Design-Build</h5>
+              <p class="service-feature-card__text" data-i18n="Service 6 Body">If a project is not too complex, we may hire a designer-builder type of contractor, to make the longevity of the construction shorter.</p>
+              <span class="service-feature-card__link" data-i18n="Explore Service">Explore service</span>
+            </a>
           </div>
         </div>
       </section>
@@ -264,52 +234,197 @@
         </div>
       </section>
 
-      <section class="section-lg home-section-tint home-section-tint--plain homepage-news" id="news">
+      <section class="section-lg news-carousel-section" id="news" aria-labelledby="news-carousel-title">
         <div class="container">
-          <div class="homepage-news__shell">
-            <div class="homepage-news__header">
-              <div class="homepage-news__heading">
-                <h4 class="heading-decorated" data-i18n="Recent News">Recent News</h4>
-              </div>
-              <a class="homepage-news__archive" href="projects.html" data-i18n="projects">Projects</a>
+          <div class="news-carousel-section__header">
+            <div class="news-carousel-section__copy">
+              <p class="news-carousel-section__eyebrow">RAFIN COMPANY</p>
+              <h4 class="heading-decorated news-carousel-section__title" id="news-carousel-title">Lajmet e fundit</h4>
+              <p class="news-carousel-section__subtitle">Zhvillimet më të fundit nga projektet, infrastruktura dhe aktivitetet tona në terren.</p>
             </div>
-            <div class="homepage-news__grid">
-              <article class="homepage-news-card homepage-news-card--featured">
-                <a class="homepage-news-card__media" href="projects.html" aria-label="Quality Infrastructure Development">
-                  <img src="images/home-post-1-418x315.jpg" alt="Construction Development" width="418" height="315" loading="lazy" decoding="async" fetchpriority="low"/>
-                </a>
-                <div class="homepage-news-card__body">
-                  <div class="homepage-news-card__meta">
-                    <time datetime="2024">2024</time>
+            <div class="news-carousel-section__actions">
+              <a class="button news-carousel-section__cta" href="projects.html">Shiko të gjitha</a>
+              <div class="news-carousel__controls" role="group" aria-label="Kontrollet e karuselit të lajmeve">
+                <button class="news-carousel__button news-carousel__button--prev" type="button" aria-label="Lajmi i mëparshëm">
+                  <span aria-hidden="true">&#8592;</span>
+                </button>
+                <button class="news-carousel__button news-carousel__button--next" type="button" aria-label="Lajmi i radhës">
+                  <span aria-hidden="true">&#8594;</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="news-carousel" data-autoplay="true" data-autoplay-delay="1500" aria-roledescription="carousel" aria-label="Karusel me lajmet e fundit">
+            <div class="news-carousel__viewport" tabindex="0">
+              <div class="news-carousel__track">
+                <article class="news-card">
+                  <a class="news-card__image" href="projects.html" aria-label="Lexo më shumë për zhvillimet e reja në projektet civile">
+                    <img src="images/projects/banesat-vaqarr-1.jpeg" alt="Objekt civil në zhvillim nga Rafin Company" loading="lazy" decoding="async" />
+                    <span class="news-card__category-badge">Ndërtim Civil</span>
+                  </a>
+                  <div class="news-card__body">
+                    <div class="news-card__meta">
+                      <span class="news-card__category">Ndërtim Civil</span>
+                      <time datetime="2026-05">Maj 2026</time>
+                    </div>
+                    <h5 class="news-card__title">Zhvillime të reja në projektet civile</h5>
+                    <p class="news-card__description">Rafin Company vijon punën në objekte civile me fokus cilësinë, sigurinë dhe koordinimin teknik.</p>
+                    <a class="news-card__link" href="projects.html">Lexo më shumë</a>
                   </div>
-                  <h5 class="homepage-news-card__title"><a href="projects.html" data-i18n="News1Title">Quality Infrastructure Development</a></h5>
-                  <p data-i18n="News1Body">We are expanding our reach in public works across Albania, bringing innovation and high standards.</p>
-                </div>
-              </article>
-              <article class="homepage-news-card homepage-news-card--compact">
-                <a class="homepage-news-card__media" href="projects.html" aria-label="Sustainable Building Practices">
-                  <img src="images/home-post-2-418x315.jpg" alt="Sustainable Building" width="418" height="315" loading="lazy" decoding="async" fetchpriority="low"/>
-                </a>
-                <div class="homepage-news-card__body">
-                  <div class="homepage-news-card__meta">
-                    <time datetime="2024">2024</time>
+                </article>
+
+                <article class="news-card">
+                  <a class="news-card__image" href="projects.html" aria-label="Lexo më shumë për punimet infrastrukturore me standarde të larta">
+                    <img src="images/projects/rruget-kryesore-5-maji-faza-3-4.jpeg" alt="Punime infrastrukturore rrugore në terren" loading="lazy" decoding="async" />
+                    <span class="news-card__category-badge">Infrastrukturë Rrugore</span>
+                  </a>
+                  <div class="news-card__body">
+                    <div class="news-card__meta">
+                      <span class="news-card__category">Infrastrukturë Rrugore</span>
+                      <time datetime="2026-04">Prill 2026</time>
+                    </div>
+                    <h5 class="news-card__title">Punime infrastrukturore me standarde të larta</h5>
+                    <p class="news-card__description">Ekipet tona janë të angazhuara në realizimin e punimeve rrugore me disiplinë dhe përgjegjësi.</p>
+                    <a class="news-card__link" href="projects.html">Lexo më shumë</a>
                   </div>
-                  <h5 class="homepage-news-card__title"><a href="projects.html" data-i18n="News2Title">Sustainable Building Practices</a></h5>
-                  <p data-i18n="News2Body">Integrating eco-friendly materials and energy-efficient solutions in our latest projects.</p>
-                </div>
-              </article>
-              <article class="homepage-news-card homepage-news-card--compact">
-                <a class="homepage-news-card__media" href="projects.html" aria-label="Engineering Excellence">
-                  <img src="images/home-post-3-418x315.jpg" alt="Engineering Excellence" width="418" height="315" loading="lazy" decoding="async" fetchpriority="low"/>
-                </a>
-                <div class="homepage-news-card__body">
-                  <div class="homepage-news-card__meta">
-                    <time datetime="2024">2024</time>
+                </article>
+
+                <article class="news-card">
+                  <a class="news-card__image" href="projects.html" aria-label="Lexo më shumë për zgjidhjet teknike për rrjete elektrike">
+                    <img src="images/projects/kabinat-kashar-selite-1.jpeg" alt="Instalime të infrastrukturës elektrike" loading="lazy" decoding="async" />
+                    <span class="news-card__category-badge">Infrastrukturë Elektrike</span>
+                  </a>
+                  <div class="news-card__body">
+                    <div class="news-card__meta">
+                      <span class="news-card__category">Infrastrukturë Elektrike</span>
+                      <time datetime="2026-04">Prill 2026</time>
+                    </div>
+                    <h5 class="news-card__title">Zgjidhje teknike për rrjete elektrike</h5>
+                    <p class="news-card__description">Projektet elektrike zhvillohen me kujdes teknik dhe zbatim të standardeve bashkëkohore.</p>
+                    <a class="news-card__link" href="projects.html">Lexo më shumë</a>
                   </div>
-                  <h5 class="homepage-news-card__title"><a href="projects.html" data-i18n="News3Title">Engineering Excellence</a></h5>
-                  <p data-i18n="News3Body">Our team continues to deliver complex engineering solutions with precision and safety.</p>
-                </div>
-              </article>
+                </article>
+
+                <article class="news-card">
+                  <a class="news-card__image" href="projects.html" aria-label="Lexo më shumë për kapacitetet e avancuara në projekte industriale">
+                    <img src="images/projects/stacioni-naftes-zharrez-1.jpeg" alt="Pamje nga një projekt industrial" loading="lazy" decoding="async" />
+                    <span class="news-card__category-badge">Projekte Industriale</span>
+                  </a>
+                  <div class="news-card__body">
+                    <div class="news-card__meta">
+                      <span class="news-card__category">Projekte Industriale</span>
+                      <time datetime="2026-03">Mars 2026</time>
+                    </div>
+                    <h5 class="news-card__title">Kapacitete të avancuara në projekte industriale</h5>
+                    <p class="news-card__description">Rafin mbështet projekte industriale me staf të specializuar dhe organizim të strukturuar në terren.</p>
+                    <a class="news-card__link" href="projects.html">Lexo më shumë</a>
+                  </div>
+                </article>
+
+                <article class="news-card">
+                  <a class="news-card__image" href="projects.html" aria-label="Lexo më shumë për teknologjinë në shërbim të ndërtimit">
+                    <img src="images/jobs/engineer-blueprint.jpg" alt="Planifikim teknik dhe teknologji në ndërtim" loading="lazy" decoding="async" />
+                    <span class="news-card__category-badge">Teknologji</span>
+                  </a>
+                  <div class="news-card__body">
+                    <div class="news-card__meta">
+                      <span class="news-card__category">Teknologji</span>
+                      <time datetime="2026-03">Mars 2026</time>
+                    </div>
+                    <h5 class="news-card__title">Teknologjia në shërbim të ndërtimit</h5>
+                    <p class="news-card__description">Përdorimi i teknologjisë ndihmon në planifikim, kontroll cilësie dhe menaxhim më efikas të projekteve.</p>
+                    <a class="news-card__link" href="projects.html">Lexo më shumë</a>
+                  </div>
+                </article>
+
+                <article class="news-card">
+                  <a class="news-card__image" href="projects.html" aria-label="Lexo më shumë për fokusin në projektet ujore">
+                    <img src="images/projects/kanalet-ujitese-shelqet-pistull-u13-u14-1.jpeg" alt="Punime në infrastrukturë ujore dhe kanale" loading="lazy" decoding="async" />
+                    <span class="news-card__category-badge">Projekte Ujore</span>
+                  </a>
+                  <div class="news-card__body">
+                    <div class="news-card__meta">
+                      <span class="news-card__category">Projekte Ujore</span>
+                      <time datetime="2026-02">Shkurt 2026</time>
+                    </div>
+                    <h5 class="news-card__title">Fokus në projektet ujore</h5>
+                    <p class="news-card__description">Punimet në infrastrukturën ujore realizohen me kujdes ndaj funksionalitetit dhe qëndrueshmërisë afatgjatë.</p>
+                    <a class="news-card__link" href="projects.html">Lexo më shumë</a>
+                  </div>
+                </article>
+
+                <article class="news-card">
+                  <a class="news-card__image" href="projects.html" aria-label="Lexo më shumë për riciklimin e materialeve të ndërtimit">
+                    <img src="images/materials/concrete-production.jpg" alt="Proces pune me materiale ndërtimi dhe riciklim" loading="lazy" decoding="async" />
+                    <span class="news-card__category-badge">Qëndrueshmëri</span>
+                  </a>
+                  <div class="news-card__body">
+                    <div class="news-card__meta">
+                      <span class="news-card__category">Qëndrueshmëri</span>
+                      <time datetime="2026-02">Shkurt 2026</time>
+                    </div>
+                    <h5 class="news-card__title">Riciklimi i materialeve të ndërtimit</h5>
+                    <p class="news-card__description">Rafin synon përdorimin më të përgjegjshëm të materialeve dhe reduktimin e ndikimit në mjedis.</p>
+                    <a class="news-card__link" href="projects.html">Lexo më shumë</a>
+                  </div>
+                </article>
+
+                <article class="news-card">
+                  <a class="news-card__image" href="projects.html" aria-label="Lexo më shumë për sigurinë në kantier">
+                    <img src="images/jobs/construction-worker-site.jpg" alt="Staf në kantier me fokus te siguria" loading="lazy" decoding="async" />
+                    <span class="news-card__category-badge">Siguri</span>
+                  </a>
+                  <div class="news-card__body">
+                    <div class="news-card__meta">
+                      <span class="news-card__category">Siguri</span>
+                      <time datetime="2026-01">Janar 2026</time>
+                    </div>
+                    <h5 class="news-card__title">Siguria në kantier mbetet prioritet</h5>
+                    <p class="news-card__description">Çdo proces pune mbështetet në masa sigurie, koordinim dhe përgjegjësi profesionale.</p>
+                    <a class="news-card__link" href="projects.html">Lexo më shumë</a>
+                  </div>
+                </article>
+
+                <article class="news-card">
+                  <a class="news-card__image" href="projects.html" aria-label="Lexo më shumë për ekipet teknike në terren">
+                    <img src="images/jobs/construction-engineer.jpg" alt="Ekip teknik duke monitoruar punimet në terren" loading="lazy" decoding="async" />
+                    <span class="news-card__category-badge">Staf &amp; Operim</span>
+                  </a>
+                  <div class="news-card__body">
+                    <div class="news-card__meta">
+                      <span class="news-card__category">Staf &amp; Operim</span>
+                      <time datetime="2025-12">Dhjetor 2025</time>
+                    </div>
+                    <h5 class="news-card__title">Ekipet teknike në terren</h5>
+                    <p class="news-card__description">Stafi teknik luan rol kyç në organizimin, monitorimin dhe përfundimin me cilësi të projekteve.</p>
+                    <a class="news-card__link" href="projects.html">Lexo më shumë</a>
+                  </div>
+                </article>
+
+                <article class="news-card">
+                  <a class="news-card__image" href="projects.html" aria-label="Lexo më shumë për zhvillimin e vazhdueshëm të kapaciteteve">
+                    <img src="images/projects/stadium-3.jpeg" alt="Kapacitete operative dhe zhvillim i vazhdueshëm i kompanisë" loading="lazy" decoding="async" />
+                    <span class="news-card__category-badge">Kompania</span>
+                  </a>
+                  <div class="news-card__body">
+                    <div class="news-card__meta">
+                      <span class="news-card__category">Kompania</span>
+                      <time datetime="2025-12">Dhjetor 2025</time>
+                    </div>
+                    <h5 class="news-card__title">Zhvillim i vazhdueshëm i kapaciteteve</h5>
+                    <p class="news-card__description">Rafin Company vijon të forcojë kapacitetet njerëzore, teknike dhe operative për projekte më komplekse.</p>
+                    <a class="news-card__link" href="projects.html">Lexo më shumë</a>
+                  </div>
+                </article>
+              </div>
+            </div>
+
+            <div class="news-carousel__footer">
+              <div class="news-carousel__progress" aria-hidden="true">
+                <span class="news-carousel__progress-bar"></span>
+              </div>
+              <div class="news-carousel__status" aria-live="polite">01-03 / 10</div>
             </div>
           </div>
         </div>
