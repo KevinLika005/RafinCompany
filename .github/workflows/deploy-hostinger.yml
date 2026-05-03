@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       confirm_live_deploy:
-        description: 'Type DEPLOY to confirm live deployment'
+        description: "Type DEPLOY to confirm live deployment"
         required: true
-        default: 'NO'
+        default: "NO"
 
 concurrency:
   group: hostinger-production
@@ -16,7 +16,7 @@ jobs:
   deploy:
     name: Upload site to Hostinger
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
 
     permissions:
       contents: read
@@ -28,6 +28,7 @@ jobs:
       HOSTINGER_FTP_PORT: ${{ secrets.HOSTINGER_FTP_PORT }}
       HOSTINGER_FTP_PROTOCOL: ${{ secrets.HOSTINGER_FTP_PROTOCOL }}
       HOSTINGER_FTP_SERVER_DIR: ${{ secrets.HOSTINGER_FTP_SERVER_DIR }}
+      LIVE_SITE_URL: https://www.rafincompany.com
 
     steps:
       - name: Confirm live deployment
@@ -55,7 +56,7 @@ jobs:
 
           case "$HOSTINGER_FTP_HOST" in
             ftp://*|ftps://*|http://*|https://*)
-              echo "HOSTINGER_FTP_HOST must be only the FTP hostname or IP, without ftp:// or https://"
+              echo "HOSTINGER_FTP_HOST must be only the FTP hostname or IP, without ftp://, ftps://, http://, or https://"
               exit 1
               ;;
           esac
@@ -66,6 +67,11 @@ jobs:
               exit 1
               ;;
           esac
+
+          echo "FTP host is set."
+          echo "FTP port: ${HOSTINGER_FTP_PORT:-21}"
+          echo "FTP protocol: ${HOSTINGER_FTP_PROTOCOL:-ftp}"
+          echo "Remote deploy folder: $HOSTINGER_FTP_SERVER_DIR"
 
       - name: Prepare clean deploy folder
         shell: bash
@@ -95,13 +101,20 @@ jobs:
           test -f deploy/css/redesign.css
           test -f deploy/js/script.js
 
-      - name: Install lftp
+          echo "commit=${GITHUB_SHA}" > deploy/deploy-marker.txt
+          echo "deployed_at_utc=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> deploy/deploy-marker.txt
+          echo "branch=${GITHUB_REF_NAME}" >> deploy/deploy-marker.txt
+
+          echo "Prepared deploy folder:"
+          find deploy -maxdepth 2 -type f | sort | head -80
+
+      - name: Install deployment tools
         shell: bash
         run: |
           sudo apt-get update
-          sudo apt-get install -y lftp
+          sudo apt-get install -y lftp curl
 
-      - name: Deploy files with lftp
+      - name: Upload files to Hostinger
         shell: bash
         run: |
           set -euo pipefail
@@ -129,11 +142,58 @@ jobs:
           set ftp:ssl-force ${SSL_FORCE}
           set ftp:ssl-allow ${SSL_ALLOW}
           set ftp:ssl-protect-data ${SSL_PROTECT}
+
           open -p "${DEPLOY_FTP_PORT}" "${HOSTINGER_FTP_HOST}"
           user "${HOSTINGER_FTP_USERNAME}" "${HOSTINGER_FTP_PASSWORD}"
+
+          echo "Remote starting folder:"
+          pwd
+          cls -la
+
+          cd "${HOSTINGER_FTP_SERVER_DIR}"
+
+          echo "Remote deploy folder after cd:"
+          pwd
+          cls -la
+
           mirror -R --verbose \
             --transfer-all \
             --overwrite \
-            deploy/ "${HOSTINGER_FTP_SERVER_DIR}"
+            deploy/ .
+
+          echo "Remote folder after upload:"
+          cls -la
+          cls -l index.html
+          cls -l deploy-marker.txt
+
           bye
           EOF
+
+      - name: Verify deployment on live website
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          echo "Checking live deployment marker..."
+          MARKER_URL="${LIVE_SITE_URL}/deploy-marker.txt?cb=${GITHUB_SHA}"
+
+          echo "Marker URL: $MARKER_URL"
+          curl -fsSL "$MARKER_URL" | tee live-deploy-marker.txt
+
+          grep -q "$GITHUB_SHA" live-deploy-marker.txt
+
+          echo "Live website is serving the deployed commit: $GITHUB_SHA"
+
+      - name: Verify homepage is reachable
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          curl -fsSL "${LIVE_SITE_URL}/?cb=${GITHUB_SHA}" -o live-index.html
+
+          if grep -q "Rafin Company" live-index.html; then
+            echo "Homepage is reachable and contains Rafin Company."
+          else
+            echo "Homepage loaded, but expected text was not found."
+            exit 1
+          fi
