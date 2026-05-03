@@ -109,12 +109,16 @@ const I18n = {
           item.classList.remove('active');
         }
 
-        item.addEventListener('click', (e) => {
-          e.preventDefault();
-          if (itemLang !== currentLang) {
-            I18n.setCurrentLanguage(itemLang);
-          }
-        });
+        if (item.dataset.langBound !== 'true') {
+          item.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (itemLang !== I18n.getCurrentLanguage()) {
+              I18n.setCurrentLanguage(itemLang);
+            }
+          });
+
+          item.dataset.langBound = 'true';
+        }
       });
     }
 
@@ -122,11 +126,16 @@ const I18n = {
     const toggles = document.querySelectorAll('.lang-toggle');
     toggles.forEach(btn => {
       btn.textContent = currentLang === 'en' ? 'SQ' : 'EN';
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        const nextLang = currentLang === 'en' ? 'sq' : 'en';
-        I18n.setCurrentLanguage(nextLang);
-      });
+
+      if (btn.dataset.langBound !== 'true') {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const nextLang = I18n.getCurrentLanguage() === 'en' ? 'sq' : 'en';
+          I18n.setCurrentLanguage(nextLang);
+        });
+
+        btn.dataset.langBound = 'true';
+      }
     });
   }
 };

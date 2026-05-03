@@ -323,6 +323,325 @@
       }
     }
 
+    function initNewsCarousel(section) {
+      var carousel = section.querySelector(".news-carousel"),
+        viewport = section.querySelector(".news-carousel__viewport"),
+        track = section.querySelector(".news-carousel__track"),
+        slides = section.querySelectorAll(".news-card"),
+        prevButton = section.querySelector(".news-carousel__button--prev"),
+        nextButton = section.querySelector(".news-carousel__button--next"),
+        progressBar = section.querySelector(".news-carousel__progress-bar"),
+        status = section.querySelector(".news-carousel__status"),
+        resizeTimer = null,
+        currentIndex = 0,
+        visibleCount = 1,
+        maxIndex = 0,
+        activePointerId = null,
+        dragStartX = 0,
+        dragStartY = 0,
+        dragDeltaX = 0,
+        dragBaseOffset = 0,
+        isPointerDown = false,
+        isDragging = false,
+        suppressClick = false,
+        autoplayId = null,
+        autoplayDelay = parseInt(carousel && carousel.getAttribute("data-autoplay-delay"), 10) || 5500,
+        autoplayEnabled = carousel && carousel.getAttribute("data-autoplay") === "true",
+        prefersReducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      if (!carousel || !viewport || !track || !slides.length || !prevButton || !nextButton || !progressBar || !status) {
+        return;
+      }
+
+      function padNumber(value) {
+        return value < 10 ? "0" + value : String(value);
+      }
+
+      function getVisibleCount() {
+        if (window.matchMedia("(min-width: 1200px)").matches) {
+          return 3;
+        }
+
+        if (window.matchMedia("(min-width: 768px)").matches) {
+          return 2;
+        }
+
+        return 1;
+      }
+
+      function getGap() {
+        var styles = window.getComputedStyle(track),
+          gap = parseFloat(styles.columnGap || styles.gap || 0);
+
+        return isNaN(gap) ? 0 : gap;
+      }
+
+      function setInteractiveState() {
+        var visibleEnd = currentIndex + visibleCount,
+          slideIndex,
+          isVisible,
+          focusableElements,
+          focusIndex;
+
+        for (slideIndex = 0; slideIndex < slides.length; slideIndex++) {
+          isVisible = slideIndex >= currentIndex && slideIndex < visibleEnd;
+          slides[slideIndex].setAttribute("aria-hidden", isVisible ? "false" : "true");
+          focusableElements = slides[slideIndex].querySelectorAll("a, button");
+
+          for (focusIndex = 0; focusIndex < focusableElements.length; focusIndex++) {
+            focusableElements[focusIndex].setAttribute("tabindex", isVisible ? "0" : "-1");
+          }
+        }
+      }
+
+      function getSlideWidth() {
+        return slides[0].getBoundingClientRect().width;
+      }
+
+      function getStepWidth() {
+        return getSlideWidth() + getGap();
+      }
+
+      function getBaseOffset() {
+        return getStepWidth() * currentIndex;
+      }
+
+      function renderOffset(offset) {
+        track.style.transform = "translate3d(" + offset + "px, 0, 0)";
+      }
+
+      function updateCarousel() {
+        var baseOffset = getBaseOffset(),
+          visibleEnd = Math.min(currentIndex + visibleCount, slides.length),
+          progress = slides.length <= visibleCount ? 100 : (visibleEnd / slides.length) * 100;
+
+        track.style.transition = "";
+        renderOffset(-baseOffset);
+        progressBar.style.width = progress + "%";
+        status.textContent = padNumber(currentIndex + 1) + (visibleCount > 1 ? "-" + padNumber(visibleEnd) : "") + " / " + padNumber(slides.length);
+        setInteractiveState();
+      }
+
+      function refreshMetrics() {
+        visibleCount = getVisibleCount();
+        maxIndex = Math.max(0, slides.length - visibleCount);
+
+        if (currentIndex > maxIndex) {
+          currentIndex = maxIndex;
+        }
+      }
+
+      function goTo(index) {
+        currentIndex = index;
+
+        if (currentIndex < 0) {
+          currentIndex = maxIndex;
+        }
+
+        if (currentIndex > maxIndex) {
+          currentIndex = 0;
+        }
+
+        updateCarousel();
+      }
+
+      function stopAutoplay() {
+        if (autoplayId) {
+          window.clearInterval(autoplayId);
+          autoplayId = null;
+        }
+      }
+
+      function startAutoplay() {
+        stopAutoplay();
+
+        if (!autoplayEnabled || prefersReducedMotion || slides.length <= visibleCount) {
+          return;
+        }
+
+        autoplayId = window.setInterval(function () {
+          goTo(currentIndex + 1);
+        }, autoplayDelay);
+      }
+
+      function resetDragState() {
+        isPointerDown = false;
+        isDragging = false;
+        dragDeltaX = 0;
+        activePointerId = null;
+        carousel.classList.remove("news-carousel--is-dragging");
+        track.style.transition = "";
+      }
+
+      prevButton.addEventListener("click", function () {
+        goTo(currentIndex - 1);
+      });
+
+      nextButton.addEventListener("click", function () {
+        goTo(currentIndex + 1);
+      });
+
+      carousel.addEventListener("mouseenter", stopAutoplay);
+      carousel.addEventListener("mouseleave", startAutoplay);
+      carousel.addEventListener("focusin", stopAutoplay);
+      carousel.addEventListener("focusout", function () {
+        window.setTimeout(function () {
+          if (!carousel.contains(document.activeElement)) {
+            startAutoplay();
+          }
+        }, 0);
+      });
+
+      viewport.addEventListener("keydown", function (event) {
+        if (event.key === "ArrowLeft") {
+          event.preventDefault();
+          goTo(currentIndex - 1);
+        }
+
+        if (event.key === "ArrowRight") {
+          event.preventDefault();
+          goTo(currentIndex + 1);
+        }
+      });
+
+      viewport.addEventListener("click", function (event) {
+        if (!suppressClick) {
+          return;
+        }
+
+        event.preventDefault();
+        event.stopPropagation();
+        suppressClick = false;
+      }, true);
+
+      viewport.addEventListener("dragstart", function (event) {
+        event.preventDefault();
+      });
+
+      viewport.addEventListener("pointerdown", function (event) {
+        if (event.button !== undefined && event.button !== 0) {
+          return;
+        }
+
+        if (event.pointerType === "mouse" && event.buttons !== undefined && event.buttons !== 1) {
+          return;
+        }
+
+        activePointerId = event.pointerId;
+        dragStartX = event.clientX;
+        dragStartY = event.clientY;
+        dragDeltaX = 0;
+        dragBaseOffset = getBaseOffset();
+        isPointerDown = true;
+        isDragging = false;
+        stopAutoplay();
+
+        if (viewport.setPointerCapture) {
+          viewport.setPointerCapture(event.pointerId);
+        }
+      });
+
+      viewport.addEventListener("pointermove", function (event) {
+        var deltaX,
+          deltaY;
+
+        if (!isPointerDown || activePointerId !== event.pointerId) {
+          return;
+        }
+
+        deltaX = event.clientX - dragStartX;
+        deltaY = event.clientY - dragStartY;
+
+        if (!isDragging) {
+          if (Math.abs(deltaY) > 10 && Math.abs(deltaY) > Math.abs(deltaX)) {
+            resetDragState();
+            startAutoplay();
+            return;
+          }
+
+          if (Math.abs(deltaX) > 8 && Math.abs(deltaX) > Math.abs(deltaY)) {
+            isDragging = true;
+            carousel.classList.add("news-carousel--is-dragging");
+            track.style.transition = "none";
+          }
+        }
+
+        if (!isDragging) {
+          return;
+        }
+
+        dragDeltaX = deltaX;
+        renderOffset(-dragBaseOffset + dragDeltaX);
+        event.preventDefault();
+      });
+
+      viewport.addEventListener("pointerup", function (event) {
+        var dragThreshold,
+          completedDrag = isDragging;
+
+        if (!isPointerDown || activePointerId !== event.pointerId) {
+          return;
+        }
+
+        if (viewport.releasePointerCapture) {
+          viewport.releasePointerCapture(event.pointerId);
+        }
+
+        dragThreshold = Math.max(45, getStepWidth() * 0.18);
+
+        if (isDragging && Math.abs(dragDeltaX) > dragThreshold) {
+          suppressClick = true;
+
+          if (dragDeltaX < 0) {
+            goTo(currentIndex + 1);
+          } else {
+            goTo(currentIndex - 1);
+          }
+        } else {
+          updateCarousel();
+        }
+
+        resetDragState();
+        startAutoplay();
+
+        if (completedDrag) {
+          window.setTimeout(function () {
+            suppressClick = false;
+          }, 220);
+        }
+      });
+
+      viewport.addEventListener("pointercancel", function (event) {
+        if (!isPointerDown || activePointerId !== event.pointerId) {
+          return;
+        }
+
+        updateCarousel();
+        resetDragState();
+        startAutoplay();
+      });
+
+      window.addEventListener("resize", function () {
+        window.clearTimeout(resizeTimer);
+        resizeTimer = window.setTimeout(function () {
+          refreshMetrics();
+          updateCarousel();
+          startAutoplay();
+        }, 80);
+      });
+
+      refreshMetrics();
+      updateCarousel();
+      startAutoplay();
+    }
+
+    var newsSections = document.querySelectorAll(".news-carousel-section"),
+      newsSectionIndex;
+
+    for (newsSectionIndex = 0; newsSectionIndex < newsSections.length; newsSectionIndex++) {
+      initNewsCarousel(newsSections[newsSectionIndex]);
+    }
+
     /**
      * Live Search
      * @description  create live search results
@@ -1677,3 +1996,145 @@
   }
 
 }());
+
+document.addEventListener("DOMContentLoaded", function () {
+  var mobileNavQuery = window.matchMedia("(max-width: 1199px)");
+  var navbars = document.querySelectorAll(".page-header .rd-navbar");
+
+  function normalizePath(pathname) {
+    var normalized = pathname || "/";
+
+    normalized = normalized.replace(/\/index\.html$/i, "/");
+    normalized = normalized.replace(/\/+$/, "");
+
+    return normalized || "/";
+  }
+
+  function isMobileNav() {
+    return mobileNavQuery.matches;
+  }
+
+  function getTopLevelItem(link, navbar) {
+    var currentItem = link ? link.closest("li") : null;
+
+    while (currentItem && currentItem.parentElement && !currentItem.parentElement.classList.contains("rd-navbar-nav")) {
+      currentItem = currentItem.parentElement.closest("li");
+    }
+
+    return currentItem && navbar.contains(currentItem) ? currentItem : null;
+  }
+
+  function clearActiveItems(navbar) {
+    navbar.querySelectorAll(".rd-navbar-nav li.active").forEach(function (item) {
+      item.classList.remove("active");
+    });
+  }
+
+  function setActiveItem(navbar, link) {
+    var topLevelItem = getTopLevelItem(link, navbar);
+    var nestedItem = link ? link.closest("li") : null;
+
+    if (!topLevelItem) {
+      return;
+    }
+
+    clearActiveItems(navbar);
+    topLevelItem.classList.add("active");
+
+    if (nestedItem && nestedItem !== topLevelItem) {
+      nestedItem.classList.add("active");
+    }
+  }
+
+  function closeMobileNav(navbar) {
+    var toggle = navbar.querySelector(".rd-navbar-toggle");
+    var navWrap = navbar.querySelector(".rd-navbar-nav-wrap");
+
+    if (toggle) {
+      toggle.classList.remove("active");
+    }
+
+    if (navWrap) {
+      navWrap.classList.remove("active");
+    }
+
+    navbar.querySelectorAll(".rd-navbar-submenu.opened, .rd-navbar-submenu.focus").forEach(function (item) {
+      item.classList.remove("opened", "focus");
+    });
+  }
+
+  function syncActiveItem(navbar) {
+    var currentPath = normalizePath(window.location.pathname);
+    var currentHash = window.location.hash;
+    var matchedLink = null;
+    var relatedPathFallbacks = {
+      "/category.html": "projects.html",
+      "/project.html": "projects.html"
+    };
+
+    navbar.querySelectorAll(".rd-navbar-nav a[href]").forEach(function (link) {
+      var href = link.getAttribute("href");
+      var url;
+      var linkPath;
+
+      if (!href || href === "#") {
+        return;
+      }
+
+      try {
+        url = new URL(href, window.location.href);
+      } catch (error) {
+        return;
+      }
+
+      linkPath = normalizePath(url.pathname);
+
+      if (url.hash && linkPath === currentPath && url.hash === currentHash) {
+        matchedLink = link;
+        return;
+      }
+
+      if (!matchedLink && !url.hash && linkPath === currentPath) {
+        matchedLink = link;
+      }
+    });
+
+    clearActiveItems(navbar);
+
+    if (!matchedLink && relatedPathFallbacks[currentPath]) {
+      matchedLink = navbar.querySelector('.rd-navbar-nav a[href="' + relatedPathFallbacks[currentPath] + '"]');
+    }
+
+    if (matchedLink) {
+      setActiveItem(navbar, matchedLink);
+    }
+  }
+
+  navbars.forEach(function (navbar) {
+    navbar.querySelectorAll(".rd-navbar-nav a[href]").forEach(function (link) {
+      link.addEventListener("click", function () {
+        if (!isMobileNav()) {
+          return;
+        }
+
+        setActiveItem(navbar, link);
+
+        window.setTimeout(function () {
+          closeMobileNav(navbar);
+        }, 0);
+      });
+    });
+
+    syncActiveItem(navbar);
+  });
+
+  window.addEventListener("hashchange", function () {
+    navbars.forEach(syncActiveItem);
+  });
+
+  window.addEventListener("resize", function () {
+    if (!isMobileNav()) {
+      navbars.forEach(closeMobileNav);
+    }
+  });
+});
