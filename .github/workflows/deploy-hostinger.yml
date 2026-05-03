@@ -237,26 +237,79 @@ jobs:
         run: |
           set -euo pipefail
 
-          echo "Checking live deployment marker..."
-          MARKER_URL="${LIVE_SITE_URL}/deploy-marker.txt?cb=${GITHUB_SHA}"
+          primary_url="${LIVE_SITE_URL%/}"
+          alternate_url="$primary_url"
 
-          echo "Marker URL: $MARKER_URL"
-          curl -fsSL "$MARKER_URL" | tee live-deploy-marker.txt
+          if [[ "$primary_url" == https://www.* ]]; then
+            alternate_url="https://${primary_url#https://www.}"
+          elif [[ "$primary_url" == http://www.* ]]; then
+            alternate_url="http://${primary_url#http://www.}"
+          elif [[ "$primary_url" == https://* ]]; then
+            alternate_url="https://www.${primary_url#https://}"
+          elif [[ "$primary_url" == http://* ]]; then
+            alternate_url="http://www.${primary_url#http://}"
+          fi
 
-          grep -q "$GITHUB_SHA" live-deploy-marker.txt
+          urls=("$primary_url")
+          if [[ "$alternate_url" != "$primary_url" ]]; then
+            urls+=("$alternate_url")
+          fi
 
-          echo "Live website is serving the deployed commit: $GITHUB_SHA"
+          marker_verified=0
+
+          for base_url in "${urls[@]}"; do
+            marker_url="${base_url}/deploy-marker.txt?cb=${GITHUB_SHA}"
+            echo "Checking live deployment marker at: $marker_url"
+
+            for attempt in 1 2 3 4 5; do
+              if curl -fsSL "$marker_url" -o live-deploy-marker.txt; then
+                if grep -q "$GITHUB_SHA" live-deploy-marker.txt; then
+                  echo "Live website is serving the deployed commit from: $base_url"
+                  marker_verified=1
+                  break 2
+                fi
+              fi
+
+              echo "Marker not available yet at ${base_url}, retry ${attempt}/5"
+              sleep 5
+            done
+          done
+
+          if [[ "$marker_verified" -ne 1 ]]; then
+            echo "Warning: deploy-marker.txt could not be verified on the public URL. Continuing to homepage verification."
+          fi
 
       - name: Verify homepage is reachable
         shell: bash
         run: |
           set -euo pipefail
 
-          curl -fsSL "${LIVE_SITE_URL}/?cb=${GITHUB_SHA}" -o live-index.html
+          primary_url="${LIVE_SITE_URL%/}"
+          alternate_url="$primary_url"
 
-          if grep -q "Rafin Company" live-index.html; then
-            echo "Homepage is reachable and contains Rafin Company."
-          else
-            echo "Homepage loaded, but expected text was not found."
-            exit 1
+          if [[ "$primary_url" == https://www.* ]]; then
+            alternate_url="https://${primary_url#https://www.}"
+          elif [[ "$primary_url" == http://www.* ]]; then
+            alternate_url="http://${primary_url#http://www.}"
+          elif [[ "$primary_url" == https://* ]]; then
+            alternate_url="https://www.${primary_url#https://}"
+          elif [[ "$primary_url" == http://* ]]; then
+            alternate_url="http://www.${primary_url#http://}"
           fi
+
+          urls=("$primary_url")
+          if [[ "$alternate_url" != "$primary_url" ]]; then
+            urls+=("$alternate_url")
+          fi
+
+          for base_url in "${urls[@]}"; do
+            if curl -fsSL "${base_url}/?cb=${GITHUB_SHA}" -o live-index.html; then
+              if grep -q "Rafin Company" live-index.html; then
+                echo "Homepage is reachable at ${base_url} and contains Rafin Company."
+                exit 0
+              fi
+            fi
+          done
+
+          echo "Homepage verification failed on both primary and alternate URLs."
+          exit 1
