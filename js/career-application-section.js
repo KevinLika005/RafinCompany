@@ -85,19 +85,19 @@
             <form id="${FORM_ID}" class="rd-mailform text-left" data-form-output="${FORM_OUTPUT_ID}" data-form-type="job-application" method="post" action="${FORM_ACTION}" enctype="multipart/form-data">
               <div class="form-wrap">
                 <label class="form-label" for="career-application-name">${escapeHtml(getLocalizedValue(fields.name))}</label>
-                <input class="form-input" id="career-application-name" type="text" name="name" data-constraints="@Required" />
+                <input class="form-input" id="career-application-name" type="text" name="name" data-constraints="@Required" required />
               </div>
               <div class="form-wrap">
                 <label class="form-label" for="career-application-phone">${escapeHtml(getLocalizedValue(fields.phone))}</label>
-                <input class="form-input" id="career-application-phone" type="tel" name="phone" inputmode="tel" autocomplete="tel" data-constraints="@Required" />
+                <input class="form-input" id="career-application-phone" type="tel" name="phone" inputmode="tel" autocomplete="tel" data-constraints="@Required" required />
               </div>
               <div class="form-wrap">
                 <label class="form-label" for="career-application-email">${escapeHtml(getLocalizedValue(fields.email))}</label>
-                <input class="form-input" id="career-application-email" type="email" name="email" data-constraints="@Email @Required" />
+                <input class="form-input" id="career-application-email" type="email" name="email" data-constraints="@Email @Required" required />
               </div>
               <div class="form-wrap">
                 <label class="form-label-outside" for="${SELECT_ID}">${escapeHtml(positionLabel)}</label>
-                <select class="form-input" id="${SELECT_ID}" name="job_position" data-constraints="@Required">
+                <select class="form-input" id="${SELECT_ID}" name="job_position" data-constraints="@Required" required>
                   ${renderJobOptions()}
                 </select>
               </div>
@@ -107,7 +107,7 @@
               </div>
               <div class="form-wrap">
                 <label class="form-label" for="${MESSAGE_ID}">${escapeHtml(getLocalizedValue(fields.message))}</label>
-                <textarea class="form-input" id="${MESSAGE_ID}" name="message" data-message-template="${escapeHtml(messageTemplate)}" data-constraints="@Required"></textarea>
+                <textarea class="form-input" id="${MESSAGE_ID}" name="message" data-message-template="${escapeHtml(messageTemplate)}" data-constraints="@Required" required></textarea>
               </div>
               <input type="hidden" name="form-type" value="job-application" />
               <input class="form-honeypot" type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" />

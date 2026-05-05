@@ -66,18 +66,18 @@
         <div class="contacts-layout">
           <article class="contacts-form-card">
             <h5>${escapeHtml(getLocalizedValue(form.title))}</h5>
-            <form class="rd-mailform text-left" data-form-output="form-output-global" data-form-type="contact" method="${escapeHtml(form.method || "post")}" action="${formAction}">
+            <form class="rd-mailform text-left" data-form-output="form-output-global" data-form-type="contact" method="${escapeHtml(form.method || "post")}" action="${formAction}" enctype="multipart/form-data">
               <div class="form-wrap">
                 <label class="form-label" for="contacts-name">${escapeHtml(getLocalizedValue(fields.name))}</label>
-                <input class="form-input" id="contacts-name" type="text" name="name" data-constraints="@Required" />
+                <input class="form-input" id="contacts-name" type="text" name="name" data-constraints="@Required" required />
               </div>
               <div class="form-wrap">
                 <label class="form-label" for="contacts-phone">${escapeHtml(getLocalizedValue(fields.phone))}</label>
-                <input class="form-input" id="contacts-phone" type="tel" name="phone" inputmode="tel" autocomplete="tel" data-constraints="@Required" />
+                <input class="form-input" id="contacts-phone" type="tel" name="phone" inputmode="tel" autocomplete="tel" data-constraints="@Required" required />
               </div>
               <div class="form-wrap">
                 <label class="form-label" for="contacts-email">${escapeHtml(getLocalizedValue(fields.email))}</label>
-                <input class="form-input" id="contacts-email" type="email" name="email" data-constraints="@Email @Required" />
+                <input class="form-input" id="contacts-email" type="email" name="email" data-constraints="@Email @Required" required />
               </div>
               <div class="form-wrap form-wrap--file">
                 <label class="form-label-outside" for="contacts-cv">${escapeHtml(getLocalizedValue(fields.cv) || "Ngarko CV / Dokument")}</label>
@@ -85,7 +85,7 @@
               </div>
               <div class="form-wrap">
                 <label class="form-label" for="contacts-message">${escapeHtml(getLocalizedValue(fields.message))}</label>
-                <textarea class="form-input" id="contacts-message" name="message" data-constraints="@Required"></textarea>
+                <textarea class="form-input" id="contacts-message" name="message" data-constraints="@Required" required></textarea>
               </div>
               <input type="hidden" name="form-type" value="contact" />
               <input class="form-honeypot" type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" />
