@@ -157,6 +157,57 @@ jobs:
           test -f deploy/css/redesign.css
           test -f deploy/js/script.js
 
+          export ASSET_VERSION="${GITHUB_SHA::12}"
+          python <<'PY'
+          from pathlib import Path
+          import os
+          import re
+
+          version = os.environ["ASSET_VERSION"]
+          local_roots = (
+              "css/",
+              "js/",
+              "data/",
+              "images/",
+              "fonts/",
+              "rafin_transparent_logos_png/",
+              "rafin-logo",
+          )
+          attr_pattern = re.compile(r'((?:src|href)\s*=\s*["\'])([^"\']+)(["\'])', re.IGNORECASE)
+
+          def with_version(url: str) -> str:
+              if not url:
+                  return url
+              lowered = url.lower()
+              if lowered.startswith(("http://", "https://", "//", "mailto:", "tel:", "javascript:", "#", "data:")):
+                  return url
+              if not url.startswith(local_roots):
+                  return url
+
+              fragment = ""
+              if "#" in url:
+                  url, fragment = url.split("#", 1)
+
+              query = ""
+              if "?" in url:
+                  url, query = url.split("?", 1)
+
+              params = [part for part in query.split("&") if part and not part.startswith("v=")]
+              params.insert(0, f"v={version}")
+              versioned = f"{url}?{'&'.join(params)}"
+
+              if fragment:
+                  versioned += f"#{fragment}"
+
+              return versioned
+
+          for html_path in Path("deploy").rglob("*.html"):
+              original = html_path.read_text(encoding="utf-8")
+              updated = attr_pattern.sub(lambda match: f"{match.group(1)}{with_version(match.group(2))}{match.group(3)}", original)
+              if updated != original:
+                  html_path.write_text(updated, encoding="utf-8")
+          PY
+
           echo "commit=${GITHUB_SHA}" > deploy/deploy-marker.txt
           echo "deployed_at_utc=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> deploy/deploy-marker.txt
           echo "branch=${GITHUB_REF_NAME}" >> deploy/deploy-marker.txt
@@ -211,7 +262,7 @@ jobs:
           pwd
           cls -la
 
-          mirror -R --verbose --transfer-all --overwrite deploy/ .
+          mirror -R --verbose --transfer-all --overwrite --delete deploy/ .
 
           echo "Remote folder after upload:"
           cls -la
