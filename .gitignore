@@ -4,6 +4,11 @@ homepage-*.png
 
 # Local mail/debug captures (generated at runtime)
 data/*.jsonl
+bat/rd-mailform.config.json
+bat/rd-mailform.local.php
+rafin-mail-config.php
+*.local.php
+.env
 
 # OS/editor noise
 Thumbs.db

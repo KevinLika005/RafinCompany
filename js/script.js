@@ -767,16 +767,31 @@
     }
 
     function attachFormValidator(elements) {
-      for (var i = 0; i < elements.length; i++) {
-        var o = $(elements[i]), v;
-        o.addClass("form-control-has-validation").after("<span class='form-validation'></span>");
-        v = o.parent().find(".form-validation");
+      var $elements = $(elements),
+        elementsToBind = $();
+
+      for (var i = 0; i < $elements.length; i++) {
+        var o = $($elements[i]), v;
+
+        if (!o.hasClass("form-control-has-validation")) {
+          o.addClass("form-control-has-validation");
+        }
+
+        if (!o.siblings(".form-validation").length) {
+          o.after("<span class='form-validation'></span>");
+        }
+
+        v = o.siblings(".form-validation").first();
         if (v.is(":last-child")) {
           o.addClass("form-control-last-child");
         }
+
+        if (!o.data("rafinValidationBound")) {
+          elementsToBind = elementsToBind.add(o);
+        }
       }
 
-      elements
+      elementsToBind
         .on('input change propertychange blur', function (e) {
           var $this = $(this), results;
 
@@ -801,6 +816,10 @@
           }
         })
         .regula('bind');
+
+      elementsToBind.each(function () {
+        $(this).data("rafinValidationBound", true);
+      });
 
       var regularConstraintsMessages = [
         {
@@ -1490,11 +1509,16 @@
     function normalizeMailFormResult(result, xhr) {
       var rawResult = '',
         headerCode = '',
-        diagnostic = '',
         requestId = '',
+        responseMessage = '',
         matchedCode;
 
-      if (typeof result === 'string') {
+      if (result && typeof result === 'object' && typeof result.code === 'string') {
+        headerCode = result.code;
+        responseMessage = typeof result.message === 'string' ? result.message : '';
+        requestId = typeof result.requestId === 'string' ? result.requestId : '';
+        rawResult = typeof result.raw === 'string' ? result.raw : '';
+      } else if (typeof result === 'string') {
         rawResult = result;
       } else if (result && typeof result.responseText === 'string') {
         rawResult = result.responseText;
@@ -1505,13 +1529,11 @@
       rawResult = String(rawResult == null ? '' : rawResult).trim();
 
       if (xhr && typeof xhr.getResponseHeader === 'function') {
-        headerCode = xhr.getResponseHeader('X-Rafin-Mail-Code') || '';
-        diagnostic = xhr.getResponseHeader('X-Rafin-Mail-Diagnostic') || '';
-        requestId = xhr.getResponseHeader('X-Rafin-Mail-Request-Id') || '';
+        headerCode = headerCode || xhr.getResponseHeader('X-Rafin-Mail-Code') || '';
+        requestId = requestId || xhr.getResponseHeader('X-Rafin-Mail-Request-Id') || '';
       } else if (result && typeof result.getResponseHeader === 'function') {
-        headerCode = result.getResponseHeader('X-Rafin-Mail-Code') || '';
-        diagnostic = result.getResponseHeader('X-Rafin-Mail-Diagnostic') || '';
-        requestId = result.getResponseHeader('X-Rafin-Mail-Request-Id') || '';
+        headerCode = headerCode || result.getResponseHeader('X-Rafin-Mail-Code') || '';
+        requestId = requestId || result.getResponseHeader('X-Rafin-Mail-Request-Id') || '';
       }
 
       matchedCode = String(headerCode || rawResult).match(/MF\d{3}/);
@@ -1519,30 +1541,20 @@
       return {
         code: matchedCode ? matchedCode[0] : 'MF255',
         raw: rawResult,
-        diagnostic: diagnostic,
-        requestId: requestId
+        requestId: requestId,
+        message: responseMessage
       };
     }
 
-    function getMailFormMessage(code, rawResult, fallbackMessages, diagnostic) {
+    function getMailFormMessage(code, rawResult, fallbackMessages, responseMessage) {
       var isLocalHost = /^(localhost|127\.0\.0\.1)$/i.test(window.location.hostname || '');
-      var diagnosticMessages = {
-        'php_openssl_missing': 'Server OpenSSL support is missing for secure SMTP.',
-        'smtp_connect_failed': 'Could not connect to the mail server.',
-        'smtp_tls_failed': 'Secure mail connection failed (TLS).',
-        'smtp_auth_failed': 'Mail login failed. Check sender credentials.',
-        'recipient_missing': 'Mail recipient is not configured.',
-        'mail_config_invalid': 'Mail server configuration is incomplete or invalid.',
-        'localhost_live_delivery_blocked': 'Live mail delivery is blocked on localhost by configuration.',
-        'anti_spam_rejected': 'Submission blocked by anti-spam checks. Wait and try again.'
-      };
 
       if (code === 'MF255' && isLocalHost && /(<\?php|<!doctype|<html[\s>])/i.test(rawResult)) {
         return 'Run the site through PHP locally. A static server cannot execute bat/rd-mailform.php.';
       }
 
-      if (diagnostic && diagnosticMessages[diagnostic]) {
-        return diagnosticMessages[diagnostic];
+      if (responseMessage) {
+        return responseMessage;
       }
 
       return fallbackMessages[code] || fallbackMessages.MF255;
@@ -1551,7 +1563,7 @@
     function renderMailFormResult(form, output, normalizedResult, fallbackMessages) {
       var select = form.find('select'),
         code = normalizedResult.code,
-        message = getMailFormMessage(code, normalizedResult.raw, fallbackMessages, normalizedResult.diagnostic),
+        message = getMailFormMessage(code, normalizedResult.raw, fallbackMessages, normalizedResult.message),
         isSuccess = code === "MF000";
 
       form.removeClass('form-in-process success');
@@ -1591,127 +1603,193 @@
       }, 3500);
     }
 
+    function getMailFormOutput(form) {
+      var outputId = form.attr("data-form-output");
+      return outputId ? $("#" + outputId) : $();
+    }
+
+    function prepareMailForm(form) {
+      form.attr('novalidate', 'novalidate');
+      ensureAntiSpamFields(form);
+      attachFormValidator(form.find('[data-constraints]'));
+    }
+
+    function verifyMailFormCaptcha(form, output) {
+      var captcha = form.find('.recaptcha');
+
+      if (!captcha.length) {
+        return true;
+      }
+
+      var captchaToken = captcha.find('.g-recaptcha-response').val(),
+        captchaFlag = true,
+        captchaMsg = {
+          'CPT001': 'Please, setup you "site key" and "secret key" of reCaptcha',
+          'CPT002': 'Something wrong with google reCaptcha'
+        };
+
+      $.ajax({
+        method: "POST",
+        url: "bat/reCaptcha.php",
+        data: {'g-recaptcha-response': captchaToken},
+        async: false
+      })
+        .done(function (responceCode) {
+          if (responceCode !== 'CPT000') {
+            if (output.hasClass("snackbars")) {
+              output.html('<p class="snackbars-left"><span class="icon icon-xxs mdi mdi-alert-outline text-middle"></span><span>' + captchaMsg[responceCode] + '</span></p>');
+            } else {
+              output.text(captchaMsg[responceCode]);
+            }
+
+            output.addClass("active error");
+            captchaFlag = false;
+          }
+        })
+        .fail(function () {
+          if (output.hasClass("snackbars")) {
+            output.html('<p class="snackbars-left"><span class="icon icon-xxs mdi mdi-alert-outline text-middle"></span><span>Captcha validation failed. Please try again.</span></p>');
+          } else {
+            output.text('Captcha validation failed. Please try again.');
+          }
+
+          output.addClass("active error");
+          captchaFlag = false;
+        });
+
+      return captchaFlag;
+    }
+
+    function parseMailFormJson(rawText) {
+      if (typeof rawText !== 'string' || !rawText.trim()) {
+        return null;
+      }
+
+      try {
+        return JSON.parse(rawText);
+      } catch (error) {
+        return null;
+      }
+    }
+
+    function setMailFormPendingState(form, output) {
+      form.addClass('form-in-process');
+
+      if (output.hasClass("snackbars")) {
+        output.html('<p><span class="icon text-middle fa fa-circle-o-notch fa-spin icon-xxs"></span><span>Sending</span></p>');
+        output.addClass("active");
+      } else {
+        output.text('Sending').addClass("active");
+      }
+    }
+
+    function submitMailForm(form, fallbackMessages) {
+      var output = getMailFormOutput(form),
+        inputs = form.find("[data-constraints]"),
+        captcha = form.find('.recaptcha'),
+        action = form.attr("action") || "bat/rd-mailform.php",
+        method = String(form.attr("method") || "POST").toUpperCase(),
+        formType = form.attr("data-form-type") || form.find('input[name="form-type"]').val() || "contact";
+
+      prepareMailForm(form);
+      output.removeClass("active error success");
+
+      if (!isValidated(inputs, captcha)) {
+        renderMailFormResult(form, output, {
+          code: 'MF005',
+          raw: '',
+          requestId: '',
+          message: fallbackMessages.MF005
+        }, fallbackMessages);
+        return;
+      }
+
+      if (!verifyMailFormCaptcha(form, output)) {
+        return;
+      }
+
+      if (form.data("mailformSubmitting")) {
+        return;
+      }
+
+      var formData = new FormData(form[0]);
+      formData.set("form-type", formType);
+
+      form.data("mailformSubmitting", true);
+      setMailFormPendingState(form, output);
+
+      fetch(action, {
+        method: method,
+        body: formData,
+        credentials: 'same-origin',
+        headers: {
+          'Accept': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      })
+        .then(function (response) {
+          return response.text().then(function (rawText) {
+            var payload = parseMailFormJson(rawText),
+              normalizedResult = normalizeMailFormResult({
+                code: payload && typeof payload.code === 'string' ? payload.code : '',
+                message: payload && typeof payload.message === 'string' ? payload.message : '',
+                requestId: response.headers.get('X-Rafin-Mail-Request-Id') || '',
+                raw: rawText
+              });
+
+            if (captcha.length && typeof grecaptcha !== "undefined") {
+              grecaptcha.reset();
+            }
+
+            form.data("mailformSubmitting", false);
+            renderMailFormResult(form, output, normalizedResult, fallbackMessages);
+          });
+        })
+        .catch(function () {
+          if (captcha.length && typeof grecaptcha !== "undefined") {
+            grecaptcha.reset();
+          }
+
+          form.data("mailformSubmitting", false);
+          renderMailFormResult(form, output, {
+            code: 'MF255',
+            raw: '',
+            requestId: '',
+            message: 'Unable to send the form right now. Please try again later.'
+          }, fallbackMessages);
+        });
+    }
+
     if (plugins.rdMailForm.length) {
-      var i, j, k,
+      var i,
         msg = {
-          'MF000': 'Message accepted for delivery.',
-          'MF001': 'Recipients are not set!',
+          'MF000': 'Message sent successfully.',
+          'MF001': 'Mail delivery is temporarily unavailable. Please try again later or contact info@rafincompany.com.',
           'MF005': 'Please review the highlighted form fields.',
-          'MF006': 'Mail delivery is not available with the current server configuration.',
+          'MF006': 'Mail delivery is temporarily unavailable. Please try again later or contact info@rafincompany.com.',
           'MF007': 'Submission blocked by anti-spam checks. Please wait and try again.',
-          'MF002': 'Form will not work locally!',
-          'MF003': 'Please, define email field in your form!',
-          'MF004': 'Please, define type of your form!',
-          'MF254': 'Mail server rejected the message. Please try again later.',
+          'MF002': 'Unable to send the form right now. Please try again later.',
+          'MF003': 'Please review the highlighted form fields.',
+          'MF004': 'Unable to process the form submission.',
+          'MF254': 'Mail delivery is temporarily unavailable. Please try again later or contact info@rafincompany.com.',
           'MF255': 'Unexpected server error. Please try again later.'
         };
 
       for (i = 0; i < plugins.rdMailForm.length; i++) {
-        var $form = $(plugins.rdMailForm[i]),
-          formHasCaptcha = false;
-
-        ensureAntiSpamFields($form);
-
-        $form.attr('novalidate', 'novalidate').ajaxForm({
-          data: {
-            "form-type": $form.attr("data-form-type") || "contact",
-            "counter": i
-          },
-          beforeSubmit: function (arr, $form, options) {
-            if (isNoviBuilder)
-              return;
-
-            var form = $(plugins.rdMailForm[this.extraData.counter]),
-              inputs = form.find("[data-constraints]"),
-              output = $("#" + form.attr("data-form-output")),
-              captcha = form.find('.recaptcha'),
-              captchaFlag = true;
-
-            ensureAntiSpamFields(form);
-
-            output.removeClass("active error success");
-
-            if (isValidated(inputs, captcha)) {
-
-              // veify reCaptcha
-              if (captcha.length) {
-                var captchaToken = captcha.find('.g-recaptcha-response').val(),
-                  captchaMsg = {
-                    'CPT001': 'Please, setup you "site key" and "secret key" of reCaptcha',
-                    'CPT002': 'Something wrong with google reCaptcha'
-                  };
-
-                formHasCaptcha = true;
-
-                $.ajax({
-                  method: "POST",
-                  url: "bat/reCaptcha.php",
-                  data: {'g-recaptcha-response': captchaToken},
-                  async: false
-                })
-                  .done(function (responceCode) {
-                    if (responceCode !== 'CPT000') {
-                      if (output.hasClass("snackbars")) {
-                        output.html('<p><span class="icon text-middle mdi mdi-check icon-xxs"></span><span>' + captchaMsg[responceCode] + '</span></p>')
-
-                        setTimeout(function () {
-                          output.removeClass("active");
-                        }, 3500);
-
-                        captchaFlag = false;
-                      } else {
-                        output.html(captchaMsg[responceCode]);
-                      }
-
-                      output.addClass("active");
-                    }
-                  });
-              }
-
-              if (!captchaFlag) {
-                return false;
-              }
-
-              form.addClass('form-in-process');
-
-              if (output.hasClass("snackbars")) {
-                output.html('<p><span class="icon text-middle fa fa-circle-o-notch fa-spin icon-xxs"></span><span>Sending</span></p>');
-                output.addClass("active");
-              }
-            } else {
-              return false;
-            }
-          },
-          error: function (result) {
-            if (isNoviBuilder)
-              return;
-
-            var output = $("#" + $(plugins.rdMailForm[this.extraData.counter]).attr("data-form-output")),
-              form = $(plugins.rdMailForm[this.extraData.counter]),
-              normalizedResult = normalizeMailFormResult(result);
-
-            if (formHasCaptcha) {
-              grecaptcha.reset();
-            }
-
-            renderMailFormResult(form, output, normalizedResult, msg);
-          },
-          success: function (result, statusText, xhr) {
-            if (isNoviBuilder)
-              return;
-
-            var form = $(plugins.rdMailForm[this.extraData.counter]),
-              output = $("#" + form.attr("data-form-output")),
-              normalizedResult = normalizeMailFormResult(result, xhr);
-
-            if (formHasCaptcha) {
-              grecaptcha.reset();
-            }
-
-            renderMailFormResult(form, output, normalizedResult, msg);
-          }
-        });
+        prepareMailForm($(plugins.rdMailForm[i]));
       }
+
+      $(document)
+        .off('submit.rafinMailForm')
+        .on('submit.rafinMailForm', '.rd-mailform', function (event) {
+          if (isNoviBuilder) {
+            return false;
+          }
+
+          event.preventDefault();
+          submitMailForm($(this), msg);
+          return false;
+        });
     }
 
 

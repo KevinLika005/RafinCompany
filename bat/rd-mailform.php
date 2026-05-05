@@ -41,6 +41,46 @@ function mfResponseHttpStatus($code)
     }
 }
 
+function mfIsAjaxRequest()
+{
+    $requestedWith = '';
+    if (isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
+        $requestedWith = strtolower(trim((string)$_SERVER['HTTP_X_REQUESTED_WITH']));
+    }
+
+    if ($requestedWith === 'xmlhttprequest') {
+        return true;
+    }
+
+    $accept = '';
+    if (isset($_SERVER['HTTP_ACCEPT'])) {
+        $accept = strtolower((string)$_SERVER['HTTP_ACCEPT']);
+    }
+
+    return strpos($accept, 'application/json') !== false;
+}
+
+function mfGetPublicMessageForCode($code)
+{
+    switch ($code) {
+        case 'MF000':
+            return 'Message sent successfully.';
+        case 'MF001':
+            return 'Mail delivery is temporarily unavailable. Please try again later or contact info@rafincompany.com.';
+        case 'MF005':
+            return 'Please review the highlighted form fields.';
+        case 'MF006':
+        case 'MF254':
+            return 'Mail delivery is temporarily unavailable. Please try again later or contact info@rafincompany.com.';
+        case 'MF007':
+            return 'Submission blocked by anti-spam checks. Please wait and try again.';
+        case 'MF004':
+            return 'The form submission could not be processed.';
+        default:
+            return 'Unexpected server error. Please try again later.';
+    }
+}
+
 function mfSanitizeHeaderValue($value)
 {
     $value = preg_replace('/[\x00-\x1F\x7F]+/', ' ', (string)$value);
@@ -110,6 +150,66 @@ function mfClassifyMailErrorReason($errorInfo)
     return 'smtp_delivery_failed';
 }
 
+function mfBuildSafeReturnUrl($status)
+{
+    $status = $status === 'success' ? 'success' : 'error';
+    $fallbackPath = '../index.html';
+    $requestHost = mfGetRequestHost();
+
+    if (!isset($_SERVER['HTTP_REFERER'])) {
+        return $fallbackPath . '?formStatus=' . rawurlencode($status);
+    }
+
+    $referer = trim((string)$_SERVER['HTTP_REFERER']);
+    if ($referer === '') {
+        return $fallbackPath . '?formStatus=' . rawurlencode($status);
+    }
+
+    $parts = @parse_url($referer);
+    if ($parts === false) {
+        return $fallbackPath . '?formStatus=' . rawurlencode($status);
+    }
+
+    if (isset($parts['host']) && $parts['host'] !== '') {
+        $refererHost = strtolower(trim((string)$parts['host']));
+        if ($requestHost !== '' && $refererHost !== $requestHost) {
+            return $fallbackPath . '?formStatus=' . rawurlencode($status);
+        }
+    }
+
+    $path = isset($parts['path']) && $parts['path'] !== '' ? $parts['path'] : '/index.html';
+    $query = array();
+    if (isset($parts['query']) && $parts['query'] !== '') {
+        parse_str($parts['query'], $query);
+    }
+
+    $query['formStatus'] = $status;
+    unset($query['code'], $query['requestId'], $query['message']);
+
+    $target = $path;
+    $encodedQuery = http_build_query($query);
+    if ($encodedQuery !== '') {
+        $target .= '?' . $encodedQuery;
+    }
+
+    return $target;
+}
+
+function mfRenderSafeHtmlResponse($status)
+{
+    $status = $status === 'success' ? 'success' : 'error';
+    $backUrl = mfBuildSafeReturnUrl($status);
+    $message = $status === 'success'
+        ? 'Your form was processed. You can return to the website.'
+        : 'Your form could not be processed. Please return to the website and try again.';
+
+    return '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Rafin Company</title></head><body style="font-family:Arial,sans-serif;padding:24px;line-height:1.5;"><p>'
+        . mfEscapeHtml($message)
+        . '</p><p><a href="'
+        . mfEscapeHtml($backUrl)
+        . '">Return to the website</a></p></body></html>';
+}
+
 function mfExitWithCode($code, $logMessage = '', $publicReason = '')
 {
     $bufferedOutput = '';
@@ -129,14 +229,19 @@ function mfExitWithCode($code, $logMessage = '', $publicReason = '')
         error_log('[rafin-mailform] ' . $logMessage);
     }
 
+    $isSuccess = $code === 'MF000';
+    $publicMessage = mfGetPublicMessageForCode($code);
+    $responsePayload = array(
+        'ok' => $isSuccess,
+        'code' => $code,
+        'message' => $publicMessage
+    );
+
     if (!headers_sent()) {
         http_response_code(mfResponseHttpStatus($code));
-        header('Content-Type: text/plain; charset=UTF-8');
+        header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
         header('X-Rafin-Mail-Code: ' . $code);
         header('X-Rafin-Mail-Request-Id: ' . mfSanitizeHeaderValue(isset($GLOBALS['mfRequestId']) ? $GLOBALS['mfRequestId'] : ''));
-        if ($publicReason !== '') {
-            header('X-Rafin-Mail-Diagnostic: ' . mfSanitizeHeaderValue($publicReason));
-        }
     }
 
     mfDebugLog('request_finished', array(
@@ -146,7 +251,26 @@ function mfExitWithCode($code, $logMessage = '', $publicReason = '')
         'detail' => $logMessage
     ));
 
-    die($code);
+    if (mfIsAjaxRequest()) {
+        if (!headers_sent()) {
+            header('Content-Type: application/json; charset=UTF-8');
+        }
+        die(json_encode($responsePayload));
+    }
+
+    $redirectStatus = $isSuccess ? 'success' : 'error';
+    $returnUrl = mfBuildSafeReturnUrl($redirectStatus);
+
+    if (!headers_sent() && $returnUrl !== '') {
+        header('Location: ' . $returnUrl, true, 303);
+        die();
+    }
+
+    if (!headers_sent()) {
+        header('Content-Type: text/html; charset=UTF-8');
+    }
+
+    die(mfRenderSafeHtmlResponse($redirectStatus));
 }
 
 function mfEnvString($key, $defaultValue)
@@ -190,18 +314,31 @@ function mfEnvBool($key, $defaultValue)
 
 function mfLoadMailConfig()
 {
-    $configPath = __DIR__ . '/rd-mailform.config.json';
-    if (!is_file($configPath) || !is_readable($configPath)) {
-        return array();
+    $config = array();
+    $configPaths = array();
+    $allowLocalConfig = PHP_SAPI === 'cli' || mfIsLocalDevelopmentRequest(mfGetRemoteIpAddress());
+
+    if ($allowLocalConfig) {
+        $configPaths[] = __DIR__ . '/rd-mailform.local.php';
     }
 
-    $raw = file_get_contents($configPath);
-    if ($raw === false || trim($raw) === '') {
-        return array();
+    // Later merges override earlier ones, so private config stays ahead of local fallback.
+    $configPaths[] = dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'rafin-mail-config.php';
+
+    foreach ($configPaths as $configPath) {
+        if (!is_file($configPath) || !is_readable($configPath)) {
+            continue;
+        }
+
+        $loaded = require $configPath;
+        if (!is_array($loaded)) {
+            continue;
+        }
+
+        $config = array_merge($config, $loaded);
     }
 
-    $decoded = json_decode($raw, true);
-    return is_array($decoded) ? $decoded : array();
+    return $config;
 }
 
 function mfConfigString($config, $envKey, $configKey, $defaultValue)

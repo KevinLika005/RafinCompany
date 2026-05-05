@@ -90,7 +90,6 @@
     const footerContainer = document.getElementById("footer-company-container");
     if (!footerContainer) return;
 
-    const formStartedAt = Math.floor(Date.now() / 1000);
     const contactHref = document.getElementById("contacts") ? "#contacts" : "index.html#contacts";
     const depsHtml = departments
       .map((dep) => {
@@ -142,13 +141,12 @@
     const socialLinksHtml = socialConfig
       .map((item) => {
         const url = socialLinks[item.key];
-        if (isRenderableSocialUrl(url)) {
-          return `<li><a aria-label="${item.label}" class="${item.iconClass}" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer"></a></li>`;
-        }
-
-        return `<li><span aria-label="${item.label}" class="${item.iconClass} footer-social-list__placeholder" role="img"></span></li>`;
+        const href = isRenderableSocialUrl(url) ? escapeHtml(url) : "#";
+        const targetAttrs = isRenderableSocialUrl(url) ? ` target="_blank" rel="noopener noreferrer"` : "";
+        return `<li><a aria-label="${item.label}" class="${item.iconClass}" href="${href}"${targetAttrs}></a></li>`;
       })
       .join("");
+    const socialListMarkup = `<ul class="footer-social-list">${socialLinksHtml}</ul>`;
 
     const showAddress = isRenderableAddress(site);
     const addressLine = showAddress ? `${site.address.street}, ${site.address.property}, ${site.address.city}, ${site.address.country}` : "";
@@ -156,40 +154,26 @@
     footerContainer.innerHTML = `
       <section class="section-lg redesign-footer-main">
         <div class="container">
-          <div class="row row-50">
+          <div class="row row-30">
             <div class="col-lg-4">
               <div class="footer-brand-wrap">
                 <a href="index.html" class="brand-name">
-                  <img src="rafin-logo-white-transparent.png" alt="${escapeHtml(site.companyName)}" width="180" height="23" />
+                  <img src="rafin-logo-white-transparent.png" alt="${escapeHtml(site.companyName)}" width="120" height="120" />
                 </a>
-                <p>${escapeHtml(site.companyName)} est. ${escapeHtml(site.established)}</p>
               </div>
-              ${showAddress ? `<div class="footer-address-card">
-                <h6>${escapeHtml(t("Address", "Address"))}</h6>
-                <p>${escapeHtml(addressLine)}</p>
-              </div>` : ""}
-              <ul class="footer-social-list">${socialLinksHtml}</ul>
+              ${socialListMarkup}
             </div>
             <div class="col-lg-8">
-              <div class="footer-section-head">
-                <h5>${escapeHtml(t("Departments", "Departments"))}</h5>
-              </div>
-              <div class="footer-departments-grid">
-                ${depsHtml}
-              </div>
-              <div class="footer-newsletter">
-                <h6>${escapeHtml(t("Email Contact", "Email Contact"))}</h6>
-                <p>${escapeHtml(t("Footer Contact Clarifier", "Use this form for business contact by email."))}</p>
-                <form class="rd-mailform footer-inline-form" data-form-output="form-output-global" data-form-type="subscribe" method="post" action="bat/rd-mailform.php">
-                  <div class="form-wrap">
-                    <label class="form-label" for="footer-email">${escapeHtml(t("E-Mail", "E-Mail"))}</label>
-                    <input class="form-input" id="footer-email" type="email" name="email" data-constraints="@Email @Required" />
+              <div class="footer-content-row">
+                ${showAddress ? `<div class="footer-address-card">
+                  <h6>${escapeHtml(t("Address", "Address"))}</h6>
+                  <p>${escapeHtml(addressLine)}</p>
+                </div>` : ""}
+                <div class="footer-departments-wrap">
+                  <div class="footer-departments-grid">
+                    ${depsHtml}
                   </div>
-                  <input type="hidden" name="form-type" value="subscribe" />
-                  <input class="form-honeypot" type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" />
-                  <input type="hidden" name="form_started_at" value="${formStartedAt}" />
-                  <button class="button button-primary" type="submit">${escapeHtml(t("Send", "Send"))}</button>
-                </form>
+                </div>
               </div>
             </div>
           </div>

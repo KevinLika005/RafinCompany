@@ -28,6 +28,11 @@ document.addEventListener('DOMContentLoaded', () => {
   let inactiveHeroLayer = heroSecondaryLayer;
   let currentImageIdx = 0;
   let heroVideoElement = null;
+  let heroAutoplayTimer = null;
+  let cleanupHeroAutoplay = () => {};
+
+  const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const heroAutoplayDelay = 2000;
 
   const toggleClassState = (element, className, shouldEnable) => {
     if (!element) return;
@@ -42,6 +47,28 @@ document.addEventListener('DOMContentLoaded', () => {
   const toCssUrlValue = (url) => {
     const escapedUrl = String(url || '').replace(/"/g, '\\"');
     return `url("${escapedUrl}")`;
+  };
+
+  const clearHeroAutoplay = () => {
+    if (!heroAutoplayTimer) return;
+    window.clearTimeout(heroAutoplayTimer);
+    heroAutoplayTimer = null;
+  };
+
+  const addMediaQueryChangeListener = (mediaQuery, handler) => {
+    if (!mediaQuery) return () => {};
+
+    if (typeof mediaQuery.addEventListener === 'function') {
+      mediaQuery.addEventListener('change', handler);
+      return () => mediaQuery.removeEventListener('change', handler);
+    }
+
+    if (typeof mediaQuery.addListener === 'function') {
+      mediaQuery.addListener(handler);
+      return () => mediaQuery.removeListener(handler);
+    }
+
+    return () => {};
   };
 
   const getHeroMediaFallbackValue = (mediaItem) => {
@@ -237,6 +264,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const showMissingState = () => {
+    cleanupHeroAutoplay();
     titleContainer.textContent = defaultMissingTitle;
     descriptionContainer.textContent = defaultMissingDesc;
     toggleClassState(excerptContainer, 'project-excerpt--visible', false);
@@ -370,6 +398,77 @@ document.addEventListener('DOMContentLoaded', () => {
     const safeIndex = Math.max(0, Math.min(idx, heroImages.length - 1));
     currentImageIdx = safeIndex;
     setHeroBackgroundState(heroImages[safeIndex], options);
+    setActiveHeroSelector(safeIndex);
+  };
+
+  const startHeroAutoplay = () => {
+    clearHeroAutoplay();
+
+    if (heroImages.length <= 1 || reducedMotionQuery.matches || document.hidden) return;
+
+    heroAutoplayTimer = window.setTimeout(() => {
+      const nextIndex = (currentImageIdx + 1) % heroImages.length;
+      setHeroBackground(nextIndex, { animate: true });
+      startHeroAutoplay();
+    }, heroAutoplayDelay);
+  };
+
+  const stopHeroAutoplay = () => {
+    clearHeroAutoplay();
+  };
+
+  const restartHeroAutoplay = () => {
+    startHeroAutoplay();
+  };
+
+  const setupHeroAutoplay = () => {
+    cleanupHeroAutoplay();
+
+    if (!heroContainer || heroImages.length <= 1) return;
+
+    const handleMouseEnter = () => stopHeroAutoplay();
+    const handleMouseLeave = () => startHeroAutoplay();
+    const handleFocusIn = () => stopHeroAutoplay();
+    const handleFocusOut = (event) => {
+      if (heroContainer.contains(event.relatedTarget)) return;
+      startHeroAutoplay();
+    };
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        stopHeroAutoplay();
+        return;
+      }
+
+      startHeroAutoplay();
+    };
+    const handleMotionChange = () => {
+      startHeroAutoplay();
+    };
+    const handlePageHide = () => {
+      stopHeroAutoplay();
+    };
+
+    heroContainer.addEventListener('mouseenter', handleMouseEnter);
+    heroContainer.addEventListener('mouseleave', handleMouseLeave);
+    heroContainer.addEventListener('focusin', handleFocusIn);
+    heroContainer.addEventListener('focusout', handleFocusOut);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('pagehide', handlePageHide);
+
+    const removeMotionListener = addMediaQueryChangeListener(reducedMotionQuery, handleMotionChange);
+
+    cleanupHeroAutoplay = () => {
+      stopHeroAutoplay();
+      heroContainer.removeEventListener('mouseenter', handleMouseEnter);
+      heroContainer.removeEventListener('mouseleave', handleMouseLeave);
+      heroContainer.removeEventListener('focusin', handleFocusIn);
+      heroContainer.removeEventListener('focusout', handleFocusOut);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('pagehide', handlePageHide);
+      removeMotionListener();
+    };
+
+    startHeroAutoplay();
   };
 
   const buildHeroSelectors = () => {
@@ -416,9 +515,9 @@ document.addEventListener('DOMContentLoaded', () => {
       selector.appendChild(selectorIndex);
 
       selector.addEventListener('click', () => {
-        if (index === currentImageIdx) return;
-        setHeroBackground(index, { animate: true });
-        setActiveHeroSelector(index);
+        const shouldAnimate = index !== currentImageIdx;
+        setHeroBackground(index, { animate: shouldAnimate });
+        restartHeroAutoplay();
       });
 
       selectorsFragment.appendChild(selector);
@@ -432,6 +531,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   setHeroBackground(0);
   buildHeroSelectors();
+  setupHeroAutoplay();
 
   const allProjects = window.ContentStore.getProjects();
   const categoryProjects = allProjects
