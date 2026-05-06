@@ -787,15 +787,15 @@ mfAppendDebugContext(array(
     'rateLimitMinSecondsBetween' => $rateLimitMinSecondsBetween
 ));
 
-$recipientRaw = mfConfigString($mailConfig, 'MAIL_RECIPIENT', 'recipientEmail', '');
-$fromEmail = mfValidateEmail(mfConfigString($mailConfig, 'MAIL_FROM_EMAIL', 'fromEmail', ''));
-$useSmtp = mfConfigBool($mailConfig, 'MAIL_USE_SMTP', 'useSmtp', false);
+$recipientRaw = mfConfigString($mailConfig, 'MAIL_RECIPIENT', array('MAIL_RECIPIENT', 'recipientEmail'), '');
+$fromEmail = mfValidateEmail(mfConfigString($mailConfig, 'MAIL_FROM_EMAIL', array('MAIL_FROM_EMAIL', 'fromEmail'), ''));
+$useSmtp = mfConfigBool($mailConfig, 'MAIL_USE_SMTP', array('useSmtp', 'MAIL_USE_SMTP'), false);
 $allowPhpMailFallback = mfConfigBool($mailConfig, 'MAIL_ALLOW_PHP_MAIL_FALLBACK', array('allowPhpMailFallback', 'MAIL_ALLOW_PHP_MAIL_FALLBACK'), false);
-$smtpHost = mfConfigString($mailConfig, 'MAIL_SMTP_HOST', 'smtpHost', '');
-$smtpPort = (int)mfConfigString($mailConfig, 'MAIL_SMTP_PORT', 'smtpPort', '587');
-$smtpUser = mfConfigString($mailConfig, 'MAIL_SMTP_USERNAME', 'smtpUsername', '');
-$smtpPassword = mfConfigString($mailConfig, 'MAIL_SMTP_PASSWORD', 'smtpPassword', '');
-$smtpSecureRaw = strtolower(mfConfigString($mailConfig, 'MAIL_SMTP_SECURE', 'smtpSecure', 'tls'));
+$smtpHost = mfConfigString($mailConfig, 'MAIL_SMTP_HOST', array('MAIL_SMTP_HOST', 'smtpHost'), '');
+$smtpPort = (int)mfConfigString($mailConfig, 'MAIL_SMTP_PORT', array('MAIL_SMTP_PORT', 'smtpPort'), '587');
+$smtpUser = mfConfigString($mailConfig, 'MAIL_SMTP_USERNAME', array('MAIL_SMTP_USERNAME', 'smtpUsername'), '');
+$smtpPassword = mfConfigString($mailConfig, 'MAIL_SMTP_PASSWORD', array('MAIL_SMTP_PASSWORD', 'smtpPassword'), '');
+$smtpSecureRaw = strtolower(mfConfigString($mailConfig, 'MAIL_SMTP_SECURE', array('MAIL_SMTP_SECURE', 'smtpSecure'), 'tls'));
 if ($smtpSecureRaw === 'none') {
     $smtpSecure = '';
 } elseif (in_array($smtpSecureRaw, array('', 'tls', 'ssl'), true)) {
