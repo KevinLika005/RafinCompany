@@ -1511,6 +1511,7 @@
         headerCode = '',
         requestId = '',
         responseMessage = '',
+        fields = [],
         matchedCode;
 
       if (result && typeof result === 'object' && typeof result.code === 'string') {
@@ -1518,6 +1519,11 @@
         responseMessage = typeof result.message === 'string' ? result.message : '';
         requestId = typeof result.requestId === 'string' ? result.requestId : '';
         rawResult = typeof result.raw === 'string' ? result.raw : '';
+        if ($.isArray(result.fields)) {
+          fields = $.grep(result.fields, function (fieldName) {
+            return typeof fieldName === 'string' && /^[a-zA-Z0-9_-]+$/.test(fieldName);
+          });
+        }
       } else if (typeof result === 'string') {
         rawResult = result;
       } else if (result && typeof result.responseText === 'string') {
@@ -1542,7 +1548,8 @@
         code: matchedCode ? matchedCode[0] : 'MF255',
         raw: rawResult,
         requestId: requestId,
-        message: responseMessage
+        message: responseMessage,
+        fields: fields
       };
     }
 
@@ -1560,6 +1567,67 @@
       return fallbackMessages[code] || fallbackMessages.MF255;
     }
 
+    function getMailFormFieldMessage(fieldName, fallbackMessages) {
+      var messages = {
+        name: 'Please enter your name.',
+        phone: 'Please enter a valid phone number.',
+        email: 'Please enter a valid email address.',
+        message: 'Please enter a message.',
+        job_position: 'Please select a job position.',
+        cv: 'Please upload a PDF, DOC, or DOCX file up to 5 MB.'
+      };
+
+      return messages[fieldName] || fallbackMessages.MF005;
+    }
+
+    function clearMailFormServerFieldErrors(form) {
+      form.find('input, textarea, select').each(function () {
+        var field = this,
+          $field = $(field);
+
+        if (typeof field.setCustomValidity === 'function') {
+          field.setCustomValidity('');
+        }
+
+        $field.siblings('.form-validation').text('');
+        $field.parent().removeClass('has-error');
+      });
+    }
+
+    function applyMailFormServerFieldErrors(form, fields, fallbackMessages) {
+      var firstInvalidField = null;
+
+      if (!$.isArray(fields) || !fields.length) {
+        return;
+      }
+
+      $.each(fields, function (_, fieldName) {
+        var field = form.find('[name="' + fieldName + '"]').get(0),
+          $field = $(field),
+          message = getMailFormFieldMessage(fieldName, fallbackMessages);
+
+        if (!field) {
+          return;
+        }
+
+        if (typeof field.setCustomValidity === 'function') {
+          field.setCustomValidity(message);
+        }
+
+        $field.siblings('.form-validation').text(message);
+        $field.parent().addClass('has-error');
+        firstInvalidField = firstInvalidField || field;
+      });
+
+      if (firstInvalidField && typeof firstInvalidField.focus === 'function') {
+        firstInvalidField.focus();
+      }
+
+      if (form.get(0) && typeof form.get(0).reportValidity === 'function') {
+        form.get(0).reportValidity();
+      }
+    }
+
     function renderMailFormResult(form, output, normalizedResult, fallbackMessages) {
       var select = form.find('select'),
         code = normalizedResult.code,
@@ -1571,6 +1639,10 @@
 
       if (isSuccess) {
         form.addClass('success');
+      }
+
+      if (!isSuccess) {
+        applyMailFormServerFieldErrors(form, normalizedResult.fields, fallbackMessages);
       }
 
       output.text(message);
@@ -1692,6 +1764,7 @@
         formType = form.attr("data-form-type") || form.find('input[name="form-type"]').val() || "contact";
 
       prepareMailForm(form);
+      clearMailFormServerFieldErrors(form);
       output.removeClass("active error success");
 
       if (!isValidated(inputs, captcha)) {
@@ -1734,6 +1807,7 @@
                 code: payload && typeof payload.code === 'string' ? payload.code : '',
                 message: payload && typeof payload.message === 'string' ? payload.message : '',
                 requestId: response.headers.get('X-Rafin-Mail-Request-Id') || '',
+                fields: payload && $.isArray(payload.fields) ? payload.fields : [],
                 raw: rawText
               });
 

@@ -1,7 +1,7 @@
 <?php
 
 date_default_timezone_set('Etc/UTC');
-error_reporting(E_ALL);
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED);
 @ini_set('display_errors', '0');
 @ini_set('log_errors', '1');
 
@@ -210,7 +210,7 @@ function mfRenderSafeHtmlResponse($status)
         . '">Return to the website</a></p></body></html>';
 }
 
-function mfExitWithCode($code, $logMessage = '', $publicReason = '')
+function mfExitWithCode($code, $logMessage = '', $publicReason = '', $responseData = array())
 {
     $bufferedOutput = '';
     while (ob_get_level() > 0) {
@@ -234,8 +234,23 @@ function mfExitWithCode($code, $logMessage = '', $publicReason = '')
     $responsePayload = array(
         'ok' => $isSuccess,
         'code' => $code,
-        'message' => $publicMessage
+        'message' => $publicMessage,
+        'requestId' => isset($GLOBALS['mfRequestId']) ? $GLOBALS['mfRequestId'] : ''
     );
+
+    if (is_array($responseData) && isset($responseData['fields']) && is_array($responseData['fields'])) {
+        $fields = array();
+        foreach ($responseData['fields'] as $fieldName) {
+            $fieldName = mfSanitizeSingleLine($fieldName, 40);
+            if ($fieldName !== '' && preg_match('/^[a-zA-Z0-9_-]+$/', $fieldName) === 1) {
+                $fields[$fieldName] = true;
+            }
+        }
+
+        if (!empty($fields)) {
+            $responsePayload['fields'] = array_keys($fields);
+        }
+    }
 
     if (!headers_sent()) {
         http_response_code(mfResponseHttpStatus($code));
@@ -271,6 +286,27 @@ function mfExitWithCode($code, $logMessage = '', $publicReason = '')
     }
 
     die(mfRenderSafeHtmlResponse($redirectStatus));
+}
+
+function mfExitValidationFailed($logMessage, $fields = array())
+{
+    $allowedFields = array('name', 'phone', 'email', 'message', 'job_position', 'cv');
+    $safeFields = array();
+
+    if (is_array($fields)) {
+        foreach ($fields as $fieldName) {
+            if (in_array($fieldName, $allowedFields, true)) {
+                $safeFields[$fieldName] = true;
+            }
+        }
+    }
+
+    mfExitWithCode(
+        'MF005',
+        $logMessage,
+        'validation_failed',
+        array('fields' => array_keys($safeFields))
+    );
 }
 
 function mfEnvString($key, $defaultValue)
@@ -900,7 +936,7 @@ if ($smtpFallbackReason !== '') {
 
 $email = isset($_POST['email']) ? mfValidateEmail($_POST['email']) : '';
 if ($email === '') {
-    mfExitWithCode('MF005', 'Submitted email is missing or invalid.', 'validation_failed');
+    mfExitValidationFailed('Submitted email is missing or invalid.', array('email'));
 }
 
 $name = '';
@@ -918,15 +954,25 @@ if ($formType === 'contact') {
     $message = isset($_POST['message']) ? mfSanitizeMultiLine($_POST['message'], 2000) : '';
 
     if ($name === '' || $phone === '' || $message === '') {
-        mfExitWithCode('MF005', 'One or more contact fields are missing or invalid.', 'validation_failed');
+        $invalidFields = array();
+        if ($name === '') {
+            $invalidFields[] = 'name';
+        }
+        if ($phone === '') {
+            $invalidFields[] = 'phone';
+        }
+        if ($message === '') {
+            $invalidFields[] = 'message';
+        }
+        mfExitValidationFailed('One or more contact fields are missing or invalid.', $invalidFields);
     }
 
     if (strlen($name) < 2) {
-        mfExitWithCode('MF005', 'Contact name is too short.', 'validation_failed');
+        mfExitValidationFailed('Contact name is too short.', array('name'));
     }
 
     if (strlen(preg_replace('/\s+/', '', $message)) < 5) {
-        mfExitWithCode('MF005', 'Contact message is too short.', 'validation_failed');
+        mfExitValidationFailed('Contact message is too short.', array('message'));
     }
 
     if (isset($_FILES['cv']) && is_array($_FILES['cv'])) {
@@ -935,7 +981,7 @@ if ($formType === 'contact') {
 
         if ($uploadError !== UPLOAD_ERR_NO_FILE) {
             if ($uploadError !== UPLOAD_ERR_OK) {
-                mfExitWithCode('MF005', 'Contact attachment upload failed with PHP upload error code ' . $uploadError . '.', 'validation_failed');
+                mfExitValidationFailed('Contact attachment upload failed with PHP upload error code ' . $uploadError . '.', array('cv'));
             }
 
             $tmpName = isset($cvFile['tmp_name']) ? (string)$cvFile['tmp_name'] : '';
@@ -946,19 +992,23 @@ if ($formType === 'contact') {
             $allowedMimeTypes = array(
                 'application/pdf',
                 'application/msword',
-                'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                'application/octet-stream',
+                'application/zip',
+                'application/x-zip-compressed',
+                'application/x-ole-storage'
             );
 
             if ($tmpName === '' || !is_uploaded_file($tmpName)) {
-                mfExitWithCode('MF005', 'Uploaded contact attachment is not a valid HTTP upload.', 'validation_failed');
+                mfExitValidationFailed('Uploaded contact attachment is not a valid HTTP upload.', array('cv'));
             }
 
             if ($fileSize <= 0 || $fileSize > 5 * 1024 * 1024) {
-                mfExitWithCode('MF005', 'Uploaded contact attachment exceeds size limits.', 'validation_failed');
+                mfExitValidationFailed('Uploaded contact attachment exceeds size limits.', array('cv'));
             }
 
             if (!in_array($extension, $allowedExtensions, true)) {
-                mfExitWithCode('MF005', 'Uploaded contact attachment type is not allowed.', 'validation_failed');
+                mfExitValidationFailed('Uploaded contact attachment type is not allowed.', array('cv'));
             }
 
             $detectedMimeType = '';
@@ -974,7 +1024,7 @@ if ($formType === 'contact') {
             }
 
             if ($detectedMimeType !== '' && !in_array($detectedMimeType, $allowedMimeTypes, true)) {
-                mfExitWithCode('MF005', 'Uploaded contact attachment MIME type is not allowed.', 'validation_failed');
+                mfExitValidationFailed('Uploaded contact attachment MIME type is not allowed.', array('cv'));
             }
 
             $attachmentPath = $tmpName;
@@ -991,15 +1041,28 @@ if ($formType === 'contact') {
     $jobPosition = isset($_POST['job_position']) ? mfSanitizeSingleLine($_POST['job_position'], 140) : '';
 
     if ($name === '' || $phone === '' || $message === '' || $jobPosition === '') {
-        mfExitWithCode('MF005', 'One or more job application fields are missing or invalid.', 'validation_failed');
+        $invalidFields = array();
+        if ($name === '') {
+            $invalidFields[] = 'name';
+        }
+        if ($phone === '') {
+            $invalidFields[] = 'phone';
+        }
+        if ($message === '') {
+            $invalidFields[] = 'message';
+        }
+        if ($jobPosition === '') {
+            $invalidFields[] = 'job_position';
+        }
+        mfExitValidationFailed('One or more job application fields are missing or invalid.', $invalidFields);
     }
 
     if (strlen($name) < 2) {
-        mfExitWithCode('MF005', 'Applicant name is too short.', 'validation_failed');
+        mfExitValidationFailed('Applicant name is too short.', array('name'));
     }
 
     if (strlen(preg_replace('/\s+/', '', $message)) < 5) {
-        mfExitWithCode('MF005', 'Application message is too short.', 'validation_failed');
+        mfExitValidationFailed('Application message is too short.', array('message'));
     }
 
     if (isset($_FILES['cv']) && is_array($_FILES['cv'])) {
@@ -1008,7 +1071,7 @@ if ($formType === 'contact') {
 
         if ($uploadError !== UPLOAD_ERR_NO_FILE) {
             if ($uploadError !== UPLOAD_ERR_OK) {
-                mfExitWithCode('MF005', 'CV upload failed with PHP upload error code ' . $uploadError . '.', 'validation_failed');
+                mfExitValidationFailed('CV upload failed with PHP upload error code ' . $uploadError . '.', array('cv'));
             }
 
             $tmpName = isset($cvFile['tmp_name']) ? (string)$cvFile['tmp_name'] : '';
@@ -1019,19 +1082,23 @@ if ($formType === 'contact') {
             $allowedMimeTypes = array(
                 'application/pdf',
                 'application/msword',
-                'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                'application/octet-stream',
+                'application/zip',
+                'application/x-zip-compressed',
+                'application/x-ole-storage'
             );
 
             if ($tmpName === '' || !is_uploaded_file($tmpName)) {
-                mfExitWithCode('MF005', 'Uploaded CV file is not a valid HTTP upload.', 'validation_failed');
+                mfExitValidationFailed('Uploaded CV file is not a valid HTTP upload.', array('cv'));
             }
 
             if ($fileSize <= 0 || $fileSize > 5 * 1024 * 1024) {
-                mfExitWithCode('MF005', 'Uploaded CV file exceeds size limits.', 'validation_failed');
+                mfExitValidationFailed('Uploaded CV file exceeds size limits.', array('cv'));
             }
 
             if (!in_array($extension, $allowedExtensions, true)) {
-                mfExitWithCode('MF005', 'Uploaded CV file type is not allowed.', 'validation_failed');
+                mfExitValidationFailed('Uploaded CV file type is not allowed.', array('cv'));
             }
 
             $detectedMimeType = '';
@@ -1047,7 +1114,7 @@ if ($formType === 'contact') {
             }
 
             if ($detectedMimeType !== '' && !in_array($detectedMimeType, $allowedMimeTypes, true)) {
-                mfExitWithCode('MF005', 'Uploaded CV MIME type is not allowed.', 'validation_failed');
+                mfExitValidationFailed('Uploaded CV MIME type is not allowed.', array('cv'));
             }
 
             $attachmentPath = $tmpName;
@@ -1171,7 +1238,7 @@ try {
         }
         if ($smtpSecure !== '') {
             $mail->SMTPSecure = $smtpSecure;
-        } else {
+        } elseif (property_exists($mail, 'SMTPAutoTLS')) {
             $mail->SMTPAutoTLS = false;
         }
     }

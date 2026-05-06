@@ -14,6 +14,68 @@
     MF254: "Mail delivery is temporarily unavailable. Please try again later or contact info@rafincompany.com.",
     MF255: "Unexpected server error. Please try again later."
   };
+  var DEFAULT_FIELD_MESSAGES = {
+    name: "Please enter your name.",
+    phone: "Please enter a valid phone number.",
+    email: "Please enter a valid email address.",
+    message: "Please enter a message.",
+    job_position: "Please select a job position.",
+    cv: "Please upload a PDF, DOC, or DOCX file up to 5 MB."
+  };
+
+  function trimValue(value) {
+    return String(value == null ? "" : value).trim();
+  }
+
+  function compactWhitespace(value) {
+    return trimValue(value).replace(/\s+/g, " ");
+  }
+
+  function clearFieldError(field) {
+    var validation;
+
+    if (!field) {
+      return;
+    }
+
+    field.setCustomValidity("");
+    if (field.parentNode) {
+      field.parentNode.classList.remove("has-error");
+      validation = field.parentNode.querySelector(".form-validation");
+      if (validation) {
+        validation.textContent = "";
+      }
+    }
+  }
+
+  function setFieldError(field, message) {
+    if (!field) {
+      return false;
+    }
+
+    field.setCustomValidity(message);
+    if (field.parentNode) {
+      field.parentNode.classList.add("has-error");
+    }
+    return true;
+  }
+
+  function setVisibleFieldError(field, message) {
+    var validation;
+
+    if (!setFieldError(field, message)) {
+      return false;
+    }
+
+    if (field.parentNode) {
+      validation = field.parentNode.querySelector(".form-validation");
+      if (validation) {
+        validation.textContent = message;
+      }
+    }
+
+    return true;
+  }
 
   function getTimestamp() {
     return String(Math.floor(Date.now() / 1000));
@@ -128,6 +190,7 @@
     var code = "";
     var message = "";
     var payload = null;
+    var fields = [];
 
     if (typeof rawText === "string" && rawText.trim()) {
       try {
@@ -141,6 +204,11 @@
       code = payload.code;
       if (typeof payload.message === "string") {
         message = payload.message;
+      }
+      if (Array.isArray(payload.fields)) {
+        fields = payload.fields.filter(function (fieldName) {
+          return typeof fieldName === "string" && /^[a-zA-Z0-9_-]+$/.test(fieldName);
+        });
       }
     }
 
@@ -159,8 +227,34 @@
 
     return {
       code: code,
-      message: message || DEFAULT_MESSAGES[code] || DEFAULT_MESSAGES.MF255
+      message: message || DEFAULT_MESSAGES[code] || DEFAULT_MESSAGES.MF255,
+      fields: fields
     };
+  }
+
+  function applyServerFieldErrors(form, fields) {
+    var firstInvalidField = null;
+
+    if (!Array.isArray(fields) || !fields.length) {
+      return;
+    }
+
+    fields.forEach(function (fieldName) {
+      var field = form.querySelector('[name="' + fieldName + '"]');
+      var message = DEFAULT_FIELD_MESSAGES[fieldName] || DEFAULT_MESSAGES.MF005;
+
+      if (setVisibleFieldError(field, message)) {
+        firstInvalidField = firstInvalidField || field;
+      }
+    });
+
+    if (firstInvalidField && typeof firstInvalidField.focus === "function") {
+      firstInvalidField.focus();
+    }
+
+    if (typeof form.reportValidity === "function") {
+      form.reportValidity();
+    }
   }
 
   function resetFormAfterSuccess(form) {
@@ -182,12 +276,96 @@
   }
 
   function validateForm(form, output) {
-    if (form.checkValidity()) {
+    var nameField = form.querySelector('[name="name"]');
+    var emailField = form.querySelector('[name="email"]');
+    var phoneField = form.querySelector('[name="phone"]');
+    var messageField = form.querySelector('[name="message"]');
+    var jobPositionField = form.querySelector('[name="job_position"]');
+    var fileField = form.querySelector('input[type="file"][name="cv"]');
+    var invalidField = null;
+    var digits;
+    var phone;
+    var plusCount;
+    var plusPosition;
+    var extension;
+    var file;
+    var allowedExtensions = { pdf: true, doc: true, docx: true };
+
+    Array.prototype.forEach.call(form.elements, function (field) {
+      if (field && typeof field.setCustomValidity === "function") {
+        clearFieldError(field);
+      }
+    });
+
+    if (nameField) {
+      if (compactWhitespace(nameField.value).length < 2) {
+        invalidField = invalidField || nameField;
+        setFieldError(nameField, "Please enter at least 2 characters.");
+      }
+    }
+
+    if (emailField) {
+      emailField.value = trimValue(emailField.value);
+      if (!emailField.value || !emailField.checkValidity()) {
+        invalidField = invalidField || emailField;
+        setFieldError(emailField, "Please enter a valid email address.");
+      }
+    }
+
+    if (phoneField) {
+      phone = compactWhitespace(phoneField.value);
+      digits = phone.replace(/\D+/g, "");
+      plusCount = (phone.match(/\+/g) || []).length;
+      plusPosition = phone.indexOf("+");
+
+      if (!phone || /[^0-9+\s().-]/.test(phone) || digits.length < 7 || digits.length > 15 || plusCount > 1 || (plusCount === 1 && plusPosition !== 0 && !(plusPosition === 1 && phone.indexOf("(+") === 0))) {
+        invalidField = invalidField || phoneField;
+        setFieldError(phoneField, "Please enter a valid phone number.");
+      } else {
+        phoneField.value = phone;
+      }
+    }
+
+    if (messageField) {
+      if (trimValue(messageField.value).replace(/\s+/g, "").length < 5) {
+        invalidField = invalidField || messageField;
+        setFieldError(messageField, "Please enter a longer message.");
+      }
+    }
+
+    if (jobPositionField && !trimValue(jobPositionField.value)) {
+      invalidField = invalidField || jobPositionField;
+      setFieldError(jobPositionField, "Please select a job position.");
+    }
+
+    if (fileField && fileField.files && fileField.files.length > 0) {
+      file = fileField.files[0];
+      extension = "";
+
+      if (file && file.name.indexOf(".") !== -1) {
+        extension = file.name.split(".").pop().toLowerCase();
+      }
+
+      if (!allowedExtensions[extension]) {
+        invalidField = invalidField || fileField;
+        setFieldError(fileField, "Please upload a PDF, DOC, or DOCX file.");
+      } else if (file.size <= 0 || file.size > 5 * 1024 * 1024) {
+        invalidField = invalidField || fileField;
+        setFieldError(fileField, "The selected file must be 5 MB or smaller.");
+      }
+    }
+
+    if (!invalidField && form.checkValidity()) {
       return true;
     }
 
     renderOutput(output, DEFAULT_MESSAGES.MF005, false);
-    form.reportValidity();
+    if (typeof form.reportValidity === "function") {
+      form.reportValidity();
+    }
+    if (invalidField && typeof invalidField.focus === "function") {
+      invalidField.focus();
+    }
     scheduleOutputReset(output, form);
     return false;
   }
@@ -260,6 +438,8 @@
 
         if (isSuccess) {
           resetFormAfterSuccess(form);
+        } else {
+          applyServerFieldErrors(form, normalized.fields);
         }
 
         scheduleOutputReset(output, form);
