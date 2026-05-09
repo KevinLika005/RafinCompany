@@ -419,9 +419,14 @@ const projects = [
       'Sistem ngrohje-ftohje dhe ndriçim LED',
       'Rindërtim sipas standardeve të programit EU4Schools'
     ],
-    coverImage: 'images/projects/kopshti-okshtun-1.jpeg',
+    coverImage: 'images/projects/kopshti4.jpg',
     heroImages: [
-      'images/projects/kopshti-okshtun-1.jpeg'
+      'images/projects/kopshti4.jpg',
+      'images/projects/kopshti1.jpg',
+      'images/projects/kopshti2.jpg',
+      'images/projects/kopshti3.jpg',
+      'images/projects/kopshti5.jpg',
+      'images/projects/kopshti6.jpg'
     ],
     location: localized('Okshtun, Rrogozhinë'),
     order: 11
@@ -703,8 +708,10 @@ const projects = [
       'Modernizim i sistemeve elektrike dhe furnizimit rezervë (gjenerator, ATS, depozitë gazoili)',
       'Përshtatje për teknologjinë digjitale sipas standardeve bashkëkohore'
     ],
-    coverImage: null,
-    heroImages: [],
+    coverImage: 'images/projects/stacionet-ekzistuese-rtsh-1.jpg.jpeg',
+    heroImages: [
+      'images/projects/stacionet-ekzistuese-rtsh-1.jpg.jpeg'
+    ],
     location: localized('Mide, Tarabosh, Cervenake Gllavë, Sopoti dhe Llogara'),
     order: 20
   },
