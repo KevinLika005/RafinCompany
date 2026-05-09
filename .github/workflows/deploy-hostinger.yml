@@ -238,39 +238,45 @@ jobs:
             SSL_PROTECT=false
           fi
 
-          lftp <<EOF
+          for attempt in 1 2 3 4; do
+            echo "FTP deploy attempt ${attempt}/4"
+
+            if lftp <<EOF
           set cmd:fail-exit true
-          set net:max-retries 5
-          set net:timeout 30
-          set net:reconnect-interval-base 10
+          set net:max-retries 12
+          set net:timeout 45
+          set net:reconnect-interval-base 8
+          set net:reconnect-interval-multiplier 1
+          set net:reconnect-interval-max 30
           set xfer:clobber true
+          set xfer:verify true
           set ftp:passive-mode true
           set ftp:ssl-force ${SSL_FORCE}
           set ftp:ssl-allow ${SSL_ALLOW}
           set ftp:ssl-protect-data ${SSL_PROTECT}
 
-          open -p "${DEPLOY_FTP_PORT}" "${HOSTINGER_FTP_HOST}"
-          user "${HOSTINGER_FTP_USERNAME}" "${HOSTINGER_FTP_PASSWORD}"
-
-          echo "Remote starting folder:"
-          pwd
-          cls -la
-
+          open -u "${HOSTINGER_FTP_USERNAME}","${HOSTINGER_FTP_PASSWORD}" -p "${DEPLOY_FTP_PORT}" "${HOSTINGER_FTP_HOST}"
           cd "${HOSTINGER_FTP_SERVER_DIR}"
-
-          echo "Remote deploy folder after cd:"
           pwd
-          cls -la
-
-          mirror -R --verbose --transfer-all --overwrite --delete deploy/ .
-
-          echo "Remote folder after upload:"
-          cls -la
+          mirror -R --verbose --transfer-all --overwrite --delete --parallel=2 deploy/ .
           cls -l index.html
           cls -l deploy-marker.txt
-
           bye
           EOF
+            then
+              echo "FTP deploy completed."
+              exit 0
+            fi
+
+            if [ "$attempt" -lt 4 ]; then
+              sleep_seconds=$((attempt * 30))
+              echo "FTP deploy failed; retrying in ${sleep_seconds}s."
+              sleep "$sleep_seconds"
+            fi
+          done
+
+          echo "FTP deploy failed after all retry attempts."
+          exit 1
 
       - name: Verify deployment on live website
         shell: bash
