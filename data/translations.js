@@ -371,6 +371,8 @@ Object.assign(translationOverrides, {
   "Careers Meta Description": { en: "Explore open positions at Rafin Company across engineering, transport, construction, and machinery maintenance.", sq: "Shikoni pozicionet e hapura në Rafin Company në inxhinieri, transport, ndërtim dhe mirëmbajtje makinerish." },
   "Homepage Hero Title": { en: "Building Infrastructure With Precision and Responsibility", sq: "Ndërtojmë infrastrukturë me saktësi dhe përgjegjësi" },
   "Homepage Hero Body": { en: "Rafin delivers civil, road, electrical and industrial projects with technical discipline, reliable execution and long-term value.", sq: "Rafin realizon projekte civile, rrugore, elektrike dhe industriale me disiplinë teknike, zbatim të qëndrueshëm dhe vlerë afatgjatë." },
+  "Projects Hero Eyebrow": { en: "Rafin Portfolio", sq: "Portofoli i Rafin" },
+  "Projects Hero Title": { en: "Built For Lasting Value", sq: "Ndertuar per vlere afatgjate" },
   "Careers Hero Title": { en: "Build your next role with Rafin", sq: "Hidhni hapin e radhës në karrierë me Rafin" },
   "Careers Hero Body": { en: "Explore current openings across construction management, vehicle operations, specialist trades, and machinery maintenance.", sq: "Shikoni pozicionet e hapura në menaxhim ndërtimi, operim mjetesh, profesione të specializuara dhe mirëmbajtje makinerish." },
   "Career Application Eyebrow": { en: "Careers Contact", sq: "Kontakt për karrierë" },

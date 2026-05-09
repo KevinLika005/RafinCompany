@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+﻿document.addEventListener('DOMContentLoaded', () => {
   if (!window.ContentStore || !window.I18n) return;
 
   const projectsSection = document.getElementById('projects');
@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function getCategoryImage(category) {
-    return category.heroImage || category.thumbImage || 'images/default-thumb.jpg';
+    return category.heroImage || category.thumbImage || 'images/projects/stadium.jpeg';
   }
 
   function getCategoryUrl(category) {

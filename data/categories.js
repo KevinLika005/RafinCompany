@@ -34,8 +34,8 @@ const categories = [
       en: 'This category includes road construction, rehabilitation, public realm upgrades, and supporting infrastructure such as sidewalks, bicycle lanes, lighting, and safety elements.',
       sq: 'Kjo kategori përfshin ndërtim dhe rehabilitim rrugësh, përmirësim të hapësirave publike dhe elementë mbështetës si trotuare, korsi biçikletash, ndriçim dhe sisteme sigurie.'
     },
-    thumbImage: 'images/projects/liqeni-farkes-pedonale-piste-vrapimi-1.png',
-    heroImage: 'images/projects/liqeni-farkes-pedonale-piste-vrapimi-1.png',
+    thumbImage: 'images/projects/liqeni-farkes-pedonale-piste-vrapimi-3.png',
+    heroImage: 'images/projects/liqeni-farkes-pedonale-piste-vrapimi-3.png',
     featuredOnHome: true,
     order: 2
   },

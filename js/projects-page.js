@@ -30,33 +30,9 @@ document.addEventListener('DOMContentLoaded', () => {
       .replace(/'/g, '&#39;');
   }
 
-  function toCssUrlValue(url) {
-    const escapedUrl = String(url || '').replace(/"/g, '\\"');
-    return `url("${escapedUrl}")`;
-  }
-
-  function preloadHeroImage(url) {
-    const safeUrl = String(url || '');
-    if (!safeUrl || !document.head) return;
-
-    const preloadKey = encodeURIComponent(safeUrl);
-    if (document.head.querySelector(`link[data-projects-hero-preload="${preloadKey}"]`)) return;
-
-    const preloadLink = document.createElement('link');
-    preloadLink.rel = 'preload';
-    preloadLink.as = 'image';
-    preloadLink.href = safeUrl;
-    preloadLink.setAttribute('fetchpriority', 'high');
-    preloadLink.setAttribute('data-projects-hero-preload', preloadKey);
-    document.head.appendChild(preloadLink);
-  }
-
   function setPageTitle() {
-    const titleElement = document.querySelector('.i18n-projects-title');
-    if (!titleElement) return;
     const localizedTitle = window.I18n.translate('projects');
     const safeTitle = localizedTitle || (window.I18n.getCurrentLanguage() === 'sq' ? 'Projektet' : 'Projects');
-    titleElement.textContent = safeTitle;
     document.title = `${safeTitle} | Rafin Company`;
   }
 
@@ -64,24 +40,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!heroContainer || !heroTitleElement) return;
 
     const defaultTitle = window.I18n.translate('projects') || 'Projects';
-    const defaultHeroCategory = categories.find((category) => category && category.featuredOnHome) || categories[0] || null;
+    const defaultHeroEyebrow = window.I18n.translate('Projects Hero Eyebrow') || 'Rafin Portfolio';
+    const defaultHeroTitle = window.I18n.translate('Projects Hero Title') || 'Work That Shapes Albania';
     const activeCategory = filterId === 'all' ? null : categoryById.get(filterId);
-    const heroImageCategory = activeCategory || defaultHeroCategory;
-    const heroTitle = activeCategory ? (window.I18n.getLocalizedValue(activeCategory.title) || defaultTitle) : defaultTitle;
-    const heroImage = heroImageCategory ? (heroImageCategory.heroImage || heroImageCategory.thumbImage || '') : '';
+    const heroTitle = activeCategory ? (window.I18n.getLocalizedValue(activeCategory.title) || defaultTitle) : defaultHeroTitle;
 
     heroTitleElement.textContent = heroTitle;
     if (heroEyebrowElement) {
-      heroEyebrowElement.textContent = defaultTitle;
-    }
-
-    if (heroImage) {
-      preloadHeroImage(heroImage);
-      heroContainer.style.backgroundImage = toCssUrlValue(heroImage);
-      heroContainer.style.setProperty('--category-hero-image', toCssUrlValue(heroImage));
-      heroContainer.classList.add('category-hero--has-media');
-      heroContainer.classList.remove('category-hero--fallback');
-      return;
+      heroEyebrowElement.textContent = defaultHeroEyebrow;
     }
 
     heroContainer.style.removeProperty('background-image');

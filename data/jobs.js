@@ -1,4 +1,4 @@
-const sharedBenefits = {
+﻿const sharedBenefits = {
   engineering: [
     {
       en: "Structured project onboarding and coordination with multidisciplinary site teams.",
@@ -73,7 +73,7 @@ const sharedBenefits = {
 
 const jobProfiles = {
   engineering: {
-    image: "images/jobs/engineer-blueprint.jpg",
+    image: "images/projects/farmacia-shendeti-publik-3.jpg",
     imageAlt: {
       en: "Construction management team reviewing plans on site",
       sq: "Ekip i menaxhimit te ndertimit duke shqyrtuar planet ne kantier"
@@ -89,7 +89,7 @@ const jobProfiles = {
     benefits: sharedBenefits.engineering
   },
   transport: {
-    image: "images/jobs/truck-driver-cabin-2.jpg",
+    image: "images/projects/rruget-kryesore-5-maji-faza-3-4.jpeg",
     imageAlt: {
       en: "Transport and logistics operator for construction projects",
       sq: "Operator transporti dhe logjistike per projekte ndertimi"
@@ -105,7 +105,7 @@ const jobProfiles = {
     benefits: sharedBenefits.transport
   },
   operators: {
-    image: "images/jobs/excavator-operator.jpg",
+    image: "images/jobs/eskavator.jpeg",
     imageAlt: {
       en: "Heavy machinery operating on infrastructure works",
       sq: "Makineri e rende ne operim ne pune infrastrukturore"
@@ -121,7 +121,7 @@ const jobProfiles = {
     benefits: sharedBenefits.operators
   },
   specialists: {
-    image: "images/jobs/construction-worker-site.jpg",
+    image: "images/projects/stadium-3.jpeg",
     imageAlt: {
       en: "Construction specialist working on a live site",
       sq: "Specialist ndertimi duke punuar ne kantier aktiv"
@@ -137,7 +137,7 @@ const jobProfiles = {
     benefits: sharedBenefits.specialists
   },
   maintenance: {
-    image: "images/jobs/mechanic-diagnostic.jpg",
+    image: "images/projects/stacioni-naftes-zharrez-after-1.jpg",
     imageAlt: {
       en: "Maintenance technician servicing construction machinery",
       sq: "Teknik mirembajtjeje duke servisuar makineri ndertimi"
@@ -156,7 +156,7 @@ const jobProfiles = {
 
 function createJob(config) {
   const profile = jobProfiles[config.profileKey] || {};
-  const image = config.image || config.cardImage || profile.image || "images/project-1-480x361.jpg";
+  const image = config.image || config.cardImage || profile.image || "images/projects/stadium.jpeg";
   const imageAlt = config.imageAlt || config.cardImageAlt || profile.imageAlt || config.title;
 
   return {
@@ -234,7 +234,7 @@ const jobs = [
         sq: "Aftesi praktike komunikimi me ekipet e terrenit, drejtuesit dhe furnitoret."
       }
     ],
-    cardImage: "images/jobs/engineer-blueprint.jpg",
+    cardImage: "images/projects/farmacia-shendeti-publik-3.jpg",
     cardImageAlt: { en: "Construction engineer on site", sq: "Inxhinier ndertimi ne kantier" },
     order: 1
   }),
@@ -285,9 +285,9 @@ const jobs = [
         sq: "Njohuri mbi kontrollet e cilesise se instalimeve dhe mbeshtetjen ne venie ne funksion."
       }
     ],
-    cardImage: "images/jobs/engineer-portrait-2.jpg",
+    cardImage: "images/projects/rreshen6.jpg",
     cardImageAlt: { en: "Hydrotechnical engineer", sq: "Inxhinier hidroteknik" },
-    image: "images/jobs/pipe-repair.jpg",
+    image: "images/projects/kanal-lezh.jpeg",
     imageAlt: { en: "Hydrotechnical infrastructure installation work", sq: "Punime instalimi ne infrastrukture hidroteknike" },
     order: 2
   }),
@@ -338,9 +338,9 @@ const jobs = [
         sq: "Aftesi per te organizuar inspektime, lista verejtjesh dhe sqarime teknike."
       }
     ],
-    cardImage: "images/jobs/electrician-installation.jpg",
+    cardImage: "images/projects/kabinat-kashar-selite-1.jpeg",
     cardImageAlt: { en: "Electrical engineer at work", sq: "Inxhinier elektrik ne pune" },
-    image: "images/jobs/electrician-installation.jpg",
+    image: "images/projects/kabinat-kashar-selite-1.jpeg",
     imageAlt: { en: "Electrical systems installation on a construction site", sq: "Instalime te sistemeve elektrike ne kantier" },
     order: 3
   }),
@@ -391,7 +391,7 @@ const jobs = [
         sq: "Qasje metodike ndaj dokumentacionit, testimeve dhe ndjekjes se problematikave."
       }
     ],
-    cardImage: "images/jobs/engineer-portrait-1.jpg",
+    cardImage: "images/projects/farmacia-shendeti-publik-4.jpg",
     cardImageAlt: { en: "Electrotechnical engineer", sq: "Inxhinier elektroteknik" },
     order: 4
   }),
@@ -442,7 +442,7 @@ const jobs = [
         sq: "Aftesi te mira koordinimi dhe qasje praktike ne zgjidhjen e problemeve."
       }
     ],
-    cardImage: "images/jobs/engineer-portrait-1.jpg",
+    cardImage: "images/projects/farmacia-shendeti-publik-4.jpg",
     cardImageAlt: { en: "Mechanical engineer", sq: "Inxhinier mekanik" },
     order: 5
   }),
@@ -493,7 +493,7 @@ const jobs = [
         sq: "Kujdes ndaj detajeve ne testime, konfigurim dhe raportim teknik."
       }
     ],
-    cardImage: "images/jobs/engineer-portrait-2.jpg",
+    cardImage: "images/projects/rreshen6.jpg",
     cardImageAlt: { en: "Mechatronics engineer", sq: "Inxhinier mekatronik" },
     order: 6
   }),
@@ -548,12 +548,12 @@ const jobs = [
         sq: "Komunikim i besueshem dhe disipline ne respektimin e orareve te dorezimit."
       }
     ],
-    cardImage: "images/jobs/shoferkamioni.jpeg",
+    cardImage: "images/projects/rruget-kryesore-5-maji-faza-3-6.jpeg",
     cardImageAlt: { en: "Truck driver", sq: "Shofer kamioni" },
     cardImagePosition: "48% 54%",
     cardImageScale: 1.36,
     cardImageHoverScale: 1.42,
-    image: "images/jobs/shoferkamioni.jpeg",
+    image: "images/projects/rruget-kryesore-5-maji-faza-3-6.jpeg",
     imageAlt: { en: "Construction truck on site", sq: "Kamion ne kantier" },
     modalImagePosition: "48% 52%",
     modalImageScale: 1.28,
@@ -606,9 +606,9 @@ const jobs = [
         sq: "Prezence e rregullt dhe gatishmeri per te mbeshtetur nevojat ndryshuese te kantierit."
       }
     ],
-    cardImage: "images/kamioncina.jpg",
+    cardImage: "images/projects/rruget-kryesore-5-maji-faza-3-6.jpeg",
     cardImageAlt: { en: "Light truck driver", sq: "Shofer kamioncine" },
-    image: "images/kamioncina.jpg",
+    image: "images/projects/rruget-kryesore-5-maji-faza-3-6.jpeg",
     imageAlt: { en: "Light truck supporting construction logistics", sq: "Kamioncine ne sherbim te logjistikes se ndertimit" },
     order: 8
   }),
@@ -659,9 +659,9 @@ const jobs = [
         sq: "Sjellje profesionale gjate mbeshtetjes se ekipeve, vizitoreve ose dorezimeve."
       }
     ],
-    cardImage: "images/vans.jpg",
+    cardImage: "images/projects/rruget-kryesore-5-maji-faza-3-4.jpeg",
     cardImageAlt: { en: "Van driver", sq: "Shofer fugoni" },
-    image: "images/vans.jpg",
+    image: "images/projects/rruget-kryesore-5-maji-faza-3-4.jpeg",
     imageAlt: { en: "Van used for workforce and tools transport", sq: "Furgon i perdorur per transport personeli dhe mjetesh" },
     order: 9
   }),
@@ -765,9 +765,9 @@ const jobs = [
         sq: "Ndjeshmeri e mire ndaj makinerise ne kushte terreni dhe moti te ndryshueshem."
       }
     ],
-    cardImage: "images/jobs/bulldozer-operator.jpg",
+    cardImage: "images/jobs/eskavator.jpeg",
     cardImageAlt: { en: "Bulldozer operator", sq: "Manovrator buldozeri" },
-    image: "images/jobs/bulldozer-operator.jpg",
+    image: "images/jobs/eskavator.jpeg",
     imageAlt: { en: "Bulldozer shaping terrain on a construction site", sq: "Buldozer duke formuar terrenin ne nje kantier ndertimi" },
     order: 12
   }),
@@ -818,9 +818,9 @@ const jobs = [
         sq: "Qasje e disiplinuar ndaj kontrolleve te makinerise dhe rezultateve precize."
       }
     ],
-    cardImage: "images/jobs/grejder.jpeg",
+    cardImage: "images/jobs/eskavator.jpeg",
     cardImageAlt: { en: "Grader operator", sq: "Manovrator grejderi" },
-    image: "images/jobs/grejder.jpeg",
+    image: "images/jobs/eskavator.jpeg",
     imageAlt: { en: "Grader on a work site", sq: "Grejder ne kantier" },
     order: 13
   }),
@@ -871,9 +871,9 @@ const jobs = [
         sq: "Bashkepunim i besueshem gjate turneve te zgjatura te prodhimit."
       }
     ],
-    cardImage: "images/jobs/rrul.jpeg",
+    cardImage: "images/jobs/eskavator.jpeg",
     cardImageAlt: { en: "Road roller operator", sq: "Manovrator rruli" },
-    image: "images/jobs/rrul.jpeg",
+    image: "images/jobs/eskavator.jpeg",
     imageAlt: { en: "Road roller on a work site", sq: "Rrul ne kantier" },
     order: 14
   }),
@@ -924,9 +924,9 @@ const jobs = [
         sq: "Aftesi te mira bashkepunimi ne kushte kantieri me ritme te larta."
       }
     ],
-    cardImage: "images/jobs/asphalt-paver-operator.jpg",
+    cardImage: "images/jobs/eskavator.jpeg",
     cardImageAlt: { en: "Asphalt paver operator", sq: "Operator asfaltshtruesi" },
-    image: "images/jobs/asphalt-paver-operator.jpg",
+    image: "images/jobs/eskavator.jpeg",
     imageAlt: { en: "Asphalt paving machinery in operation", sq: "Makineri asfaltimi ne operim" },
     order: 15
   }),
@@ -977,9 +977,9 @@ const jobs = [
         sq: "Koordinim i besueshem me ekipet e transportit dhe prodhimit."
       }
     ],
-    cardImage: "images/jobs/fadrom.jpeg",
+    cardImage: "images/jobs/eskavator.jpeg",
     cardImageAlt: { en: "Wheel loader operator", sq: "Manovrator fadrome" },
-    image: "images/jobs/fadrom.jpeg",
+    image: "images/jobs/eskavator.jpeg",
     imageAlt: { en: "Wheel loader on a work site", sq: "Fadrome ne kantier" },
     order: 16
   }),
@@ -1030,9 +1030,9 @@ const jobs = [
         sq: "Prezence e rregullt dhe qendrim bashkepunues me ekipet ne terren."
       }
     ],
-    cardImage: "images/jobs/construction-worker-site.jpg",
+    cardImage: "images/projects/stadium-3.jpeg",
     cardImageAlt: { en: "Construction worker", sq: "Puntor ndertimi" },
-    image: "images/jobs/construction-worker-site.jpg",
+    image: "images/projects/stadium-3.jpeg",
     imageAlt: { en: "Construction worker active on a civil works site", sq: "Punetor ndertimi aktiv ne nje kantier civil" },
     order: 17
   }),
@@ -1083,9 +1083,9 @@ const jobs = [
         sq: "Pune e besueshme dhe vemendje ndaj rregullsise se kalimeve dhe cilesise se perfundimit."
       }
     ],
-    cardImage: "images/jobs/electrician-installation.jpg",
+    cardImage: "images/projects/kabinat-kashar-selite-1.jpeg",
     cardImageAlt: { en: "Electrician on site", sq: "Elektricist ne terren" },
-    image: "images/jobs/electrician-installation.jpg",
+    image: "images/projects/kabinat-kashar-selite-1.jpeg",
     imageAlt: { en: "Electrician installing electrical systems on site", sq: "Elektricist duke instaluar sisteme elektrike ne terren" },
     order: 18
   }),
@@ -1136,9 +1136,9 @@ const jobs = [
         sq: "Përgjegjshmëri në punë në ekip dhe vëmendje ndaj parandalimit të rrjedhjeve dhe cilësisë së përfundimit."
       }
     ],
-    cardImage: "images/jobs/pipe-repair.jpg",
+    cardImage: "images/projects/kanal-lezh.jpeg",
     cardImageAlt: { en: "Hydraulic technician", sq: "Hidraulik në punë" },
-    image: "images/jobs/pipe-repair.jpg",
+    image: "images/projects/kanal-lezh.jpeg",
     imageAlt: { en: "Hydraulic technician working on pipeline installation", sq: "Hidraulik duke punuar në instalimin e tubacioneve" },
     order: 19
   }),
@@ -1189,9 +1189,9 @@ const jobs = [
         sq: "Aftesi per te punuar me produktivitet brenda orareve te koordinuara te kantierit."
       }
     ],
-    cardImage: "images/jobs/masonry-worker.jpg",
+    cardImage: "images/projects/bashkia-kamez-parkim-shesh-1.jpeg",
     cardImageAlt: { en: "Mason and plasterer", sq: "Murator dhe suvaxhi" },
-    image: "images/jobs/masonry-worker.jpg",
+    image: "images/projects/bashkia-kamez-parkim-shesh-1.jpeg",
     imageAlt: { en: "Masonry and plastering works in progress", sq: "Punime murature dhe suvaje ne proces" },
     order: 20
   }),
@@ -1242,9 +1242,9 @@ const jobs = [
         sq: "Trajtim i kujdesshem i materialeve dhe vemendje e vazhdueshme ndaj detajeve."
       }
     ],
-    cardImage: "images/jobs/tile-installation.jpg",
+    cardImage: "images/projects/farmacia-shendeti-publik-5.jpg",
     cardImageAlt: { en: "Tile installer", sq: "Pllaka shtrues" },
-    image: "images/jobs/tile-installation.jpg",
+    image: "images/projects/farmacia-shendeti-publik-5.jpg",
     imageAlt: { en: "Tile installation work on a construction project", sq: "Punime shtrimi pllakash ne nje projekt ndertimi" },
     order: 21
   }),
@@ -1295,9 +1295,9 @@ const jobs = [
         sq: "Etike e qendrueshme pune fizike dhe vemendje ndaj detajeve strukturore."
       }
     ],
-    cardImage: "images/jobs/construction-engineer.jpg",
+    cardImage: "images/projects/lidhjaprizrenit.jpeg",
     cardImageAlt: { en: "Rebar worker", sq: "Hekurthyes ne kantier" },
-    image: "images/jobs/construction-engineer.jpg",
+    image: "images/projects/lidhjaprizrenit.jpeg",
     imageAlt: { en: "Steel reinforcement preparation on a construction site", sq: "Pergatitje e armatures se celikut ne kantier" },
     order: 22
   }),
@@ -1348,9 +1348,9 @@ const jobs = [
         sq: "Pune e besueshme dhe bashkepunim praktik me ekipet strukturore."
       }
     ],
-    cardImage: "images/jobs/carpenter-site.jpg",
+    cardImage: "images/projects/lidhjap2.jpeg",
     cardImageAlt: { en: "Construction carpenter", sq: "Karpentier ne pune" },
-    image: "images/jobs/carpenter-site.jpg",
+    image: "images/projects/lidhjap2.jpeg",
     imageAlt: { en: "Carpenter assembling formwork on site", sq: "Karpentier duke montuar kallepet ne kantier" },
     order: 23
   }),
@@ -1401,9 +1401,9 @@ const jobs = [
         sq: "Qendrim fleksibel ndaj mbeshtetjes se punishtes dhe detyrave te diktuara nga terreni."
       }
     ],
-    cardImage: "images/jobs/carpenter-site.jpg",
+    cardImage: "images/projects/lidhjap2.jpeg",
     cardImageAlt: { en: "Woodworker", sq: "Marangoz ne pune" },
-    image: "images/jobs/carpenter-site.jpg",
+    image: "images/projects/lidhjap2.jpeg",
     imageAlt: { en: "Woodworker preparing components for site use", sq: "Marangoz duke pergatitur elemente per perdorim ne kantier" },
     order: 24
   }),
@@ -1454,9 +1454,9 @@ const jobs = [
         sq: "Qasje e pergjegjshme ndaj PPE, kontrollit te punes me nxehtesi dhe koordinimit ne ekip."
       }
     ],
-    cardImage: "images/jobs/welder-workshop.jpg",
+    cardImage: "images/projects/parkmbyllur1.jpeg",
     cardImageAlt: { en: "Welder working", sq: "Saldator ne pune" },
-    image: "images/jobs/welder-workshop.jpg",
+    image: "images/projects/parkmbyllur1.jpeg",
     imageAlt: { en: "Welder working on structural steel elements", sq: "Saldator duke punuar mbi elemente strukturore celiku" },
     order: 25
   }),
@@ -1507,9 +1507,9 @@ const jobs = [
         sq: "Zakone te besueshme dokumentimi dhe ndjekjeje te defekteve."
       }
     ],
-    cardImage: "images/jobs/mechanic-diagnostic.jpg",
+    cardImage: "images/projects/stacioni-naftes-zharrez-after-1.jpg",
     cardImageAlt: { en: "Auto electrician", sq: "Elektroaut ne servis" },
-    image: "images/jobs/mechanic-diagnostic.jpg",
+    image: "images/projects/stacioni-naftes-zharrez-after-1.jpg",
     imageAlt: { en: "Auto electrician diagnosing heavy equipment systems", sq: "Elektroaut duke diagnostikuar sistemet e makinerive te renda" },
     order: 26
   }),
@@ -1560,9 +1560,9 @@ const jobs = [
         sq: "Qasje e organizuar ndaj pjeseve rezerve, veglave dhe regjistrave te mirembajtjes."
       }
     ],
-    cardImage: "images/jobs/mechanic-diagnostic.jpg",
+    cardImage: "images/projects/stacioni-naftes-zharrez-after-1.jpg",
     cardImageAlt: { en: "Machinery mechanic", sq: "Mekanik makinerish" },
-    image: "images/jobs/mechanic-diagnostic.jpg",
+    image: "images/projects/stacioni-naftes-zharrez-after-1.jpg",
     imageAlt: { en: "Mechanic servicing construction equipment", sq: "Mekanik duke servisuar pajisje ndertimi" },
     order: 27
   })

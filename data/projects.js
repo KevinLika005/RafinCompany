@@ -49,11 +49,10 @@ const projects = [
       'Trotuare me beton të stampuar me sipërfaqe rreth 16,745 m²',
       'Ndërtim i një moli pranë Parkut Helen'
     ],
-    coverImage: 'images/projects/liqeni-farkes-pedonale-piste-vrapimi-1.png',
+    coverImage: 'images/projects/liqeni-farkes-pedonale-piste-vrapimi-3.png',
     heroImages: [
-      'images/projects/liqeni-farkes-pedonale-piste-vrapimi-1.png',
-      'images/projects/liqeni-farkes-pedonale-piste-vrapimi-2.png',
-      'images/projects/liqeni-farkes-pedonale-piste-vrapimi-3.png'
+      'images/projects/liqeni-farkes-pedonale-piste-vrapimi-3.png',
+      'images/projects/liqeni-farkes-pedonale-piste-vrapimi-2.png'
     ],
     location: localized('Liqeni i Farkës, Tiranë'),
     order: 1
@@ -97,7 +96,10 @@ const projects = [
     heroImages: [
       'images/projects/stadium.jpeg',
       'images/projects/stadium-2.jpeg',
-      'images/projects/stadium-3.jpeg'
+      'images/projects/stadium-3.jpeg',
+      'images/projects/garnizon1.jpeg',
+      'images/projects/garnizon2.jpeg',
+      'images/projects/garnizon3.jpeg'
     ],
     location: localized('Garnizoni "Skënderbej"'),
     order: 2
@@ -129,10 +131,13 @@ const projects = [
       'Shesh aksesi dhe parkimi me sipërfaqe 6,800 m²',
       'Dysheme e projektuar me shtresa teknike për tonazh të rëndë'
     ],
-    coverImage: 'images/projects/parku-mbyllur-hmmwv-1.jpeg',
+    coverImage: 'images/projects/parkmbyllur1.jpeg',
     heroImages: [
-      'images/projects/parku-mbyllur-hmmwv-1.jpeg',
-      'images/projects/parku-mbyllur-hmmwv-2.jpeg'
+      'images/projects/parkmbyllur1.jpeg',
+      'images/projects/parkmbyllur2.jpeg',
+      'images/projects/parkmbyllur3.jpeg',
+      'images/projects/parkmbyllur4.jpeg',
+      'images/projects/parkmbyllur5.jpeg'
     ],
     order: 3
   },
@@ -231,13 +236,11 @@ const projects = [
       'Ndërtim dhe rikonstruksion i urave',
       'Instalim i ndriçimit rrugor dhe i rrjeteve inxhinierike'
     ],
-    coverImage: 'images/projects/rruget-kryesore-5-maji-faza-3-1.jpeg',
+    coverImage: 'images/projects/rruget-kryesore-5-maji-faza-3-6.jpeg',
     heroImages: [
       'images/projects/rruget-kryesore-5-maji-faza-3-1.jpeg',
-      'images/projects/rruget-kryesore-5-maji-faza-3-2.png',
       'images/projects/rruget-kryesore-5-maji-faza-3-3.png',
       'images/projects/rruget-kryesore-5-maji-faza-3-4.jpeg',
-      'images/projects/rruget-kryesore-5-maji-faza-3-5.jpeg',
       'images/projects/rruget-kryesore-5-maji-faza-3-6.jpeg'
     ],
     location: localized('Zona "5 Maji", Tiranë'),
@@ -270,10 +273,15 @@ const projects = [
       '2 njësi banimi pikësore',
       'Ashensorë dhe qarkullim vertikal i dedikuar për aksesueshmëri'
     ],
-    coverImage: 'images/projects/njesite-banimit-mirdite-rreshen-1.png',
+    coverImage: 'images/projects/rreshen6.jpg',
     heroImages: [
-      'images/projects/njesite-banimit-mirdite-rreshen-1.png',
-      'images/projects/njesite-banimit-mirdite-rreshen-2.png'
+      'images/projects/rreshen6.jpg',
+      'images/projects/rreshen.jpg',
+      'images/projects/rreshen1.jpg',
+      'images/projects/rreshen2.jpg',
+      'images/projects/rreshen3.jpg',
+      'images/projects/rreshen4.jpg',
+      'images/projects/rreshen5.jpg'
     ],
     location: localized('Rrëshen, Mirditë'),
     order: 7
@@ -307,7 +315,12 @@ const projects = [
     ],
     coverImage: 'images/projects/shkolla-lidhja-e-prizrenit-1.png',
     heroImages: [
-      'images/projects/shkolla-lidhja-e-prizrenit-1.png'
+      'images/projects/shkolla-lidhja-e-prizrenit-1.png',
+      'images/projects/lidhjaprizrenit.jpeg',
+      'images/projects/lidhjap2.jpeg',
+      'images/projects/lidhjap3.jpeg',
+      'images/projects/lidhjap4.jpeg',
+      'images/projects/lidhjap5.jpeg'
     ],
     location: localized('Babrru Paskuqan, Kamëz'),
     order: 8
@@ -339,10 +352,12 @@ const projects = [
       'Fasadë e ventiluar me panele HPL në rreth 2,000 m²',
       'Instalim i sistemeve elektrike, HVAC, mbrojtjes nga zjarri, CCTV dhe kontrollit të aksesit'
     ],
-    coverImage: 'images/projects/farmacia-shendeti-publik-1.png',
+    coverImage: 'images/projects/farmacia-shendeti-publik-3.jpg',
     heroImages: [
-      'images/projects/farmacia-shendeti-publik-1.png',
-      'images/projects/farmacia-shendeti-publik-2.png'
+      'images/projects/farmacia-shendeti-publik-3.jpg',
+      'images/projects/farmacia-shendeti-publik-2.png',
+      'images/projects/farmacia-shendeti-publik-4.jpg',
+      'images/projects/farmacia-shendeti-publik-5.jpg'
     ],
     location: localized('Tiranë'),
     order: 9
@@ -574,7 +589,9 @@ const projects = [
     ],
     coverImage: 'images/projects/kanalet-ujitese-shelqet-pistull-u13-u14-1.jpeg',
     heroImages: [
-      'images/projects/kanalet-ujitese-shelqet-pistull-u13-u14-1.jpeg'
+      'images/projects/kanalet-ujitese-shelqet-pistull-u13-u14-1.jpeg',
+      'images/projects/kanal-lezh.jpeg',
+      'images/projects/kanal-lezh2.jpeg'
     ],
     location: localized('Milot, Mamurras dhe Drojë'),
     order: 16
@@ -651,8 +668,12 @@ const projects = [
     ],
     coverImage: 'images/projects/stacioni-naftes-zharrez-1.jpeg',
     heroImages: [
+      'images/projects/stacioni-naftes-zharrez-before-1.jpeg',
+      'images/projects/stacioni-naftes-zharrez-before-2.jpeg',
+      'images/projects/stacioni-naftes-zharrez-2.jpeg',
       'images/projects/stacioni-naftes-zharrez-1.jpeg',
-      'images/projects/stacioni-naftes-zharrez-2.jpeg'
+      'images/projects/stacioni-naftes-zharrez-after-2.jpg',
+      'images/projects/stacioni-naftes-zharrez-after-1.jpg'
     ],
     location: localized('Zharrëz, Patos, Fier'),
     order: 19
@@ -704,7 +725,7 @@ const projects = [
       ]
     ),
     metrics: [],
-    coverImage: 'images/fotot_kryesore_mesonjetorja/01_pamje_jashte_porta_001s.jpg',
+    coverImage: 'images/projects/mesonjtorja.jpg',
     heroImages: [
       'images/fotot_kryesore_mesonjetorja/01_pamje_jashte_porta_001s.jpg',
       'images/fotot_kryesore_mesonjetorja/04_salle_ekspozimi_018s.jpg',

@@ -1,4 +1,4 @@
-(function () {
+﻿(function () {
   const MOUNT_ID = "materials-section-container";
 
   function getLocalizedValue(value) {
@@ -28,7 +28,7 @@
       .map((item, index) => {
         const title = escapeHtml(getLocalizedValue(item.title));
         const summary = escapeHtml(getLocalizedValue(item.summary));
-        const image = escapeHtml(item.image || "images/project-1-480x361.jpg");
+        const image = escapeHtml(item.image || "images/materials/asphalt-production.jpg");
         const imageAlt = escapeHtml(getLocalizedValue(item.imageAlt) || title);
         const loading = index === 0 ? "eager" : "auto";
         const fetchPriority = index === 0 ? "high" : "auto";
