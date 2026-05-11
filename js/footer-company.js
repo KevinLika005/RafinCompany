@@ -161,11 +161,13 @@
                   <img src="rafin-logo-white-transparent.png" alt="${escapeHtml(site.companyName)}" width="120" height="120" />
                 </a>
               </div>
-              ${socialListMarkup}
+              <div class="footer-left-details">
+                ${socialListMarkup}
+                ${showAddress ? `<p class="footer-address-line"><span class="footer-address-line__title">Adresa</span><span class="footer-address-line__text">${escapeHtml(addressLine)}</span></p>` : ""}
+              </div>
             </div>
             <div class="col-lg-8">
               <div class="footer-content-row">
-                ${showAddress ? `<p class="footer-address-line"><span class="footer-address-line__title">Adresa</span><span class="footer-address-line__text">${escapeHtml(addressLine)}</span></p>` : ""}
                 <div class="footer-departments-wrap">
                   <div class="footer-departments-grid">
                     ${depsHtml}
