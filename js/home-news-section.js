@@ -17,175 +17,175 @@ document.addEventListener("DOMContentLoaded", () => {
         {
           category: "Civil Construction",
           date: "May 2026",
-          title: "New developments in civil projects",
-          body: "Rafin Company continues work on civil buildings with a strong focus on quality, safety, and technical coordination.",
+          title: "20 individual homes in Vaqarr",
+          body: "Reconstruction project delivering 20 individual homes and supporting infrastructure in the Vaqarr administrative unit.",
           alt: "Civil construction project in progress by Rafin Company",
-          aria: "Read more about new developments in civil projects"
+          aria: "Read more about the 20 individual homes project in Vaqarr"
         },
         {
           category: "Road Infrastructure",
           date: "April 2026",
-          title: "Infrastructure works delivered to high standards",
-          body: "Our teams are actively delivering road works with discipline, consistency, and professional responsibility.",
+          title: "Main roads of the \"5 Maji\" area",
+          body: "Construction and reconstruction of the main road infrastructure in the \"5 Maji\" area, including sidewalks, lighting, and engineering networks.",
           alt: "Road infrastructure works on site",
-          aria: "Read more about infrastructure works delivered to high standards"
+          aria: "Read more about the main roads project in the 5 Maji area"
         },
         {
           category: "Electrical Infrastructure",
           date: "April 2026",
-          title: "Technical solutions for electrical networks",
-          body: "Electrical projects are executed with careful technical control and implementation aligned with current standards.",
+          title: "Substations in Kashar and Selite",
+          body: "Reconstruction of electrical substations with new equipment and cable line replacements across the medium and low-voltage network.",
           alt: "Electrical infrastructure installations",
-          aria: "Read more about technical solutions for electrical networks"
-        },
-        {
-          category: "Industrial Projects",
-          date: "March 2026",
-          title: "Advanced capacity in industrial projects",
-          body: "Rafin supports industrial projects with specialized staff and structured field organization.",
-          alt: "View from an industrial project",
-          aria: "Read more about advanced capacity in industrial projects"
+          aria: "Read more about the substation reconstruction project in Kashar and Selite"
         },
         {
           category: "Technology",
           date: "March 2026",
-          title: "Technology supporting construction delivery",
-          body: "The use of technology improves planning, quality control, and more efficient project management.",
-          alt: "Technical planning and technology in construction",
-          aria: "Read more about technology supporting construction delivery"
+          title: "Zharrez oil station",
+          body: "Infrastructure upgrade, digitization, and modernization of the station with SCADA systems and current technical standards.",
+          alt: "View from the Zharrez oil station project",
+          aria: "Read more about the Zharrez oil station digitization project"
+        },
+        {
+          category: "Civil Construction",
+          date: "March 2026",
+          title: "Pharmacy and Public Health building",
+          body: "Full reconstruction of the building with structural strengthening, ventilated facade systems, and complete engineering installations.",
+          alt: "Pharmacy and Public Health reconstruction project",
+          aria: "Read more about the Pharmacy and Public Health reconstruction project"
         },
         {
           category: "Water Projects",
           date: "February 2026",
-          title: "Focus on water infrastructure projects",
-          body: "Water infrastructure works are delivered with careful attention to functionality and long-term durability.",
+          title: "Shelqet-Pistull irrigation canal",
+          body: "Rehabilitation and modernization of the irrigation system, including the U-13 and U-14 canal sections in Milot, Mamurras, and Droje.",
           alt: "Water infrastructure and canal works",
-          aria: "Read more about water infrastructure projects"
+          aria: "Read more about the Shelqet-Pistull irrigation canal project"
         },
         {
-          category: "Sustainability",
+          category: "Civil Construction",
           date: "February 2026",
-          title: "Recycling construction materials",
-          body: "Rafin promotes more responsible use of materials and reduced environmental impact.",
-          alt: "Construction materials and recycling process",
-          aria: "Read more about recycling construction materials"
+          title: "Reconstruction of Okshtun kindergarten",
+          body: "EU4Schools reconstruction project focused on accessibility, safety, and energy efficiency for the new educational facilities.",
+          alt: "View from the reconstruction of Okshtun kindergarten",
+          aria: "Read more about the reconstruction project of Okshtun kindergarten"
         },
         {
-          category: "Safety",
+          category: "Road Infrastructure",
           date: "January 2026",
-          title: "Site safety remains a priority",
-          body: "Every work process is supported by safety measures, coordination, and professional responsibility.",
-          alt: "Site staff working with a focus on safety",
-          aria: "Read more about site safety"
+          title: "Skenderbej Garrison",
+          body: "Multifunctional infrastructure project with interventions on roads, plazas, buildings, and sports spaces inside the garrison.",
+          alt: "Infrastructure works inside Skenderbej Garrison",
+          aria: "Read more about the infrastructure project in Skenderbej Garrison"
         },
         {
-          category: "Staff & Operations",
+          category: "Civil Construction",
           date: "December 2025",
-          title: "Technical teams in the field",
-          body: "Technical staff play a key role in organizing, monitoring, and delivering projects to a high standard.",
-          alt: "Technical team monitoring works on site",
-          aria: "Read more about technical teams in the field"
+          title: "Lidhja e Prizrenit school",
+          body: "Reconstruction of the new school building with classrooms, a gymnasium, and modern technical and safety systems.",
+          alt: "Lidhja e Prizrenit school construction project",
+          aria: "Read more about the Lidhja e Prizrenit school project"
         },
         {
-          category: "Company",
+          category: "Civil Construction",
           date: "December 2025",
-          title: "Continuous development of capabilities",
-          body: "Rafin Company continues strengthening its human, technical, and operational capacity for more complex projects.",
-          alt: "Operational capacity and continuous company development",
-          aria: "Read more about the continuous development of company capabilities"
+          title: "Residential units in Mirdita",
+          body: "Reconstruction project delivering multi-storey buildings and point residential units in the new development zone of Rreshen.",
+          alt: "View from the reconstruction of residential units in Mirdita",
+          aria: "Read more about the residential reconstruction project in Mirdita"
         }
       ]
     },
     sq: {
       eyebrow: "RAFIN COMPANY",
       title: "Lajmet e fundit",
-      subtitle: "Zhvillimet më të fundit nga projektet, infrastruktura dhe aktivitetet tona në terren.",
-      cta: "Shiko të gjitha",
-      readMore: "Lexo më shumë",
-      controls: "Kontrollet e karuselit të lajmeve",
-      previous: "Lajmi i mëparshëm",
-      next: "Lajmi i radhës",
+      subtitle: "Zhvillimet m\u00eb t\u00eb fundit nga projektet, infrastruktura dhe aktivitetet tona n\u00eb terren.",
+      cta: "Shiko t\u00eb gjitha",
+      readMore: "Lexo m\u00eb shum\u00eb",
+      controls: "Kontrollet e karuselit t\u00eb lajmeve",
+      previous: "Lajmi i m\u00ebparsh\u00ebm",
+      next: "Lajmi i radh\u00ebs",
       carousel: "Karusel me lajmet e fundit",
       items: [
         {
-          category: "Ndërtim Civil",
+          category: "Nd\u00ebrtim Civil",
           date: "Maj 2026",
-          title: "Zhvillime të reja në projektet civile",
-          body: "Rafin Company vijon punën në objekte civile me fokus cilësinë, sigurinë dhe koordinimin teknik.",
-          alt: "Objekt civil në zhvillim nga Rafin Company",
-          aria: "Lexo më shumë për zhvillimet e reja në projektet civile"
+          title: "20 banesa individuale n\u00eb Vaqarr",
+          body: "Projekt rind\u00ebrtimi me 20 banesa individuale dhe infrastruktur\u00eb shoq\u00ebruese n\u00eb nj\u00ebsin\u00eb administrative Vaqarr.",
+          alt: "Objekt civil n\u00eb zhvillim nga Rafin Company",
+          aria: "Lexo m\u00eb shum\u00eb p\u00ebr projektin e 20 banesave individuale n\u00eb Vaqarr"
         },
         {
-          category: "Infrastrukturë Rrugore",
+          category: "Infrastruktur\u00eb Rrugore",
           date: "Prill 2026",
-          title: "Punime infrastrukturore me standarde të larta",
-          body: "Ekipet tona janë të angazhuara në realizimin e punimeve rrugore me disiplinë dhe përgjegjësi.",
-          alt: "Punime infrastrukturore rrugore në terren",
-          aria: "Lexo më shumë për punimet infrastrukturore me standarde të larta"
+          title: "Rrug\u00ebt kryesore t\u00eb zon\u00ebs \"5 Maji\"",
+          body: "Nd\u00ebrtim dhe rikonstruksion i infrastruktur\u00ebs rrugore n\u00eb zon\u00ebn \"5 Maji\", me trotuare, ndri\u00e7im dhe rrjete inxhinierike.",
+          alt: "Punime infrastrukturore rrugore n\u00eb terren",
+          aria: "Lexo m\u00eb shum\u00eb p\u00ebr projektin e rrug\u00ebve kryesore t\u00eb zon\u00ebs 5 Maji"
         },
         {
-          category: "Infrastrukturë Elektrike",
+          category: "Infrastruktur\u00eb Elektrike",
           date: "Prill 2026",
-          title: "Zgjidhje teknike për rrjete elektrike",
-          body: "Projektet elektrike zhvillohen me kujdes teknik dhe zbatim të standardeve bashkëkohore.",
-          alt: "Instalime të infrastrukturës elektrike",
-          aria: "Lexo më shumë për zgjidhjet teknike për rrjete elektrike"
-        },
-        {
-          category: "Projekte Industriale",
-          date: "Mars 2026",
-          title: "Kapacitete të avancuara në projekte industriale",
-          body: "Rafin mbështet projekte industriale me staf të specializuar dhe organizim të strukturuar në terren.",
-          alt: "Pamje nga një projekt industrial",
-          aria: "Lexo më shumë për kapacitetet e avancuara në projekte industriale"
+          title: "Kabinat n\u00eb n\u00ebnstacionet Kashar dhe Selit\u00eb",
+          body: "Rikonstruksion i kabinave elektrike me pajisje t\u00eb reja dhe z\u00ebvend\u00ebsim t\u00eb linjave kabllore n\u00eb rrjetin TM/TU.",
+          alt: "Instalime t\u00eb infrastruktur\u00ebs elektrike",
+          aria: "Lexo m\u00eb shum\u00eb p\u00ebr projektin e rikonstruksionit t\u00eb kabinave n\u00eb Kashar dhe Selit\u00eb"
         },
         {
           category: "Teknologji",
           date: "Mars 2026",
-          title: "Teknologjia në shërbim të ndërtimit",
-          body: "Përdorimi i teknologjisë ndihmon në planifikim, kontroll cilësie dhe menaxhim më efikas të projekteve.",
-          alt: "Planifikim teknik dhe teknologji në ndërtim",
-          aria: "Lexo më shumë për teknologjinë në shërbim të ndërtimit"
+          title: "Stacioni i naft\u00ebs Zharr\u00ebz",
+          body: "P\u00ebrmir\u00ebsim, digjitalizim dhe rikualifikim i infrastruktur\u00ebs s\u00eb stacionit me sisteme SCADA dhe standarde teknike bashk\u00ebkohore.",
+          alt: "Pamje nga projekti i stacionit t\u00eb naft\u00ebs Zharr\u00ebz",
+          aria: "Lexo m\u00eb shum\u00eb p\u00ebr projektin e digjitalizimit t\u00eb stacionit t\u00eb naft\u00ebs Zharr\u00ebz"
+        },
+        {
+          category: "Nd\u00ebrtim Civil",
+          date: "Mars 2026",
+          title: "Farmacia dhe Sh\u00ebndeti Publik",
+          body: "Rikonstruksion i plot\u00eb i godin\u00ebs me p\u00ebrforcime strukturore, fasad\u00eb t\u00eb ventiluar dhe instalim t\u00eb rrjeteve inxhinierike.",
+          alt: "Projekti i rikonstruksionit t\u00eb Farmacis\u00eb dhe Sh\u00ebndetit Publik",
+          aria: "Lexo m\u00eb shum\u00eb p\u00ebr projektin e rikonstruksionit t\u00eb Farmacis\u00eb dhe Sh\u00ebndetit Publik"
         },
         {
           category: "Projekte Ujore",
           date: "Shkurt 2026",
-          title: "Fokus në projektet ujore",
-          body: "Punimet në infrastrukturën ujore realizohen me kujdes ndaj funksionalitetit dhe qëndrueshmërisë afatgjatë.",
-          alt: "Punime në infrastrukturë ujore dhe kanale",
-          aria: "Lexo më shumë për fokusin në projektet ujore"
+          title: "Kanali ujit\u00ebs Shelqet-Pistull",
+          body: "Rehabilitim dhe modernizim i sistemit ujit\u00ebs me trajtim t\u00eb kanaleve U-13 dhe U-14 n\u00eb zon\u00ebn e Milotit, Mamurrasit dhe Droj\u00ebs.",
+          alt: "Punime n\u00eb infrastruktur\u00eb ujore dhe kanale",
+          aria: "Lexo m\u00eb shum\u00eb p\u00ebr projektin e rehabilitimit t\u00eb kanalit Shelqet-Pistull"
         },
         {
-          category: "Qëndrueshmëri",
+          category: "Nd\u00ebrtim Civil",
           date: "Shkurt 2026",
-          title: "Riciklimi i materialeve të ndërtimit",
-          body: "Rafin synon përdorimin më të përgjegjshëm të materialeve dhe reduktimin e ndikimit në mjedis.",
-          alt: "Proces pune me materiale ndërtimi dhe riciklim",
-          aria: "Lexo më shumë për riciklimin e materialeve të ndërtimit"
+          title: "Rind\u00ebrtimi i kopshtit Okshtun",
+          body: "Projekt EU4Schools me fokus aksesueshm\u00ebrin\u00eb, sigurin\u00eb dhe eficienc\u00ebn e energjis\u00eb p\u00ebr ambientet e reja arsimore.",
+          alt: "Pamje nga rind\u00ebrtimi i kopshtit Okshtun",
+          aria: "Lexo m\u00eb shum\u00eb p\u00ebr projektin e rind\u00ebrtimit t\u00eb kopshtit Okshtun"
         },
         {
-          category: "Siguri",
+          category: "Infrastruktur\u00eb Rrugore",
           date: "Janar 2026",
-          title: "Siguria në kantier mbetet prioritet",
-          body: "Çdo proces pune mbështetet në masa sigurie, koordinim dhe përgjegjësi profesionale.",
-          alt: "Staf në kantier me fokus te siguria",
-          aria: "Lexo më shumë për sigurinë në kantier"
+          title: "Garnizoni \"Sk\u00ebnderbej\"",
+          body: "Projekt multifunksional me nd\u00ebrhyrje n\u00eb rrug\u00eb, sheshe, objekte dhe hap\u00ebsira sportive brenda garnizonit.",
+          alt: "Punime infrastrukturore n\u00eb Garnizonin Sk\u00ebnderbej",
+          aria: "Lexo m\u00eb shum\u00eb p\u00ebr projektin e infrastruktur\u00ebs n\u00eb Garnizonin Sk\u00ebnderbej"
         },
         {
-          category: "Staf & Operim",
+          category: "Nd\u00ebrtim Civil",
           date: "Dhjetor 2025",
-          title: "Ekipet teknike në terren",
-          body: "Stafi teknik luan rol kyç në organizimin, monitorimin dhe përfundimin me cilësi të projekteve.",
-          alt: "Ekip teknik duke monitoruar punimet në terren",
-          aria: "Lexo më shumë për ekipet teknike në terren"
+          title: "Shkolla \"Lidhja e Prizrenit\"",
+          body: "Rind\u00ebrtim i godin\u00ebs s\u00eb re shkollore me ambiente m\u00ebsimore, palest\u00ebr dhe sisteme moderne teknike e sigurie.",
+          alt: "Projekti i nd\u00ebrtimit t\u00eb shkoll\u00ebs Lidhja e Prizrenit",
+          aria: "Lexo m\u00eb shum\u00eb p\u00ebr projektin e shkoll\u00ebs Lidhja e Prizrenit"
         },
         {
-          category: "Kompania",
+          category: "Nd\u00ebrtim Civil",
           date: "Dhjetor 2025",
-          title: "Zhvillim i vazhdueshëm i kapaciteteve",
-          body: "Rafin Company vijon të forcojë kapacitetet njerëzore, teknike dhe operative për projekte më komplekse.",
-          alt: "Kapacitete operative dhe zhvillim i vazhdueshëm i kompanisë",
-          aria: "Lexo më shumë për zhvillimin e vazhdueshëm të kapaciteteve"
+          title: "Nj\u00ebsit\u00eb e banimit n\u00eb Mirdit\u00eb",
+          body: "Projekt rind\u00ebrtimi me objekte shum\u00ebkat\u00ebshe dhe nj\u00ebsi banimi pik\u00ebsore n\u00eb zon\u00ebn e re p\u00ebr zhvillim n\u00eb Rr\u00ebshen.",
+          alt: "Pamje nga rind\u00ebrtimi i nj\u00ebsive t\u00eb banimit n\u00eb Mirdit\u00eb",
+          aria: "Lexo m\u00eb shum\u00eb p\u00ebr projektin e rind\u00ebrtimit t\u00eb nj\u00ebsive t\u00eb banimit n\u00eb Mirdit\u00eb"
         }
       ]
     }
@@ -218,7 +218,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const item = copy.items[index];
     if (!item) return;
 
-    const imageLink = card.querySelector(".news-card__image");
+    const cardLink = card.querySelector(".news-card__card-link");
     const image = card.querySelector(".news-card__image img");
     const badge = card.querySelector(".news-card__category-badge");
     const category = card.querySelector(".news-card__category");
@@ -227,7 +227,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const body = card.querySelector(".news-card__description");
     const link = card.querySelector(".news-card__link");
 
-    if (imageLink) imageLink.setAttribute("aria-label", item.aria);
+    if (cardLink) cardLink.setAttribute("aria-label", item.aria);
     if (image) image.setAttribute("alt", item.alt);
     if (badge) badge.textContent = item.category;
     if (category) category.textContent = item.category;

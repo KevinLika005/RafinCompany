@@ -337,10 +337,13 @@
         visibleCount = 1,
         maxIndex = 0,
         activePointerId = null,
+        hasPointerCapture = false,
         dragStartX = 0,
         dragStartY = 0,
         dragDeltaX = 0,
         dragBaseOffset = 0,
+        dragRenderFrame = 0,
+        pendingOffset = 0,
         isPointerDown = false,
         isDragging = false,
         suppressClick = false,
@@ -406,8 +409,51 @@
         return getStepWidth() * currentIndex;
       }
 
+      function getMinOffset() {
+        return -getStepWidth() * maxIndex;
+      }
+
+      function clamp(value, min, max) {
+        return Math.min(Math.max(value, min), max);
+      }
+
       function renderOffset(offset) {
         track.style.transform = "translate3d(" + offset + "px, 0, 0)";
+      }
+
+      function flushPendingOffset() {
+        if (dragRenderFrame) {
+          window.cancelAnimationFrame(dragRenderFrame);
+          dragRenderFrame = 0;
+        }
+      }
+
+      function queueOffset(offset) {
+        pendingOffset = offset;
+
+        if (dragRenderFrame) {
+          return;
+        }
+
+        dragRenderFrame = window.requestAnimationFrame(function () {
+          dragRenderFrame = 0;
+          renderOffset(pendingOffset);
+        });
+      }
+
+      function applyEdgeResistance(offset) {
+        var minOffset = getMinOffset(),
+          maxOffset = 0;
+
+        if (offset > maxOffset) {
+          return maxOffset + (offset - maxOffset) * 0.32;
+        }
+
+        if (offset < minOffset) {
+          return minOffset + (offset - minOffset) * 0.32;
+        }
+
+        return offset;
       }
 
       function updateCarousel() {
@@ -415,6 +461,7 @@
           visibleEnd = Math.min(currentIndex + visibleCount, slides.length),
           progress = slides.length <= visibleCount ? 100 : (visibleEnd / slides.length) * 100;
 
+        flushPendingOffset();
         track.style.transition = "";
         renderOffset(-baseOffset);
         progressBar.style.width = progress + "%";
@@ -465,10 +512,12 @@
       }
 
       function resetDragState() {
+        flushPendingOffset();
         isPointerDown = false;
         isDragging = false;
         dragDeltaX = 0;
         activePointerId = null;
+        hasPointerCapture = false;
         carousel.classList.remove("news-carousel--is-dragging");
         track.style.transition = "";
       }
@@ -534,11 +583,8 @@
         dragBaseOffset = getBaseOffset();
         isPointerDown = true;
         isDragging = false;
+        hasPointerCapture = false;
         stopAutoplay();
-
-        if (viewport.setPointerCapture) {
-          viewport.setPointerCapture(event.pointerId);
-        }
       });
 
       viewport.addEventListener("pointermove", function (event) {
@@ -563,6 +609,11 @@
             isDragging = true;
             carousel.classList.add("news-carousel--is-dragging");
             track.style.transition = "none";
+
+            if (viewport.setPointerCapture) {
+              viewport.setPointerCapture(event.pointerId);
+              hasPointerCapture = true;
+            }
           }
         }
 
@@ -571,32 +622,28 @@
         }
 
         dragDeltaX = deltaX;
-        renderOffset(-dragBaseOffset + dragDeltaX);
+        queueOffset(applyEdgeResistance(-dragBaseOffset + dragDeltaX));
         event.preventDefault();
       });
 
       viewport.addEventListener("pointerup", function (event) {
-        var dragThreshold,
+        var rawIndex,
+          targetIndex,
           completedDrag = isDragging;
 
         if (!isPointerDown || activePointerId !== event.pointerId) {
           return;
         }
 
-        if (viewport.releasePointerCapture) {
+        if (hasPointerCapture && viewport.releasePointerCapture) {
           viewport.releasePointerCapture(event.pointerId);
         }
 
-        dragThreshold = Math.max(45, getStepWidth() * 0.18);
-
-        if (isDragging && Math.abs(dragDeltaX) > dragThreshold) {
-          suppressClick = true;
-
-          if (dragDeltaX < 0) {
-            goTo(currentIndex + 1);
-          } else {
-            goTo(currentIndex - 1);
-          }
+        if (isDragging) {
+          rawIndex = Math.round((dragBaseOffset - dragDeltaX) / getStepWidth());
+          targetIndex = clamp(rawIndex, 0, maxIndex);
+          suppressClick = Math.abs(dragDeltaX) > 10;
+          goTo(targetIndex);
         } else {
           updateCarousel();
         }
