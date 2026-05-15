@@ -2,13 +2,13 @@
 <html class="wide wow-animation" lang="en">
 
 <head>
+  <meta charset="utf-8">
   <!-- WWW.RAFINCOMPANY.COM -->
   <title data-i18n="Careers Page Title">Careers | Rafin Company</title>
   <meta name="description" data-i18n-content="Careers Meta Description" content="Explore open positions at Rafin Company across engineering, transport, construction, and machinery maintenance.">
   <meta name="format-detection" content="telephone=no">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta charset="utf-8">
   <link rel="icon" href="rafin-logo-white-transparent.png" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,12 +19,14 @@
   <link rel="stylesheet" href="css/fonts.css">
   <link rel="stylesheet" href="css/redesign.css">
   <!--[if lt IE 10]>
-    <div class="legacy-browser-warning"><a href="http://windows.microsoft.com/en-US/internet-explorer/"><img src="images/ie8-panel/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."></a></div>
     <script src="js/html5shiv.min.js"></script>
 		<![endif]-->
 </head>
 
 <body class="careers-page">
+  <!--[if lt IE 10]>
+    <div class="legacy-browser-warning"><a href="http://windows.microsoft.com/en-US/internet-explorer/"><img src="images/ie8-panel/warning_bar_0000_us.jpg" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."></a></div>
+  <![endif]-->
   <div id="page-loader">
     <div class="cssload-container">
       <div class="cssload-speeding-wheel"></div>
@@ -45,8 +47,8 @@
             <div class="rd-navbar-panel rd-navbar-search-lg_collapsable">
               <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-nav-wrap"><span></span></button>
               <div class="rd-navbar-brand"><a class="brand-name" href="index.html"><img
-                    class="brand-logo brand-logo--default" src="rafin-logo-white-transparent.png" alt="Rafin Company" width="120" height="120" decoding="async" /><img
-                    class="brand-logo brand-logo--blue" src="rafin-logo-white-transparent.png" alt="" width="120" height="120" decoding="async" aria-hidden="true" /></a></div>
+                    class="brand-logo brand-logo--default" src="rafin-logo-white-transparent.png" alt="Rafin Company" width="120" height="120" decoding="async"><img
+                    class="brand-logo brand-logo--blue" src="rafin-logo-white-transparent.png" alt="" width="120" height="120" decoding="async" aria-hidden="true"></a></div>
             </div>
             <div class="rd-navbar-nav-wrap rd-navbar-search_not-collapsable">
               <div class="rd-navbar-search_collapsable">
@@ -82,7 +84,7 @@
     <section class="section careers-hero careers-hero--plain">
       <div class="section-lg text-center">
         <div class="container">
-          <h2 class="heading-decorated" data-i18n="Careers Hero Title">Build your next role with Rafin</h2>
+          <h1 class="heading-decorated heading-2" data-i18n="Careers Hero Title">Build your next role with Rafin</h1>
           <p class="careers-hero__text" data-i18n="Careers Hero Body">Explore current openings across construction management, vehicle operations, specialist trades, and machinery maintenance.</p>
           <a class="button button-primary careers-hero__button" href="#jobs" data-i18n="View Open Positions">View Open Positions</a>
         </div>
@@ -91,7 +93,7 @@
 
     <section class="section-lg bg-default text-center careers-page-section" id="jobs">
       <div class="container">
-        <h4 class="heading-decorated" data-i18n="Jobs / Careers">Jobs / Careers</h4>
+        <h2 class="heading-decorated heading-4" data-i18n="Jobs / Careers">Jobs / Careers</h2>
         <p class="careers-page-section__lead" data-i18n="Join our dynamic team">Join our dynamic team and build the future with us</p>
         <div id="jobs-filters-container"></div>
         <div class="row row-30 text-left" id="jobs-container">
@@ -101,9 +103,9 @@
       </div>
     </section>
 
-    <section class="section-lg bg-gray-lighter redesign-contacts-section career-application-section" id="career-application">
+    <div class="section-lg bg-gray-lighter redesign-contacts-section career-application-section" id="career-application">
       <div id="career-application-container"></div>
-    </section>
+    </div>
 
     <div id="footer-company-container"></div>
   </div>

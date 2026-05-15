@@ -121,7 +121,7 @@
 
         return `
           <article class="footer-department-card">
-            <h6>${escapeHtml(getLocalizedValue(dep.name))}</h6>
+            <p class="footer-department-card__title heading-6">${escapeHtml(getLocalizedValue(dep.name))}</p>
             <ul>
               ${rows.join("")}
             </ul>
@@ -152,13 +152,14 @@
     const addressLine = showAddress ? `${site.address.street}, ${site.address.property}, ${site.address.city}, ${site.address.country}` : "";
 
     footerContainer.innerHTML = `
-      <section class="section-lg redesign-footer-main">
+      <div class="section-lg redesign-footer-main">
         <div class="container">
+          <h2 class="sr-only">${escapeHtml(t("Footer", "Footer"))}</h2>
           <div class="row row-30">
             <div class="col-lg-4">
               <div class="footer-brand-wrap">
                 <a href="index.html" class="brand-name">
-                  <img src="rafin-logo-white-transparent.png" alt="${escapeHtml(site.companyName)}" width="120" height="120" />
+                  <img src="rafin-logo-white-transparent.png" alt="${escapeHtml(site.companyName)}" width="120" height="120">
                 </a>
               </div>
               <div class="footer-left-details">
@@ -177,7 +178,7 @@
             </div>
           </div>
         </div>
-      </section>
+      </div>
       <footer class="footer-corporate redesign-footer-bottom">
         <div class="container">
           <div class="footer-corporate__inner">

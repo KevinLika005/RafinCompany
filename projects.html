@@ -2,13 +2,13 @@
 <html class="wide wow-animation" lang="en">
 
 <head>
+  <meta charset="utf-8">
   <!-- WWW.RAFINCOMPANY.COM -->
   <title data-i18n="Projects Page Title">Projects | Rafin Company</title>
   <meta name="description" data-i18n-content="Projects Meta Description" content="Browse the diverse portfolio of construction and infrastructure projects by Rafin Company, including civil engineering, public works, and more.">
   <meta name="format-detection" content="telephone=no">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta charset="utf-8">
   <link rel="icon" href="rafin-logo-white-transparent.png" type="image/png">
   <link rel="preload" as="image" href="images/projects/stadium.jpeg" fetchpriority="high">
   <!-- Stylesheets: vendor base -> theme layer -> font/icon layer -> project overrides -->
@@ -21,12 +21,14 @@
   <link rel="stylesheet" href="css/fonts.css">
   <link rel="stylesheet" href="css/redesign.css">
   <!--[if lt IE 10]>
-    <div class="legacy-browser-warning"><a href="http://windows.microsoft.com/en-US/internet-explorer/"><img src="images/ie8-panel/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."></a></div>
     <script src="js/html5shiv.min.js"></script>
 		<![endif]-->
 </head>
 
 <body class="projects-page">
+  <!--[if lt IE 10]>
+    <div class="legacy-browser-warning"><a href="http://windows.microsoft.com/en-US/internet-explorer/"><img src="images/ie8-panel/warning_bar_0000_us.jpg" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."></a></div>
+  <![endif]-->
   <div id="page-loader">
     <div class="cssload-container">
       <div class="cssload-speeding-wheel"></div>
@@ -51,8 +53,8 @@
               <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-nav-wrap"><span></span></button>
               <!-- RD Navbar Brand-->
               <div class="rd-navbar-brand"><a class="brand-name" href="index.html"><img
-                    class="brand-logo brand-logo--default" src="rafin-logo-white-transparent.png" alt="Rafin Company" width="120" height="120" decoding="async" /><img
-                    class="brand-logo brand-logo--blue" src="rafin-logo-white-transparent.png" alt="" width="120" height="120" decoding="async" aria-hidden="true" /></a></div>
+                    class="brand-logo brand-logo--default" src="rafin-logo-white-transparent.png" alt="Rafin Company" width="120" height="120" decoding="async"><img
+                    class="brand-logo brand-logo--blue" src="rafin-logo-white-transparent.png" alt="" width="120" height="120" decoding="async" aria-hidden="true"></a></div>
             </div>
             <!-- RD Navbar Nav-->
             <div class="rd-navbar-nav-wrap rd-navbar-search_not-collapsable">
@@ -92,7 +94,7 @@
       <div class="section-lg text-center category-hero__inner">
         <div class="container">
           <p class="category-hero__eyebrow" id="projects-page-hero-eyebrow" data-i18n="Projects Hero Eyebrow">Rafin Portfolio</p>
-          <h2 class="heading-decorated" id="projects-page-hero-title" data-i18n="Projects Hero Title">Built For Lasting Value</h2>
+          <h1 class="heading-decorated heading-2" id="projects-page-hero-title" data-i18n="Projects Hero Title">Built For Lasting Value</h1>
         </div>
       </div>
     </section>
@@ -100,6 +102,7 @@
     <!-- Projects Section -->
     <section class="section-md bg-default projects-overview-section" id="projects-section">
       <div class="container">
+        <h2 class="sr-only" data-i18n="projects">Projects</h2>
         <div class="projects-filter-shell">
           <div class="projects-filter-bar" id="project-filters">
             <!-- Sticky filter bar injected here -->
@@ -119,7 +122,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 data-i18n="Contact Us">Contact Us</h4>
+            <h2 class="heading-4" data-i18n="Contact Us">Contact Us</h2>
             <button class="close" type="button" data-dismiss="modal" aria-label="Close" data-i18n-aria-label="Close"><span
                 aria-hidden="true">&times;</span></button>
           </div>

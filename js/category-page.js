@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
           </a>
           <div class="project-card__content">
             <p class="project-card__category">${escapeHtml(categoryTitle)}</p>
-            <h5 class="project-card__title"><a href="${slugUrl}">${escapeHtml(projectTitle)}</a></h5>
+            <h3 class="project-card__title heading-5"><a href="${slugUrl}">${escapeHtml(projectTitle)}</a></h3>
             <p class="project-card__excerpt">${escapeHtml(projectExcerpt)}</p>
             <a class="project-card__link" href="${slugUrl}">${escapeHtml(readMoreText)}</a>
           </div>

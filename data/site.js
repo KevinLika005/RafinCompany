@@ -13,7 +13,7 @@ const site = {
   socialLinks: {
     linkedin: "",
     instagram: "https://www.instagram.com/rafin_company_sh.p.k/",
-    facebook: "",
+    facebook: "https://www.facebook.com/RAFINCOMPANY",
     youtube: "",
     x: ""
   },

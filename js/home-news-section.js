@@ -57,10 +57,10 @@ document.addEventListener("DOMContentLoaded", () => {
         {
           category: "Water Projects",
           date: "February 2026",
-          title: "Shelqet-Pistull irrigation canal",
-          body: "Rehabilitation and modernization of the irrigation system, including the U-13 and U-14 canal sections in Milot, Mamurras, and Droje.",
-          alt: "Water infrastructure and canal works",
-          aria: "Read more about the Shelqet-Pistull irrigation canal project"
+          title: "Cengele intake structure",
+          body: "Rehabilitation of the intake structure on the main Peqin-Kavaja irrigation canal, with stabilization works and structural protection measures.",
+          alt: "Works at the Cengele intake structure",
+          aria: "Read more about the Cengele intake structure rehabilitation project"
         },
         {
           category: "Civil Construction",
@@ -150,10 +150,10 @@ document.addEventListener("DOMContentLoaded", () => {
         {
           category: "Projekte Ujore",
           date: "Shkurt 2026",
-          title: "Kanali ujit\u00ebs Shelqet-Pistull",
-          body: "Rehabilitim dhe modernizim i sistemit ujit\u00ebs me trajtim t\u00eb kanaleve U-13 dhe U-14 n\u00eb zon\u00ebn e Milotit, Mamurrasit dhe Droj\u00ebs.",
-          alt: "Punime n\u00eb infrastruktur\u00eb ujore dhe kanale",
-          aria: "Lexo m\u00eb shum\u00eb p\u00ebr projektin e rehabilitimit t\u00eb kanalit Shelqet-Pistull"
+          title: "Vepra e marrjes \u00c7engele",
+          body: "Rehabilitim i vepr\u00ebs s\u00eb marrjes n\u00eb kanalin kryesor vadit\u00ebs Peqin-Kavaj\u00eb, me masa stabilizuese dhe mbrojtje t\u00eb struktur\u00ebs.",
+          alt: "Punime n\u00eb vepr\u00ebn e marrjes \u00c7engele",
+          aria: "Lexo m\u00eb shum\u00eb p\u00ebr projektin e rehabilitimit t\u00eb vepr\u00ebs s\u00eb marrjes \u00c7engele"
         },
         {
           category: "Nd\u00ebrtim Civil",

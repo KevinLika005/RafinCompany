@@ -2,13 +2,13 @@
 <html class="wide wow-animation" lang="en">
 
 <head>
+  <meta charset="utf-8">
   <!-- WWW.RAFINCOMPANY.COM -->
   <title data-i18n="Category Page Title">Category | Rafin Company</title>
   <meta name="description" data-i18n-content="Category Meta Description" content="Explore construction projects by category. Rafin Company delivers excellence across various sectors of infrastructure and building.">
   <meta name="format-detection" content="telephone=no">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta charset="utf-8">
   <link rel="icon" href="rafin-logo-white-transparent.png" type="image/png">
   <!-- Stylesheets: vendor base -> theme layer -> font/icon layer -> project overrides -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,12 +20,14 @@
   <link rel="stylesheet" href="css/fonts.css">
   <link rel="stylesheet" href="css/redesign.css">
   <!--[if lt IE 10]>
-    <div class="legacy-browser-warning"><a href="http://windows.microsoft.com/en-US/internet-explorer/"><img src="images/ie8-panel/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."></a></div>
     <script src="js/html5shiv.min.js"></script>
 		<![endif]-->
 </head>
 
 <body class="category-page projects-page">
+  <!--[if lt IE 10]>
+    <div class="legacy-browser-warning"><a href="http://windows.microsoft.com/en-US/internet-explorer/"><img src="images/ie8-panel/warning_bar_0000_us.jpg" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."></a></div>
+  <![endif]-->
   <div id="page-loader">
     <div class="cssload-container">
       <div class="cssload-speeding-wheel"></div>
@@ -50,8 +52,8 @@
               <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-nav-wrap"><span></span></button>
               <!-- RD Navbar Brand-->
               <div class="rd-navbar-brand"><a class="brand-name" href="index.html"><img
-                    class="brand-logo brand-logo--default" src="rafin-logo-white-transparent.png" alt="Rafin Company" width="120" height="120" decoding="async" /><img
-                    class="brand-logo brand-logo--blue" src="rafin-logo-white-transparent.png" alt="" width="120" height="120" decoding="async" aria-hidden="true" /></a></div>
+                    class="brand-logo brand-logo--default" src="rafin-logo-white-transparent.png" alt="Rafin Company" width="120" height="120" decoding="async"><img
+                    class="brand-logo brand-logo--blue" src="rafin-logo-white-transparent.png" alt="" width="120" height="120" decoding="async" aria-hidden="true"></a></div>
             </div>
             <!-- RD Navbar Nav-->
             <div class="rd-navbar-nav-wrap rd-navbar-search_not-collapsable">
@@ -91,13 +93,13 @@
       <div class="section-lg text-center category-hero__inner">
         <div class="container">
           <p class="category-hero__eyebrow" id="category-eyebrow" data-i18n="Category">Category</p>
-          <h2 class="heading-decorated" id="category-title" data-i18n="Loading">Loading...</h2>
+          <h1 class="heading-decorated heading-2" id="category-title" data-i18n="Loading">Loading...</h1>
         </div>
       </div>
     </section>
 
     <!-- Category Description -->
-    <section class="section-sm bg-default text-center category-description-section" id="category-description-section">
+    <div class="section-sm bg-default text-center category-description-section" id="category-description-section">
       <div class="container">
         <div class="row justify-content-md-center">
           <div class="col-sm-10 col-md-8">
@@ -105,11 +107,12 @@
           </div>
         </div>
       </div>
-    </section>
+    </div>
 
     <!-- Category Projects Grid -->
     <section class="section-md bg-default text-center projects-overview-section category-projects-section">
       <div class="container">
+        <h2 class="sr-only" data-i18n="projects">Projects</h2>
         <div class="row row-50 justify-content-md-center justify-content-lg-start projects-grid" id="category-projects-grid">
           <!-- Projects injected here -->
         </div>

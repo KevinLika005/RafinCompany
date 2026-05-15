@@ -36,10 +36,10 @@
         return `
           <article class="materials-card">
             <figure class="materials-card__media">
-              <img src="${image}" alt="${imageAlt}" width="480" height="360" loading="${loading}" decoding="async" fetchpriority="${fetchPriority}" />
+              <img src="${image}" alt="${imageAlt}" width="480" height="360" loading="${loading}" decoding="async" fetchpriority="${fetchPriority}">
             </figure>
             <div class="materials-card__body">
-              <h6>${title}</h6>
+              <h3 class="heading-6">${title}</h3>
               <p>${summary}</p>
             </div>
           </article>
@@ -54,7 +54,7 @@
         <div class="materials-layout">
           <div class="materials-copy">
             <p class="materials-eyebrow">${escapeHtml(getLocalizedValue(section.eyebrow))}</p>
-            <h4 class="heading-decorated materials-title">${escapeHtml(getLocalizedValue(section.title))}</h4>
+            <h2 class="heading-decorated heading-4 materials-title">${escapeHtml(getLocalizedValue(section.title))}</h2>
             <p class="materials-intro">${escapeHtml(getLocalizedValue(section.intro))}</p>
             <p class="materials-note">${escapeHtml(getLocalizedValue(section.recyclingNote))}</p>
             <a class="button button-primary" href="${ctaHref}">${escapeHtml(getLocalizedValue(section.ctaLabel))}</a>

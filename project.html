@@ -2,13 +2,13 @@
 <html class="wide wow-animation" lang="en">
 
 <head>
+  <meta charset="utf-8">
   <!-- WWW.RAFINCOMPANY.COM -->
   <title data-i18n="Project Page Title">Project Details | Rafin Company</title>
   <meta name="description" data-i18n-content="Project Meta Description" content="View detailed information about Rafin Company construction projects, including location, status, and engineering highlights.">
   <meta name="format-detection" content="telephone=no">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta charset="utf-8">
   <link rel="icon" href="rafin-logo-white-transparent.png" type="image/png">
   <!-- Stylesheets: vendor base -> theme layer -> font/icon layer -> project overrides -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,12 +20,14 @@
   <link rel="stylesheet" href="css/fonts.css">
   <link rel="stylesheet" href="css/redesign.css">
   <!--[if lt IE 10]>
-    <div class="legacy-browser-warning"><a href="http://windows.microsoft.com/en-US/internet-explorer/"><img src="images/ie8-panel/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."></a></div>
     <script src="js/html5shiv.min.js"></script>
 		<![endif]-->
 </head>
 
 <body class="project-page">
+  <!--[if lt IE 10]>
+    <div class="legacy-browser-warning"><a href="http://windows.microsoft.com/en-US/internet-explorer/"><img src="images/ie8-panel/warning_bar_0000_us.jpg" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."></a></div>
+  <![endif]-->
   <div id="page-loader">
     <div class="cssload-container">
       <div class="cssload-speeding-wheel"></div>
@@ -50,8 +52,8 @@
               <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-nav-wrap"><span></span></button>
               <!-- RD Navbar Brand-->
               <div class="rd-navbar-brand"><a class="brand-name" href="index.html"><img
-                    class="brand-logo brand-logo--default" src="rafin-logo-white-transparent.png" alt="Rafin Company" width="120" height="120" decoding="async" /><img
-                    class="brand-logo brand-logo--blue" src="rafin-logo-white-transparent.png" alt="" width="120" height="120" decoding="async" aria-hidden="true" /></a></div>
+                    class="brand-logo brand-logo--default" src="rafin-logo-white-transparent.png" alt="Rafin Company" width="120" height="120" decoding="async"><img
+                    class="brand-logo brand-logo--blue" src="rafin-logo-white-transparent.png" alt="" width="120" height="120" decoding="async" aria-hidden="true"></a></div>
             </div>
             <!-- RD Navbar Nav-->
             <div class="rd-navbar-nav-wrap rd-navbar-search_not-collapsable">
@@ -95,8 +97,8 @@
               <p class="lead project-excerpt" id="project-excerpt"></p>
               <div class="project-description" id="project-description"></div>
               <div class="project-info-box">
-                <h5 id="project-info-heading" data-i18n="Project Information">Project Information</h5>
-                <hr />
+                <h2 class="project-info-box__title heading-5" id="project-info-heading" data-i18n="Project Information">Project Information</h2>
+                <hr>
                 <ul class="list-xs project-info-list">
                   <li id="info-category" class="project-info-item"><strong><span
                         class="lbl-category" data-i18n="Category">Category</span>:</strong> <span class="val-category"></span></li>
@@ -124,7 +126,7 @@
     </section>
 
     <!-- Project Navigation Section -->
-    <section class="section-sm bg-default project-detail-nav-section">
+    <div class="section-sm bg-default project-detail-nav-section">
       <div class="container">
         <div class="project-detail-nav" id="project-navigation">
           <a href="#" id="prev-project" class="project-detail-nav-card project-detail-nav-card--prev">
@@ -132,7 +134,7 @@
               <span class="icon fa-angle-left" aria-hidden="true"></span>
               <span class="nav-label" data-i18n="Previous Project">Previous Project</span>
             </p>
-            <h5 class="project-detail-nav-card__title nav-title">-</h5>
+            <p class="project-detail-nav-card__title nav-title heading-5">-</p>
             <p class="project-detail-nav-card__meta nav-category">-</p>
           </a>
           <a href="projects.html" id="all-projects-link" class="project-detail-nav-all">
@@ -144,12 +146,12 @@
               <span class="nav-label" data-i18n="Next Project">Next Project</span>
               <span class="icon fa-angle-right" aria-hidden="true"></span>
             </p>
-            <h5 class="project-detail-nav-card__title nav-title">-</h5>
+            <p class="project-detail-nav-card__title nav-title heading-5">-</p>
             <p class="project-detail-nav-card__meta nav-category">-</p>
           </a>
         </div>
       </div>
-    </section>
+    </div>
 
     <!-- Dynamic Footer -->
     <div id="footer-company-container"></div>

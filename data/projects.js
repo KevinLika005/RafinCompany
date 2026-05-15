@@ -458,8 +458,9 @@ const projects = [
       '6 shtëpi individuale 2+1',
       '5 shtëpi individuale 3+1'
     ],
-    coverImage: 'images/projects/banesat-vaqarr-1.jpeg',
+    coverImage: 'images/projects/vaqarr.jpg',
     heroImages: [
+      'images/projects/vaqarr.jpg',
       'images/projects/banesat-vaqarr-1.jpeg',
       'images/projects/banesat-vaqarr-2.jpeg'
     ],
@@ -596,7 +597,8 @@ const projects = [
     heroImages: [
       'images/projects/kanalet-ujitese-shelqet-pistull-u13-u14-1.jpeg',
       'images/projects/kanal-lezh.jpeg',
-      'images/projects/kanal-lezh2.jpeg'
+      'images/projects/kanallezh.jpeg',
+      'images/projects/kanallezh2.jpeg'
     ],
     location: localized('Milot, Mamurras dhe Drojë'),
     order: 16

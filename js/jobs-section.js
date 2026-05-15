@@ -408,7 +408,7 @@
         </button>
         <div class="jobs-modal__layout">
           <figure class="jobs-modal__media">
-            <img src="${image}" alt="${imageAlt}" width="720" height="900" loading="lazy" decoding="async"${imageStyleAttribute} />
+            <img src="${image}" alt="${imageAlt}" width="720" height="900" loading="lazy" decoding="async"${imageStyleAttribute}>
           </figure>
           <div class="jobs-modal__content">
             <div class="jobs-modal__header">
@@ -416,9 +416,9 @@
                 <span class="jobs-chip">${level}</span>
                 <span class="jobs-chip jobs-chip--ghost">${category}</span>
               </div>
-              <h5 id="${MODAL_ID}-title">${title}</h5>
+              <h2 class="jobs-modal__title heading-5" id="${MODAL_ID}-title">${title}</h2>
             </div>
-            <div class="jobs-modal__facts" aria-label="${roleOverviewLabel}">
+            <div class="jobs-modal__facts" role="group" aria-label="${roleOverviewLabel}">
               <div class="jobs-modal__fact">
                 <span>${locationLabel}</span>
                 <strong>${location}</strong>
@@ -433,23 +433,23 @@
               </div>
             </div>
             <div class="jobs-modal__section">
-              <h6>${roleOverviewLabel}</h6>
+              <h3 class="jobs-modal__section-title heading-6">${roleOverviewLabel}</h3>
               <p id="${MODAL_ID}-description">${description}</p>
             </div>
             <div class="jobs-modal__section">
-              <h6>${responsibilitiesLabel}</h6>
+              <h3 class="jobs-modal__section-title heading-6">${responsibilitiesLabel}</h3>
               <ul class="jobs-modal__list">
                 ${renderListItems(job.responsibilities)}
               </ul>
             </div>
             <div class="jobs-modal__section">
-              <h6>${requirementsLabel}</h6>
+              <h3 class="jobs-modal__section-title heading-6">${requirementsLabel}</h3>
               <ul class="jobs-modal__list">
                 ${renderListItems(job.requirements)}
               </ul>
             </div>
             <div class="jobs-modal__section">
-              <h6>${benefitsLabel}</h6>
+              <h3 class="jobs-modal__section-title heading-6">${benefitsLabel}</h3>
               <ul class="jobs-modal__list">
                 ${renderListItems(job.benefits)}
               </ul>
@@ -727,14 +727,14 @@
             aria-controls="${MODAL_ID}"
           >
             <figure class="jobs-card__media">
-              <img src="${cardImage}" alt="${cardImageAlt}" width="480" height="360" decoding="async" fetchpriority="auto"${imageStyleAttribute} />
+              <img src="${cardImage}" alt="${cardImageAlt}" width="480" height="360" decoding="async" fetchpriority="auto"${imageStyleAttribute}>
             </figure>
             <div class="jobs-card__content">
               <p class="jobs-card__meta">
                 <span class="jobs-chip">${level}</span>
                 <span class="jobs-chip jobs-chip--ghost">${category}</span>
               </p>
-              <h6>${title}</h6>
+              <h3 class="jobs-card__title heading-6">${title}</h3>
               <p>${summary}</p>
               <span class="jobs-apply-link">${escapeHtml(viewDetailsLabel)}</span>
             </div>
@@ -753,7 +753,7 @@
     mount.innerHTML = `
       <div class="col-12">
         <article class="jobs-empty-state">
-          <h6>${escapeHtml(getLocalizedValue(emptyState.title))}</h6>
+          <h3 class="jobs-empty-state__title heading-6">${escapeHtml(getLocalizedValue(emptyState.title))}</h3>
           <p>${escapeHtml(getLocalizedValue(emptyState.body))}</p>
         </article>
       </div>

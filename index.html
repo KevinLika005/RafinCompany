@@ -1,6 +1,7 @@
 ﻿<!DOCTYPE html>
 <html class="wide wow-animation" lang="en">
   <head>
+    <meta charset="utf-8">
     <!-- WWW.RAFINCOMPANY.COM -->
     <title data-i18n="Home Page Title">Rafin Company</title>
     <meta name="description" data-i18n-content="Home Meta Description" content="Rafin Company is a leading construction firm in Albania, specializing in civil engineering, public infrastructure, and high-quality building projects.">
@@ -16,9 +17,8 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta charset="utf-8">
     <link rel="icon" href="rafin-logo-white-transparent.png" type="image/png">
-    <link rel="preload" as="image" href="images/projects/stadium.jpeg" fetchpriority="high">
+    <link rel="preload" as="image" href="images/projects/mesonjtorja.jpg" fetchpriority="high">
     <!-- Stylesheets: vendor base -> theme layer -> font/icon layer -> project overrides -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,11 +29,13 @@
     <link rel="stylesheet" href="css/fonts.css">
     <link rel="stylesheet" href="css/redesign.css">
 		<!--[if lt IE 10]>
-    <div class="legacy-browser-warning"><a href="http://windows.microsoft.com/en-US/internet-explorer/"><img src="images/ie8-panel/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."></a></div>
     <script src="js/html5shiv.min.js"></script>
 		<![endif]-->
   </head>
   <body class="home-page">
+    <!--[if lt IE 10]>
+    <div class="legacy-browser-warning"><a href="http://windows.microsoft.com/en-US/internet-explorer/"><img src="images/ie8-panel/warning_bar_0000_us.jpg" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."></a></div>
+    <![endif]-->
     <div id="page-loader">
       <div class="cssload-container">
         <div class="cssload-speeding-wheel"></div>
@@ -51,7 +53,7 @@
               <div class="rd-navbar-panel rd-navbar-search-lg_collapsable">
                 <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-nav-wrap"><span></span></button>
                 <!-- RD Navbar Brand-->
-                <div class="rd-navbar-brand"><a class="brand-name" href="index.html"><img class="brand-logo brand-logo--default" src="rafin-logo-white-transparent.png" alt="Rafin Company" width="120" height="120" decoding="async"/><img class="brand-logo brand-logo--blue" src="rafin-logo-white-transparent.png" alt="" width="120" height="120" decoding="async" aria-hidden="true"/></a></div>
+                <div class="rd-navbar-brand"><a class="brand-name" href="index.html"><img class="brand-logo brand-logo--default" src="rafin-logo-white-transparent.png" alt="Rafin Company" width="120" height="120" decoding="async"><img class="brand-logo brand-logo--blue" src="rafin-logo-white-transparent.png" alt="" width="120" height="120" decoding="async" aria-hidden="true"></a></div>
               </div>
               <!-- RD Navbar Nav-->
               <div class="rd-navbar-nav-wrap rd-navbar-search_not-collapsable">
@@ -88,19 +90,19 @@
         <div class="video-hero-bg" aria-hidden="true">
           <div class="video-hero-slider" id="home-hero-slider">
             <div class="video-hero-slide video-hero-slide--active" data-slide-index="0">
-              <img src="images/jobs/eskavator.jpeg" alt="" fetchpriority="high" decoding="async">
+              <img src="images/projects/mesonjtorja.jpg" alt="" width="1440" height="959" fetchpriority="high" decoding="async">
             </div>
             <div class="video-hero-slide" data-slide-index="1">
-              <img src="images/projects/stadium.jpeg" alt="" loading="lazy" decoding="async">
+              <img src="images/jobs/eskavator.jpeg" alt="" width="1600" height="739" loading="lazy" decoding="async">
             </div>
             <div class="video-hero-slide" data-slide-index="2">
-              <img src="images/projects/farmacia-shendeti-publik-3.jpg" alt="" loading="lazy" decoding="async">
+              <img src="images/projects/stadium.jpeg" alt="" width="1600" height="900" loading="lazy" decoding="async">
             </div>
             <div class="video-hero-slide" data-slide-index="3">
-              <img src="images/projects/rreshen6.jpg" alt="" loading="lazy" decoding="async">
+              <img src="images/projects/farmacia-shendeti-publik-3.jpg" alt="" width="2801" height="2001" loading="lazy" decoding="async">
             </div>
             <div class="video-hero-slide" data-slide-index="4">
-              <img src="images/projects/mesonjtorja.jpg" alt="" loading="lazy" decoding="async">
+              <img src="images/projects/rreshen6.jpg" alt="" width="2048" height="1153" loading="lazy" decoding="async">
             </div>
           </div>
         </div>
@@ -119,7 +121,7 @@
             </div>
           </div>
         </div>
-        <div class="video-hero-indicators" id="home-hero-indicators" aria-label="Homepage hero slides">
+        <div class="video-hero-indicators" id="home-hero-indicators" role="group" aria-label="Homepage hero slides">
           <button class="video-hero-indicator video-hero-indicator--active" type="button" data-slide-to="0" aria-label="Show slide 1" aria-pressed="true">
             <span></span>
           </button>
@@ -143,67 +145,67 @@
         <div class="container">
           <div class="row justify-content-md-center row-30 row-md-50">
             <div class="col-md-11 col-lg-10 col-xl-6">
-              <h4 class="heading-decorated" data-i18n="About Us">About Us</h4>
+              <h2 class="heading-decorated heading-4" data-i18n="About Us">About Us</h2>
               <p class="heading-6 text-width-1" data-i18n="About Company Label">"RAFIN COMPANY"</p>
               <p data-i18n="About Intro Body">Was founded with the mission to develop a new standard in the Albanian market. Our desire and passion for professionalism made it possible to achieve our goals. We have established long-standing relationships with international partners in different areas of construction and create complex infrastructure projects with sophisticated technical and quality standards. Our contacts have been established nationwide and across the region to stay close to innovative methods and high standards in this industry.<br>Established in Tirana, "Rafin Company" has created a development strategy focused on meeting market requirements and offering high-quality solutions to clients. We specialize in projects such as: civil construction, public construction, machinery trade, technology, water supply infrastructure, and high-quality materials from leading brands, etc.</p><a class="button button-primary" href="#modal" data-toggle="modal" data-i18n="Contact Us">Contact Us</a>
             </div>
-            <div class="col-md-11 col-lg-10 col-xl-6"><img src="images/rethnesh.jpeg" alt="Rafin Company Construction Site" width="652" height="491" loading="lazy" decoding="async" fetchpriority="low"/>
+            <div class="col-md-11 col-lg-10 col-xl-6"><img src="images/rethnesh.jpeg" alt="Rafin Company Construction Site" width="652" height="491" loading="lazy" decoding="async" fetchpriority="low">
             </div>
           </div>
         </div>
       </section>
 
-      <section class="section bg-gray-dark parallax-container" data-parallax-img="images/projects/stadium.jpeg">
+      <div class="section bg-gray-dark parallax-container" data-parallax-img="images/projects/stadium.jpeg">
         <div class="parallax-content">
           <div class="section-lg text-center">
             <div class="container" id="home-stats-container">
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
       <!-- Our Services-->
       <section class="section-md home-section-tint home-section-tint--plain text-center" id="services">
         <div class="container">
           <div class="services-section-intro">
             <p class="services-section-intro__eyebrow" data-i18n="Services Intro Eyebrow">Integrated expertise</p>
-            <h4 class="heading-decorated" data-i18n="Our Services">Our Services</h4>
+            <h2 class="heading-decorated heading-4" data-i18n="Our Services">Our Services</h2>
             <p class="services-section-intro__lead" data-i18n="Services Intro Lead">We support infrastructure delivery from planning through execution with disciplined engineering, coordinated field operations, and dependable project control.</p>
           </div>
           <div class="services-feature-grid">
             <a class="service-feature-card" href="services.html#pre-construction">
               <span class="service-feature-card__icon icon linear-icon-pencil-ruler" aria-hidden="true"></span>
-              <h5 class="service-feature-card__title" data-i18n="Service 1 Title">Pre-construction Services</h5>
+              <h3 class="service-feature-card__title heading-5" data-i18n="Service 1 Title">Pre-construction Services</h3>
               <p class="service-feature-card__text" data-i18n="Service 1 Body">We take our time on initial planning before any construction begins, to balance all the financial and efficiency issues beforehand...</p>
               <span class="service-feature-card__link" data-i18n="Explore Service">Explore service</span>
             </a>
             <a class="service-feature-card" href="services.html#general-contracting">
               <span class="service-feature-card__icon icon linear-icon-users" aria-hidden="true"></span>
-              <h5 class="service-feature-card__title" data-i18n="Service 2 Title">General Contracting</h5>
+              <h3 class="service-feature-card__title heading-5" data-i18n="Service 2 Title">General Contracting</h3>
               <p class="service-feature-card__text" data-i18n="Service 2 Body">We have a long list of professional contractors, whom our engineers and architects enjoy to work with on a majority of our projects!</p>
               <span class="service-feature-card__link" data-i18n="Explore Service">Explore service</span>
             </a>
             <a class="service-feature-card" href="services.html#construction-services">
               <span class="service-feature-card__icon icon linear-icon-wall" aria-hidden="true"></span>
-              <h5 class="service-feature-card__title" data-i18n="Service 3 Title">Construction Services</h5>
+              <h3 class="service-feature-card__title heading-5" data-i18n="Service 3 Title">Construction Services</h3>
               <p class="service-feature-card__text" data-i18n="Service 3 Body">Our customers love the pace/quality tempo that we show during each of the principal construction processes!</p>
               <span class="service-feature-card__link" data-i18n="Explore Service">Explore service</span>
             </a>
             <a class="service-feature-card" href="services.html#construction-management">
               <span class="service-feature-card__icon icon linear-icon-apartment" aria-hidden="true"></span>
-              <h5 class="service-feature-card__title" data-i18n="Service 4 Title">Construction Management</h5>
+              <h3 class="service-feature-card__title heading-5" data-i18n="Service 4 Title">Construction Management</h3>
               <p class="service-feature-card__text" data-i18n="Service 4 Body">Construction project management is essential. We're using the most time and iterations efficient life cycles methods for that.</p>
               <span class="service-feature-card__link" data-i18n="Explore Service">Explore service</span>
             </a>
             <a class="service-feature-card" href="services.html#building-information">
               <span class="service-feature-card__icon icon linear-icon-home4" aria-hidden="true"></span>
-              <h5 class="service-feature-card__title" data-i18n="Service 5 Title">Building Information</h5>
+              <h3 class="service-feature-card__title heading-5" data-i18n="Service 5 Title">Building Information</h3>
               <p class="service-feature-card__text" data-i18n="Service 5 Body">Oftentimes physical and functional essence of any construction project needs to be represented digitally, in a 3D model format.</p>
               <span class="service-feature-card__link" data-i18n="Explore Service">Explore service</span>
             </a>
             <a class="service-feature-card" href="services.html#design-build">
               <span class="service-feature-card__icon icon linear-icon-pencil-ruler2" aria-hidden="true"></span>
-              <h5 class="service-feature-card__title" data-i18n="Service 6 Title">Design-Build</h5>
+              <h3 class="service-feature-card__title heading-5" data-i18n="Service 6 Title">Design-Build</h3>
               <p class="service-feature-card__text" data-i18n="Service 6 Body">If a project is not too complex, we may hire a designer-builder type of contractor, to make the longevity of the construction shorter.</p>
               <span class="service-feature-card__link" data-i18n="Explore Service">Explore service</span>
             </a>
@@ -215,30 +217,30 @@
         <div class="container">
           <div class="row justify-content-md-center">
             <div class="col-md-11 col-lg-9 col-xl-8">
-              <h4 class="heading-decorated" data-i18n="Homepage CTA Statement">We are dedicated to providing the highest level of client service offering quality,safety,cost effectiveness to all our clients and partners.</h4><a class="button button-primary" href="#modal" data-toggle="modal" data-i18n="Contact Us">Contact Us</a>
+              <h2 class="heading-decorated heading-4" data-i18n="Homepage CTA Statement">We are dedicated to providing the highest level of client service offering quality,safety,cost effectiveness to all our clients and partners.</h2><a class="button button-primary" href="#modal" data-toggle="modal" data-i18n="Contact Us">Contact Us</a>
             </div>
           </div>
         </div>
       </section>
 
       <!-- Building Materials -->
-      <section class="section-lg home-section-tint home-section-tint--plain redesign-materials-section" id="materials">
+      <div class="section-lg home-section-tint home-section-tint--plain redesign-materials-section" id="materials">
         <div id="materials-section-container"></div>
-      </section>
+      </div>
 
       <!-- Projects-->
-      <section class="bg-default home-projects-section" id="projects">
+      <div class="bg-default home-projects-section" id="projects">
         <div class="container">
           <div id="home-categories-showcase">
             <!-- Dynamic project categories showcase will be injected here by js/home-categories.js -->
           </div>
         </div>
-      </section>
+      </div>
 
       <!-- Certificates -->
       <section class="section-lg home-section-tint home-section-tint--topo text-center">
         <div class="container">
-          <h4 class="heading-decorated" data-i18n="Certifications">Certifications</h4>
+          <h2 class="heading-decorated heading-4" data-i18n="Certifications">Certifications</h2>
           <div class="offset-top-1 px-4" id="certificates-container">
             <!-- Dynamic certificates injected by js/certificates-section.js -->
           </div>
@@ -250,7 +252,7 @@
         <div class="container">
           <div class="homepage-careers-cta__panel">
             <div class="homepage-careers-cta__copy">
-              <h4 class="heading-decorated" data-i18n="Homepage Careers CTA Title">Eksploroni pozicionet e hapura ne Rafin</h4>
+              <h2 class="heading-decorated heading-4" data-i18n="Homepage Careers CTA Title">Eksploroni pozicionet e hapura ne Rafin</h2>
               <p data-i18n="Homepage Careers CTA Body">Shikoni mundesite aktuale te karrieres dhe hapni cdo rol per detaje te plota perpara aplikimit.</p>
             </div>
             <a class="button button-primary homepage-careers-cta__button" href="career.html" data-i18n="View Open Positions">Shiko Pozicionet e Lira</a>
@@ -263,7 +265,7 @@
           <div class="news-carousel-section__header">
             <div class="news-carousel-section__copy">
               <p class="news-carousel-section__eyebrow">RAFIN COMPANY</p>
-              <h4 class="heading-decorated news-carousel-section__title" id="news-carousel-title">Lajmet e fundit</h4>
+              <h2 class="heading-decorated heading-4 news-carousel-section__title" id="news-carousel-title">Lajmet e fundit</h2>
               <p class="news-carousel-section__subtitle">Zhvillimet më të fundit nga projektet, infrastruktura dhe aktivitetet tona në terren.</p>
             </div>
             <div class="news-carousel-section__actions">
@@ -279,13 +281,13 @@
             </div>
           </div>
 
-          <div class="news-carousel" data-autoplay="true" data-autoplay-delay="1500" aria-roledescription="carousel" aria-label="Karusel me lajmet e fundit">
+          <div class="news-carousel" role="region" data-autoplay="true" data-autoplay-delay="1500" aria-roledescription="carousel" aria-label="Karusel me lajmet e fundit">
             <div class="news-carousel__viewport" tabindex="0">
               <div class="news-carousel__track">
                 <article class="news-card">
                   <a class="news-card__card-link" href="project.html?slug=banesat-vaqarr" aria-label="Lexo më shumë për projektin e 20 banesave individuale në Vaqarr">
                     <span class="news-card__image">
-                      <img src="images/projects/banesat-vaqarr-1.jpeg" alt="Objekt civil në zhvillim nga Rafin Company" loading="lazy" decoding="async" />
+                      <img src="images/projects/banesat-vaqarr-1.jpeg" alt="Objekt civil në zhvillim nga Rafin Company" width="1200" height="1600" loading="lazy" decoding="async">
                       <span class="news-card__category-badge">Ndërtim Civil</span>
                     </span>
                     <div class="news-card__body">
@@ -293,7 +295,7 @@
                         <span class="news-card__category">Ndërtim Civil</span>
                         <time datetime="2026-05">Maj 2026</time>
                       </div>
-                      <h5 class="news-card__title">20 banesa individuale në Vaqarr</h5>
+                      <h3 class="news-card__title heading-5">20 banesa individuale në Vaqarr</h3>
                       <p class="news-card__description">Projekt rindërtimi me 20 banesa individuale dhe infrastrukturë shoqëruese në njësinë administrative Vaqarr.</p>
                       <span class="news-card__link">Lexo më shumë</span>
                     </div>
@@ -303,7 +305,7 @@
                 <article class="news-card">
                   <a class="news-card__card-link" href="project.html?slug=rruget-kryesore-5-maji-faza-3" aria-label="Lexo më shumë për projektin e rrugëve kryesore të zonës 5 Maji">
                     <span class="news-card__image">
-                      <img src="images/projects/rruget-kryesore-5-maji-faza-3-4.jpeg" alt="Punime infrastrukturore rrugore në terren" loading="lazy" decoding="async" />
+                      <img src="images/projects/rruget-kryesore-5-maji-faza-3-4.jpeg" alt="Punime infrastrukturore rrugore në terren" width="519" height="292" loading="lazy" decoding="async">
                       <span class="news-card__category-badge">Infrastrukturë Rrugore</span>
                     </span>
                     <div class="news-card__body">
@@ -311,7 +313,7 @@
                         <span class="news-card__category">Infrastrukturë Rrugore</span>
                         <time datetime="2026-04">Prill 2026</time>
                       </div>
-                      <h5 class="news-card__title">Rrugët kryesore të zonës "5 Maji"</h5>
+                      <h3 class="news-card__title heading-5">Rrugët kryesore të zonës "5 Maji"</h3>
                       <p class="news-card__description">Ndërtim dhe rikonstruksion i infrastrukturës rrugore në zonën "5 Maji", me trotuare, ndriçim dhe rrjete inxhinierike.</p>
                       <span class="news-card__link">Lexo më shumë</span>
                     </div>
@@ -321,7 +323,7 @@
                 <article class="news-card">
                   <a class="news-card__card-link" href="project.html?slug=kabinat-kashar-selite" aria-label="Lexo më shumë për projektin e rikonstruksionit të kabinave në Kashar dhe Selitë">
                     <span class="news-card__image">
-                      <img src="images/projects/kabinat-kashar-selite-1.jpeg" alt="Instalime të infrastrukturës elektrike" loading="lazy" decoding="async" />
+                      <img src="images/projects/kabinat-kashar-selite-1.jpeg" alt="Instalime të infrastrukturës elektrike" width="332" height="442" loading="lazy" decoding="async">
                       <span class="news-card__category-badge">Infrastrukturë Elektrike</span>
                     </span>
                     <div class="news-card__body">
@@ -329,7 +331,7 @@
                         <span class="news-card__category">Infrastrukturë Elektrike</span>
                         <time datetime="2026-04">Prill 2026</time>
                       </div>
-                      <h5 class="news-card__title">Kabinat në nënstacionet Kashar dhe Selitë</h5>
+                      <h3 class="news-card__title heading-5">Kabinat në nënstacionet Kashar dhe Selitë</h3>
                       <p class="news-card__description">Rikonstruksion i kabinave elektrike me pajisje të reja dhe zëvendësim të linjave kabllore në rrjetin TM/TU.</p>
                       <span class="news-card__link">Lexo më shumë</span>
                     </div>
@@ -339,7 +341,7 @@
                 <article class="news-card">
                   <a class="news-card__card-link" href="project.html?slug=stacioni-naftes-zharrez" aria-label="Lexo më shumë për projektin e digjitalizimit të stacionit të naftës Zharrëz">
                     <span class="news-card__image">
-                      <img src="images/projects/stacioni-naftes-zharrez-1.jpeg" alt="Pamje nga një projekt industrial" loading="lazy" decoding="async" />
+                      <img src="images/projects/stacioni-naftes-zharrez-1.jpeg" alt="Pamje nga një projekt industrial" width="739" height="402" loading="lazy" decoding="async">
                       <span class="news-card__category-badge">Teknologji</span>
                     </span>
                     <div class="news-card__body">
@@ -347,7 +349,7 @@
                         <span class="news-card__category">Teknologji</span>
                         <time datetime="2026-03">Mars 2026</time>
                       </div>
-                      <h5 class="news-card__title">Stacioni i naftës Zharrëz</h5>
+                      <h3 class="news-card__title heading-5">Stacioni i naftës Zharrëz</h3>
                       <p class="news-card__description">Përmirësim, digjitalizim dhe rikualifikim i infrastrukturës së stacionit me sisteme SCADA dhe standarde teknike bashkëkohore.</p>
                       <span class="news-card__link">Lexo më shumë</span>
                     </div>
@@ -357,7 +359,7 @@
                 <article class="news-card">
                   <a class="news-card__card-link" href="project.html?slug=farmacia-shendeti-publik" aria-label="Lexo më shumë për projektin e rikonstruksionit të Farmacisë dhe Shëndetit Publik">
                     <span class="news-card__image">
-                      <img src="images/projects/farmacia-shendeti-publik-3.jpg" alt="Planifikim teknik dhe teknologji në ndërtim" loading="lazy" decoding="async" />
+                      <img src="images/projects/farmacia-shendeti-publik-3.jpg" alt="Planifikim teknik dhe teknologji në ndërtim" width="2801" height="2001" loading="lazy" decoding="async">
                       <span class="news-card__category-badge">Ndërtim Civil</span>
                     </span>
                     <div class="news-card__body">
@@ -365,7 +367,7 @@
                         <span class="news-card__category">Ndërtim Civil</span>
                         <time datetime="2026-03">Mars 2026</time>
                       </div>
-                      <h5 class="news-card__title">Farmacia dhe Shëndeti Publik</h5>
+                      <h3 class="news-card__title heading-5">Farmacia dhe Shëndeti Publik</h3>
                       <p class="news-card__description">Rikonstruksion i plotë i godinës me përforcime strukturore, fasadë të ventiluar dhe instalim të rrjeteve inxhinierike.</p>
                       <span class="news-card__link">Lexo më shumë</span>
                     </div>
@@ -373,9 +375,9 @@
                 </article>
 
                 <article class="news-card">
-                  <a class="news-card__card-link" href="project.html?slug=kanalet-ujitese-shelqet-pistull-u13-u14" aria-label="Lexo më shumë për projektin e rehabilitimit të kanalit Shelqet-Pistull">
+                  <a class="news-card__card-link" href="project.html?slug=vepra-marrjes-cengele" aria-label="Lexo më shumë për projektin e rehabilitimit të veprës së marrjes Çengele">
                     <span class="news-card__image">
-                      <img src="images/projects/kanalet-ujitese-shelqet-pistull-u13-u14-1.jpeg" alt="Punime në infrastrukturë ujore dhe kanale" loading="lazy" decoding="async" />
+                      <img src="images/projects/diga-cengele.jpeg" alt="Punime në veprën e marrjes Çengele" width="1600" height="900" loading="lazy" decoding="async">
                       <span class="news-card__category-badge">Projekte Ujore</span>
                     </span>
                     <div class="news-card__body">
@@ -383,8 +385,8 @@
                         <span class="news-card__category">Projekte Ujore</span>
                         <time datetime="2026-02">Shkurt 2026</time>
                       </div>
-                      <h5 class="news-card__title">Kanali ujitës Shelqet-Pistull</h5>
-                      <p class="news-card__description">Rehabilitim dhe modernizim i sistemit ujitës me trajtim të kanaleve U-13 dhe U-14 në zonën e Milotit, Mamurrasit dhe Drojës.</p>
+                      <h3 class="news-card__title heading-5">Vepra e marrjes Çengele</h3>
+                      <p class="news-card__description">Rehabilitim i veprës së marrjes në kanalin kryesor vaditës Peqin-Kavajë, me masa stabilizuese dhe mbrojtje të strukturës.</p>
                       <span class="news-card__link">Lexo më shumë</span>
                     </div>
                   </a>
@@ -393,7 +395,7 @@
                 <article class="news-card">
                   <a class="news-card__card-link" href="project.html?slug=kopshti-okshtun" aria-label="Lexo më shumë për projektin e rindërtimit të kopshtit Okshtun">
                     <span class="news-card__image">
-                      <img src="images/projects/kopshti4.jpg" alt="Pamje nga rindërtimi i kopshtit Okshtun" loading="lazy" decoding="async" />
+                      <img src="images/projects/kopshti4.jpg" alt="Pamje nga rindërtimi i kopshtit Okshtun" width="1440" height="1079" loading="lazy" decoding="async">
                       <span class="news-card__category-badge">Ndërtim Civil</span>
                     </span>
                     <div class="news-card__body">
@@ -401,7 +403,7 @@
                         <span class="news-card__category">Ndërtim Civil</span>
                         <time datetime="2026-02">Shkurt 2026</time>
                       </div>
-                      <h5 class="news-card__title">Rindërtimi i kopshtit Okshtun</h5>
+                      <h3 class="news-card__title heading-5">Rindërtimi i kopshtit Okshtun</h3>
                       <p class="news-card__description">Projekt EU4Schools me fokus aksesueshmërinë, sigurinë dhe eficiencën e energjisë për ambientet e reja arsimore.</p>
                       <span class="news-card__link">Lexo më shumë</span>
                     </div>
@@ -411,7 +413,7 @@
                 <article class="news-card">
                   <a class="news-card__card-link" href="project.html?slug=garnizoni-skenderbej-infrastruktura" aria-label="Lexo më shumë për projektin e infrastrukturës në Garnizonin Skënderbej">
                     <span class="news-card__image">
-                      <img src="images/projects/stadium-3.jpeg" alt="Staf në kantier me fokus te siguria" loading="lazy" decoding="async" />
+                      <img src="images/projects/stadium-3.jpeg" alt="Staf në kantier me fokus te siguria" width="1600" height="739" loading="lazy" decoding="async">
                       <span class="news-card__category-badge">Infrastrukturë Rrugore</span>
                     </span>
                     <div class="news-card__body">
@@ -419,7 +421,7 @@
                         <span class="news-card__category">Infrastrukturë Rrugore</span>
                         <time datetime="2026-01">Janar 2026</time>
                       </div>
-                      <h5 class="news-card__title">Garnizoni "Skënderbej"</h5>
+                      <h3 class="news-card__title heading-5">Garnizoni "Skënderbej"</h3>
                       <p class="news-card__description">Projekt multifunksional me ndërhyrje në rrugë, sheshe, objekte dhe hapësira sportive brenda garnizonit.</p>
                       <span class="news-card__link">Lexo më shumë</span>
                     </div>
@@ -429,7 +431,7 @@
                 <article class="news-card">
                   <a class="news-card__card-link" href="project.html?slug=shkolla-lidhja-e-prizrenit" aria-label="Lexo më shumë për projektin e shkollës Lidhja e Prizrenit">
                     <span class="news-card__image">
-                      <img src="images/projects/lidhjaprizrenit.jpeg" alt="Ekip teknik duke monitoruar punimet në terren" loading="lazy" decoding="async" />
+                      <img src="images/projects/lidhjaprizrenit.jpeg" alt="Ekip teknik duke monitoruar punimet në terren" width="1600" height="738" loading="lazy" decoding="async">
                       <span class="news-card__category-badge">Ndërtim Civil</span>
                     </span>
                     <div class="news-card__body">
@@ -437,7 +439,7 @@
                         <span class="news-card__category">Ndërtim Civil</span>
                         <time datetime="2025-12">Dhjetor 2025</time>
                       </div>
-                      <h5 class="news-card__title">Shkolla "Lidhja e Prizrenit"</h5>
+                      <h3 class="news-card__title heading-5">Shkolla "Lidhja e Prizrenit"</h3>
                       <p class="news-card__description">Rindërtim i godinës së re shkollore me ambiente mësimore, palestër dhe sisteme moderne teknike e sigurie.</p>
                       <span class="news-card__link">Lexo më shumë</span>
                     </div>
@@ -447,7 +449,7 @@
                 <article class="news-card">
                   <a class="news-card__card-link" href="project.html?slug=njesite-banimit-mirdite-rreshen" aria-label="Lexo më shumë për projektin e rindërtimit të njësive të banimit në Mirditë">
                     <span class="news-card__image">
-                      <img src="images/projects/rreshen6.jpg" alt="Pamje nga rindërtimi i njësive të banimit në Mirditë" loading="lazy" decoding="async" />
+                      <img src="images/projects/rreshen6.jpg" alt="Pamje nga rindërtimi i njësive të banimit në Mirditë" width="2048" height="1153" loading="lazy" decoding="async">
                       <span class="news-card__category-badge">Ndërtim Civil</span>
                     </span>
                     <div class="news-card__body">
@@ -455,7 +457,7 @@
                         <span class="news-card__category">Ndërtim Civil</span>
                         <time datetime="2025-12">Dhjetor 2025</time>
                       </div>
-                      <h5 class="news-card__title">Njësitë e banimit në Mirditë</h5>
+                      <h3 class="news-card__title heading-5">Njësitë e banimit në Mirditë</h3>
                       <p class="news-card__description">Projekt rindërtimi me objekte shumëkatëshe dhe njësi banimi pikësore në zonën e re për zhvillim në Rrëshen.</p>
                       <span class="news-card__link">Lexo më shumë</span>
                     </div>
@@ -475,9 +477,9 @@
       </section>
 
       <!-- Dedicated Contacts -->
-      <section class="section-lg home-section-tint home-section-tint--topo redesign-contacts-section" id="contacts">
+      <div class="section-lg home-section-tint home-section-tint--topo redesign-contacts-section" id="contacts">
         <div id="contacts-section-container"></div>
-      </section>
+      </div>
 
       <!-- Dynamic Footer Redesign Container -->
       <div id="site-footer">
@@ -489,7 +491,7 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 data-i18n="Contact Us">Contact Us</h4>
+              <h2 class="heading-4" data-i18n="Contact Us">Contact Us</h2>
               <button class="close" type="button" data-dismiss="modal" aria-label="Close" data-i18n-aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">

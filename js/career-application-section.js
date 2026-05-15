@@ -76,24 +76,24 @@
       <div class="container">
         <div class="contacts-section-header text-center">
           <p class="contacts-eyebrow">${escapeHtml(sectionEyebrow)}</p>
-          <h4 class="heading-decorated contacts-title">${escapeHtml(sectionTitle)}</h4>
+          <h2 class="heading-decorated heading-4 contacts-title">${escapeHtml(sectionTitle)}</h2>
           <p class="contacts-intro">${escapeHtml(sectionIntro)}</p>
         </div>
         <div class="contacts-layout career-application-layout">
           <article class="contacts-form-card career-application-form-card">
-            <h5>${escapeHtml(formTitle)}</h5>
+            <h3 class="heading-5">${escapeHtml(formTitle)}</h3>
             <form id="${FORM_ID}" class="rd-mailform text-left" data-form-output="${FORM_OUTPUT_ID}" data-form-type="job-application" method="post" action="${FORM_ACTION}" enctype="multipart/form-data">
               <div class="form-wrap">
                 <label class="form-label" for="career-application-name">${escapeHtml(getLocalizedValue(fields.name))}</label>
-                <input class="form-input" id="career-application-name" type="text" name="name" data-constraints="@Required" required />
+                <input class="form-input" id="career-application-name" type="text" name="name" data-constraints="@Required" required>
               </div>
               <div class="form-wrap">
                 <label class="form-label" for="career-application-phone">${escapeHtml(getLocalizedValue(fields.phone))}</label>
-                <input class="form-input" id="career-application-phone" type="tel" name="phone" inputmode="tel" autocomplete="tel" data-constraints="@Required" required />
+                <input class="form-input" id="career-application-phone" type="tel" name="phone" inputmode="tel" autocomplete="tel" data-constraints="@Required" required>
               </div>
               <div class="form-wrap">
                 <label class="form-label" for="career-application-email">${escapeHtml(getLocalizedValue(fields.email))}</label>
-                <input class="form-input" id="career-application-email" type="email" name="email" data-constraints="@Email @Required" required />
+                <input class="form-input" id="career-application-email" type="email" name="email" data-constraints="@Email @Required" required>
               </div>
               <div class="form-wrap">
                 <label class="form-label-outside" for="${SELECT_ID}">${escapeHtml(positionLabel)}</label>
@@ -103,15 +103,15 @@
               </div>
               <div class="form-wrap form-wrap--file">
                 <label class="form-label-outside" for="career-application-cv">${escapeHtml(cvLabel)}</label>
-                <input class="form-input" id="career-application-cv" type="file" name="cv" accept=".pdf,.doc,.docx" />
+                <input class="form-input" id="career-application-cv" type="file" name="cv" accept=".pdf,.doc,.docx">
               </div>
               <div class="form-wrap">
                 <label class="form-label" for="${MESSAGE_ID}">${escapeHtml(getLocalizedValue(fields.message))}</label>
                 <textarea class="form-input" id="${MESSAGE_ID}" name="message" data-message-template="${escapeHtml(messageTemplate)}" data-constraints="@Required" required></textarea>
               </div>
-              <input type="hidden" name="form-type" value="job-application" />
-              <input class="form-honeypot" type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" />
-              <input type="hidden" name="form_started_at" value="${formStartedAt}" />
+              <input type="hidden" name="form-type" value="job-application">
+              <input class="form-honeypot" type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true">
+              <input type="hidden" name="form_started_at" value="${formStartedAt}">
               <div class="form-wrap contacts-form-actions">
                 <button class="button button-primary" type="submit">${escapeHtml(getLocalizedValue(contacts.form?.submitLabel) || "Send")}</button>
               </div>

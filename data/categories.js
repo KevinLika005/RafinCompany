@@ -94,8 +94,8 @@ const categories = [
       en: 'This category includes irrigation canals, hydraulic rehabilitation works, intake structures, and river protection interventions that improve water management and protect agricultural land.',
       sq: 'Kjo kategori përfshin kanale ujitëse, rehabilitim hidroteknik, vepra marrjeje dhe ndërhyrje mbrojtëse lumore që rrisin efikasitetin e menaxhimit të ujit dhe mbrojnë tokat bujqësore.'
     },
-    thumbImage: 'images/projects/kanalet-ujitese-shelqet-pistull-u13-u14-1.jpeg',
-    heroImage: 'images/projects/kanalet-ujitese-shelqet-pistull-u13-u14-1.jpeg',
+    thumbImage: 'images/projects/diga-cengele.jpeg',
+    heroImage: 'images/projects/diga-cengele.jpeg',
     featuredOnHome: true,
     order: 5
   },
