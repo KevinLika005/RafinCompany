@@ -62,11 +62,17 @@ jobs:
           esac
 
           case "$HOSTINGER_FTP_SERVER_DIR" in
-            ./|.|/)
-              echo "HOSTINGER_FTP_SERVER_DIR is unsafe. Use public_html/ or domains/rafincompany.com/public_html/"
+            /)
+              echo "HOSTINGER_FTP_SERVER_DIR is unsafe. Use . when the FTP login already lands in the live web root, or use public_html/ or domains/rafincompany.com/public_html/"
               exit 1
               ;;
           esac
+
+          # Normalize current-directory deploy targets so lftp does not try to
+          # descend into a nested public_html/public_html structure.
+          if [ "$HOSTINGER_FTP_SERVER_DIR" = "./" ]; then
+            HOSTINGER_FTP_SERVER_DIR="."
+          fi
 
           echo "FTP host is set."
           echo "FTP port: ${HOSTINGER_FTP_PORT:-21}"
