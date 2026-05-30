@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /bat/
+Disallow: /cgi-bin/
+
+Sitemap: https://www.rafincompany.com/sitemap.xml

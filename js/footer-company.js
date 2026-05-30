@@ -1,0 +1,212 @@
+(function () {
+  function getLocalizedValue(value) {
+    return window.I18n.getLocalizedValue(value);
+  }
+
+  function escapeHtml(value) {
+    return String(value || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/\"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function t(key, fallback) {
+    const translated = window.I18n.translate(key);
+    return translated && translated !== key ? translated : fallback;
+  }
+
+  function isRenderableSocialUrl(url) {
+    if (!url || typeof url !== "string") return false;
+    const trimmed = url.trim();
+    if (!/^https?:\/\//i.test(trimmed)) return false;
+
+    const placeholders = new Set([
+      "https://www.linkedin.com/",
+      "https://www.instagram.com/",
+      "https://www.facebook.com/",
+      "https://www.youtube.com/",
+      "https://x.com/"
+    ]);
+    return !placeholders.has(trimmed.toLowerCase());
+  }
+
+  function looksProvisional(value) {
+    const text = String(value || "").toLowerCase().trim();
+    if (!text) return true;
+    return /placeholder|provisional|pending|tbd|to be confirmed|example/.test(text);
+  }
+
+  function isRenderableEmail(email) {
+    if (!email || typeof email !== "string") return false;
+    const trimmed = email.trim();
+    if (looksProvisional(trimmed)) return false;
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed);
+  }
+
+  function isRenderablePhone(phone) {
+    if (!phone || typeof phone !== "string") return false;
+    const trimmed = phone.trim();
+    if (looksProvisional(trimmed)) return false;
+    return !/[^0-9+\s().-]/.test(trimmed);
+  }
+
+  function isRenderableAddress(site) {
+    const address = site && site.address ? site.address : {};
+    const fields = [address.street, address.property, address.city, address.country];
+    return fields.every((field) => !looksProvisional(field));
+  }
+
+  function renderStats(site) {
+    const statsContainer = document.getElementById("home-stats-container");
+    if (!statsContainer) return;
+
+    statsContainer.innerHTML = `
+      <div class="row justify-content-md-center row-50 home-stats-grid">
+        <div class="col-md-4 col-lg-4">
+          <article class="box-counter home-stat-card">
+            <div class="box-counter__wrap"><div class="counter">${site.stats.completedProjects}</div></div>
+            <p class="box-counter__title">${escapeHtml(t("Projects Completed", "Projects Completed"))}</p>
+          </article>
+        </div>
+        <div class="col-md-4 col-lg-4">
+          <article class="box-counter home-stat-card">
+            <div class="box-counter__wrap"><div class="counter">${site.stats.staff}</div></div>
+            <p class="box-counter__title">${escapeHtml(t("Staff Members", "Staff Members"))}</p>
+          </article>
+        </div>
+        <div class="col-md-4 col-lg-4">
+          <article class="box-counter home-stat-card">
+            <div class="box-counter__wrap"><div class="counter">${site.stats.certifications}</div></div>
+            <p class="box-counter__title">${escapeHtml(t("Certifications", "Certifications"))}</p>
+          </article>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderFooter(site, departments) {
+    const footerContainer = document.getElementById("footer-company-container");
+    if (!footerContainer) return;
+    const buildUrl = typeof window.I18n.buildLocalizedUrl === "function"
+      ? window.I18n.buildLocalizedUrl
+      : (value) => value;
+
+    const contactHref = document.getElementById("contacts")
+      ? "#contacts"
+      : buildUrl("index.html?lang=en#contacts");
+    const depsHtml = departments
+      .map((dep) => {
+        const email = typeof dep.email === "string" ? dep.email.trim() : "";
+        const phone = typeof dep.phone === "string" ? dep.phone.trim() : "";
+        const showEmail = isRenderableEmail(email);
+        const showPhone = isRenderablePhone(phone);
+        if (!showEmail && !showPhone) return "";
+
+        const rows = [];
+        if (showEmail) {
+          rows.push(`
+              <li>
+                <a href="${contactHref}">
+                  <span class="icon linear-icon-envelope"></span>
+                  <span>${escapeHtml(email)}</span>
+                </a>
+              </li>`);
+        }
+        if (showPhone) {
+          rows.push(`
+              <li>
+                <a href="tel:${escapeHtml(phone)}">
+                  <span class="icon linear-icon-telephone"></span>
+                  <span>${escapeHtml(phone)}</span>
+                </a>
+              </li>`);
+        }
+
+        return `
+          <article class="footer-department-card">
+            <p class="footer-department-card__title heading-6">${escapeHtml(getLocalizedValue(dep.name))}</p>
+            <ul>
+              ${rows.join("")}
+            </ul>
+          </article>
+        `;
+      })
+      .join("");
+
+    const socialLinks = site.socialLinks || {};
+    const socialConfig = [
+      { key: "linkedin", label: "LinkedIn", iconClass: "fa fa-linkedin" },
+      { key: "instagram", label: "Instagram", iconClass: "fa fa-instagram" },
+      { key: "facebook", label: "Facebook", iconClass: "fa fa-facebook" },
+      { key: "youtube", label: "YouTube", iconClass: "fa fa-youtube-play" },
+      { key: "x", label: "X", iconClass: "fa fa-twitter" }
+    ];
+    const socialLinksHtml = socialConfig
+      .map((item) => {
+        const url = socialLinks[item.key];
+        const href = isRenderableSocialUrl(url) ? escapeHtml(url) : "#";
+        const targetAttrs = isRenderableSocialUrl(url) ? ` target="_blank" rel="noopener noreferrer"` : "";
+        return `<li><a aria-label="${item.label}" class="${item.iconClass}" href="${href}"${targetAttrs}></a></li>`;
+      })
+      .join("");
+    const socialListMarkup = `<ul class="footer-social-list">${socialLinksHtml}</ul>`;
+
+    const showAddress = isRenderableAddress(site);
+    const addressLine = showAddress ? `${site.address.street}, ${site.address.property}, ${site.address.city}, ${site.address.country}` : "";
+
+    footerContainer.innerHTML = `
+      <div class="section-lg redesign-footer-main">
+        <div class="container">
+          <h2 class="sr-only">${escapeHtml(t("Footer", "Footer"))}</h2>
+          <div class="row row-30">
+            <div class="col-lg-4">
+              <div class="footer-brand-wrap">
+                <a href="${buildUrl("index.html?lang=en")}" class="brand-name">
+                  <img src="rafin-logo-white-transparent.png" alt="${escapeHtml(site.companyName)}" width="120" height="120">
+                </a>
+              </div>
+              <div class="footer-left-details">
+                ${socialListMarkup}
+                ${showAddress ? `<p class="footer-address-line"><span class="footer-address-line__title">Adresa</span><span class="footer-address-line__text">${escapeHtml(addressLine)}</span></p>` : ""}
+              </div>
+            </div>
+            <div class="col-lg-8">
+              <div class="footer-content-row">
+                <div class="footer-departments-wrap">
+                  <div class="footer-departments-grid">
+                    ${depsHtml}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="footer-corporate redesign-footer-bottom">
+        <div class="container">
+          <div class="footer-corporate__inner">
+            <p class="rights"><span>${escapeHtml(site.companyName.toUpperCase())} &copy; </span><span class="copyright-year">${new Date().getFullYear()}</span><span>. ${escapeHtml(t("All Rights Reserved", "All Rights Reserved"))}</span></p>
+          </div>
+        </div>
+      </footer>
+    `;
+
+    if (typeof window.I18n.localizeInternalLinks === "function") {
+      window.I18n.localizeInternalLinks(footerContainer);
+    }
+  }
+
+  function initFooterCompany() {
+    const site = window.siteData?.site;
+    const departments = window.siteData?.departments;
+    if (!site || !Array.isArray(departments) || !window.I18n || typeof window.I18n.getLocalizedValue !== "function") return;
+
+    renderStats(site);
+    renderFooter(site, departments);
+  }
+
+  initFooterCompany();
+  document.addEventListener("languageChanged", initFooterCompany);
+})();
